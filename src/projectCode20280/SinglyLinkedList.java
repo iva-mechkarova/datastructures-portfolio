@@ -5,7 +5,32 @@ import java.util.Iterator;
 public class SinglyLinkedList<E> implements List<E> {
 
 	private class Node<E> {
-		/// TODO
+		private E element; //Reference to the element stored at this node
+		private Node<E> next; //Reference to the next node in the list
+
+		//Constructor
+		public Node(E element, Node<E> node)
+		{
+			this.element = element;
+			this.next = node;
+		}
+
+		//Accessors
+		public E getElement()
+		{
+			return element;
+		}
+
+		public Node<E> getNext()
+		{
+			return next;
+		}
+
+		//Mutator Method
+		public void setNext(Node<E> next)
+		{
+			this.next = next;
+		}
 	}
 	
 	@Override
