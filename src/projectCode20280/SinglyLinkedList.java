@@ -4,7 +4,10 @@ import java.util.Iterator;
 
 public class SinglyLinkedList<E> implements List<E> {
 
-	private class Node<E> {
+	protected Node<E> head;
+	protected int size;
+
+	private static class Node<E> {
 		private E element; //Reference to the element stored at this node
 		private Node<E> next; //Reference to the next node in the list
 
@@ -35,7 +38,11 @@ public class SinglyLinkedList<E> implements List<E> {
 	
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
+		//Check if the head is empty
+		if(head == null)
+		{
+			return true; //If the head is empty then the list is empty
+		}
 		return false;
 	}
 
@@ -84,14 +91,29 @@ public class SinglyLinkedList<E> implements List<E> {
 
 	@Override
 	public void addFirst(E e) {
-		// TODO Auto-generated method stub
-		
+		head = new Node<E>(e, head); //Set the head to the element we wish to add
+		size++; //Increment size by 1 as we added an element
 	}
 
 	@Override
 	public void addLast(E e) {
-		// TODO Auto-generated method stub
-		
+		Node<E> newest = new Node<E>(e, null); //Stores element to be added
+		Node<E> last = head; //Set last to head
+
+		//If the list is empty then we just need to set the head to the element we wish to add
+		if(last == null)
+		{
+			head = newest;
+		}
+		else
+		{
+			while(last.getNext() != null) //Keep checking if each node is null to find the end of the list
+			{
+				last = last.getNext();
+			}
+			last.setNext(newest); //When last.getNext() is null we will set this element as the one we wish to add
+		}
+		size++; //Increment the size by 1 as we have added an element
 	}
 	
 	public static void main(String[] args) {
