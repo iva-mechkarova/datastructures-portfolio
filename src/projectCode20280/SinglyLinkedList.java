@@ -84,7 +84,22 @@ public class SinglyLinkedList<E> implements List<E> {
 		{
 			addLast(e);
 		}
-
+		
+		Node<E> cur = head;
+		Node<E> prev = null;
+		int counter = 1;
+		Node<E> temp = head;
+		
+		while(counter != i && temp != null)
+		{
+			prev = cur;
+			cur = cur.next;
+			counter++;		
+		}
+		
+		temp = cur;
+		prev.next = new Node<E>(e, prev.next);
+		size++;
 	}
 
 	@Override
@@ -217,7 +232,7 @@ public class SinglyLinkedList<E> implements List<E> {
 		}
 		System.out.println(sll.toString());
 		
-		sll.addLast("F");
+		sll.add(5, "F");
 		System.out.println(sll.toString());
 
 		/*sll.removeFirst();
