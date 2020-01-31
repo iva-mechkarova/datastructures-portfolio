@@ -75,7 +75,15 @@ public class SinglyLinkedList<E> implements List<E> {
 
 	@Override
 	public void add(int i, E e) {
-		// TODO Auto-generated method stub
+		if(i == 1)
+		{
+			addFirst(e);
+		}
+		
+		if(i == (size()-1))
+		{
+			addLast(e);
+		}
 
 	}
 
@@ -90,6 +98,7 @@ public class SinglyLinkedList<E> implements List<E> {
 		{
 			Node<E> temp = head;
 			head = head.next;
+			size--;
 			return temp.getElement();
 		}
 
@@ -112,6 +121,7 @@ public class SinglyLinkedList<E> implements List<E> {
 
 		temp = cur;
 		prev.next = cur.next;
+		size--;
 		return temp.getElement();
 
 	}
@@ -181,16 +191,16 @@ public class SinglyLinkedList<E> implements List<E> {
 		String list = "";
 		Node<E> cur = head;
 		
-		while(cur.getNext()!=null)
+		while(cur!=null)
 		{	
 			list = list + cur.getElement();
 			
-			if(cur.getNext().getNext() != null)
+			if(cur.getNext() != null)
 			{
 				list = list + ", ";
 			}
-			
 			cur = cur.getNext();
+			
 		}
 		
 		return list;
@@ -207,16 +217,17 @@ public class SinglyLinkedList<E> implements List<E> {
 		}
 		System.out.println(sll.toString());
 		
-		System.out.println(sll.get(12));
+		sll.addLast("F");
+		System.out.println(sll.toString());
 
-		sll.removeFirst();
+		/*sll.removeFirst();
 		System.out.println(sll.toString());
 		
 		sll.removeLast();
 		System.out.println(sll.toString());
 
 		sll.remove(3);
-		System.out.println(sll.toString());
+		System.out.println(sll.toString());*/
 		
 		/*for (String s : sll) {
 			System.out.print(s + ", ");
