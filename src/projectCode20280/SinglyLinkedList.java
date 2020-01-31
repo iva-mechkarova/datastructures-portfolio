@@ -44,8 +44,33 @@ public class SinglyLinkedList<E> implements List<E> {
 
 	@Override
 	public E get(int i) {
-		// TODO Auto-generated method stub
-		return null;
+		if (isEmpty())
+		{
+			throw new RuntimeException("Cannot get element as list is empty");
+		}
+		
+		if(i==1)
+		{
+			return head.getElement();
+		}
+		
+		Node<E> cur = head;
+		Node<E> prev = null;
+		int counter = 1;
+
+		while(counter != i && cur != null)
+		{
+			prev = cur;
+			cur = cur.next;
+			counter++;
+		}
+
+		if (cur == null)
+		{
+			throw new RuntimeException("Cannot get element");
+		}
+
+		return cur.getElement();
 	}
 
 	@Override
@@ -56,7 +81,7 @@ public class SinglyLinkedList<E> implements List<E> {
 
 	@Override
 	public E remove(int i) {
-		if (head == null)
+		if (isEmpty())
 		{
 			throw new RuntimeException("Cannot delete as list is empty");
 		}
@@ -181,7 +206,8 @@ public class SinglyLinkedList<E> implements List<E> {
 			sll.addLast(s);
 		}
 		System.out.println(sll.toString());
-		//System.out.println(sll.size());
+		
+		System.out.println(sll.get(12));
 
 		sll.removeFirst();
 		System.out.println(sll.toString());
