@@ -4,8 +4,8 @@ import java.util.Iterator;
 
 public class SinglyLinkedList<E> implements List<E> {
 
-	protected Node<E> head;
-	protected int size;
+	private Node<E> head;
+	private int size;
 
 	private static class Node<E> {
 		private E element; //Reference to the element stored at this node
@@ -38,12 +38,8 @@ public class SinglyLinkedList<E> implements List<E> {
 	
 	@Override
 	public boolean isEmpty() {
-		//Check if the head is empty
-		if(head == null)
-		{
-			return true; //If the head is empty then the list is empty
-		}
-		return false;
+		//Check if the head is null and if it is then the list is empty
+		return head == null;
 	}
 
 	@Override
@@ -60,8 +56,39 @@ public class SinglyLinkedList<E> implements List<E> {
 
 	@Override
 	public E remove(int i) {
-		// TODO Auto-generated method stub
-		return null;
+		if (head == null)
+		{
+			throw new RuntimeException("Cannot delete as list is empty");
+		}
+
+		if(i == 1)
+		{
+			Node<E> temp = head;
+			head = head.next;
+			return temp.getElement();
+		}
+
+		Node<E> cur = head;
+		Node<E> prev = null;
+		int counter = 0;
+		Node<E> temp = head;
+
+		while(counter != i && temp != null)
+		{
+			prev = cur;
+			cur = cur.next;
+			counter++;
+		}
+
+		if (cur == null)
+		{
+			throw new RuntimeException("Cannot delete");
+		}
+
+		temp = cur;
+		prev.next = cur.next;
+		return temp.getElement();
+
 	}
 
 	@Override
@@ -72,21 +99,28 @@ public class SinglyLinkedList<E> implements List<E> {
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return size; //Size is incremented/decremented when elements are added/removed so we just need to return it
 	}	
 	
 
 	@Override
 	public E removeFirst() {
-		// TODO Auto-generated method stub
-		return null;
+		if(isEmpty())
+		{
+			return null;
+		}
+
+		return remove(1);
 	}
 
 	@Override
 	public E removeLast() {
-		// TODO Auto-generated method stub
-		return null;
+		if(isEmpty())
+		{
+			return null;
+		}
+
+		return remove(size());
 	}
 
 	@Override
@@ -115,6 +149,28 @@ public class SinglyLinkedList<E> implements List<E> {
 		}
 		size++; //Increment the size by 1 as we have added an element
 	}
+
+	@Override
+	public String toString()
+	{
+		String list = "";
+		Node<E> cur = head;
+		
+		while(cur.getNext()!=null)
+		{	
+			list = list + cur.getElement();
+			
+			if(cur.getNext() != null)
+			{
+				list = list + ", ";
+			}
+			
+			cur = cur.getNext();
+		}
+		
+		return list;
+	}
+
 	
 	public static void main(String[] args) {
 		String[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
@@ -129,15 +185,15 @@ public class SinglyLinkedList<E> implements List<E> {
 		sll.removeFirst();
 		System.out.println(sll.toString());
 		
-		sll.removeLast();
-		System.out.println(sll.toString());
+		/*sll.removeLast();
+		System.out.println(sll.toString());*/
 
-		sll.remove(2);
+		sll.remove(3);
 		System.out.println(sll.toString());
 		
-		for (String s : sll) {
+		/*for (String s : sll) {
 			System.out.print(s + ", ");
-		}
+		}*/
 	}
 
 
