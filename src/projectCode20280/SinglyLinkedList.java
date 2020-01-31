@@ -70,7 +70,7 @@ public class SinglyLinkedList<E> implements List<E> {
 
 		Node<E> cur = head;
 		Node<E> prev = null;
-		int counter = 0;
+		int counter = 1;
 		Node<E> temp = head;
 
 		while(counter != i && temp != null)
@@ -120,7 +120,7 @@ public class SinglyLinkedList<E> implements List<E> {
 			return null;
 		}
 
-		return remove(size());
+		return remove((size() - 1));
 	}
 
 	@Override
@@ -160,7 +160,7 @@ public class SinglyLinkedList<E> implements List<E> {
 		{	
 			list = list + cur.getElement();
 			
-			if(cur.getNext() != null)
+			if(cur.getNext().getNext() != null)
 			{
 				list = list + ", ";
 			}
@@ -181,12 +181,13 @@ public class SinglyLinkedList<E> implements List<E> {
 			sll.addLast(s);
 		}
 		System.out.println(sll.toString());
+		//System.out.println(sll.size());
 
 		sll.removeFirst();
 		System.out.println(sll.toString());
 		
-		/*sll.removeLast();
-		System.out.println(sll.toString());*/
+		sll.removeLast();
+		System.out.println(sll.toString());
 
 		sll.remove(3);
 		System.out.println(sll.toString());
