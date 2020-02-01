@@ -2,7 +2,7 @@ package projectCode20280;
 
 import java.util.Iterator;
 
-public class SinglyLinkedList<E> implements List<E> {
+public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 
 	private Node<E> head;
 	private int size;
@@ -33,6 +33,29 @@ public class SinglyLinkedList<E> implements List<E> {
 		public void setNext(Node<E> next)
 		{
 			this.next = next;
+		}
+	}
+	
+	private class ListIterator implements Iterator<E>
+	{
+		Node<E> curr;
+		
+		public ListIterator()
+		{
+			curr = head;
+		}
+		
+		public boolean hasNext()
+		{
+			return curr != null;
+		}
+		
+		@Override
+		public E next() 
+		{
+			E res = (E)curr.getElement();
+			curr = curr.getNext();
+			return res;
 		}
 	}
 	
