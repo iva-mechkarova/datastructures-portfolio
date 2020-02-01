@@ -193,7 +193,7 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 			return null;
 		}
 
-		return remove((size() - 1));
+		return remove(size());
 	}
 
 	@Override
@@ -246,7 +246,7 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 
 	
 	public static void main(String[] args) {
-		String[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+		/*String[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
 		SinglyLinkedList<String> sll = new SinglyLinkedList<String>();
 		for (String s : alphabet) {
@@ -258,18 +258,53 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 		sll.add(5, "F");
 		System.out.println(sll.toString());
 
-		/*sll.removeFirst();
+		sll.removeFirst();
 		System.out.println(sll.toString());
 		
 		sll.removeLast();
 		System.out.println(sll.toString());
 
 		sll.remove(3);
-		System.out.println(sll.toString());*/
+		System.out.println(sll.toString());
 		
-		/*for (String s : sll) {
+		for (String s : sll) {
 			System.out.print(s + ", ");
 		}*/
+		
+		SinglyLinkedList <Integer> ll =new SinglyLinkedList <Integer >();
+		ll.addFirst(0);
+		ll.addFirst(1);
+		ll.addFirst(2);
+		ll.addFirst(3);
+		ll.addFirst(4);
+		ll.addFirst(5);
+		ll.add(3, 2);
+		System.out.println(ll);
+		
+		ll.removeFirst();
+		ll.removeLast();
+		System.out.println(ll);
+		
+		ll.remove(2);
+		System.out.println(ll);
+		
+		ll.removeFirst();
+		System.out.println(ll);
+		
+		ll.removeLast();
+		System.out.println(ll);
+		
+		ll.addFirst(9999);
+		ll.addFirst(8888);
+		ll.addFirst(7777);
+		
+		System.out.println(ll);
+		System.out.println(ll.get(1));
+		System.out.println(ll.get(2));
+		System.out.println(ll.get(3));
+		System.out.println(ll);
+		System.out.println(ll.size());
+		
 	}
 
 
