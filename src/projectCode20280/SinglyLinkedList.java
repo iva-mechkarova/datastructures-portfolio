@@ -36,6 +36,7 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 		}
 	}
 	
+	//Inner class which controls how it traverses the internal elements of the singly linked list
 	private class ListIterator implements Iterator<E>
 	{
 		Node<E> curr;
@@ -166,8 +167,7 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 
 	@Override
 	public Iterator<E> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ListIterator();
 	}
 
 	@Override
