@@ -25,6 +25,16 @@ public class DoublyLinkedList<E> implements List<E> {
 			next = n;
 		}
 		
+		public Node<E> getNext()
+		{
+			return next;
+		}
+		
+		public Node<E> getPrev()
+		{
+			return prev;
+		}
+		
 	}
 	
 	public DoublyLinkedList()
@@ -89,13 +99,12 @@ public class DoublyLinkedList<E> implements List<E> {
 
 	@Override
 	public void addFirst(E e) {
-		// TODO Auto-generated method stub
-		
+		addBetween(e, header, header.getNext()); 	
 	}
 
 	@Override
 	public void addLast(E e) {
-		// TODO Auto-generated method stub
+		addBetween(e, trailer.getPrev(), trailer); 	
 		
 	}
 	
