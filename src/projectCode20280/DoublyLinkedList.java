@@ -105,7 +105,7 @@ public class DoublyLinkedList<E> implements List<E> {
 		
 		if(i==0)
 		{
-			return header.getNext().element;
+			return header.getNext().getElement();
 		}
 		
 		i = i+1;
@@ -131,33 +131,37 @@ public class DoublyLinkedList<E> implements List<E> {
 		if(i == 0)
 		{
 			addFirst(e);
-		}
-		
-		if(i == (size()-1))
+		}		
+		else if(i == (size()-1))
 		{
 			addLast(e);
 		}
-		
-		i += 1;
-		Node<E> cur = header;
-		Node<E> prev = null;
-		int counter = 0;
-		
-		while(counter!=i && cur.next !=null)
+		else
 		{
-			prev = cur;
-			cur = cur.next;
-			counter++;
+			i += 1;
+			Node<E> cur = header;
+			Node<E> prev = null;
+			int counter = 0;
+			
+			while(counter!=i && cur.next !=null)
+			{
+				prev = cur;
+				cur = cur.next;
+				counter++;
+				
+			}
+			
+			addBetween(e, prev, cur);
 			
 		}
-		
-		addBetween(e, prev, cur);
-		
 	}
 
 	@Override
 	public E remove(int i) {
-		// TODO Auto-generated method stub
+		if (isEmpty())
+		{
+			throw new RuntimeException("Cannot delete as list is empty");
+		}
 		return null;
 	}
 
@@ -225,11 +229,11 @@ public class DoublyLinkedList<E> implements List<E> {
            ll.addFirst(0);
            ll.addFirst(1);
            ll.addFirst(2);
-           ll.addLast(-1);
+           //ll.addLast(-1);
            System.out.println(ll);
-           ll.add(2, 7);
+           ll.add(0, 7);
            System.out.println(ll);
-           System.out.println(ll.get(3));
+           System.out.println(ll.get(0));
            
            /*ll.removeFirst();
            System.out.println(ll);

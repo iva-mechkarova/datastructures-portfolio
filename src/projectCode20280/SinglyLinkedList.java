@@ -100,26 +100,28 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 		if(i == 0)
 		{
 			addFirst(e);
-		}
-		
-		if(i == (size()-1))
+		}		
+		else if(i == (size()-1))
 		{
 			addLast(e);
 		}
-		
-		Node<E> cur = head;
-		Node<E> prev = null;
-		int counter = 0;
-		
-		while(counter != i && cur.next!=null)
-		{
-			prev = cur;
-			cur = cur.next;
-			counter++;		
+		else
+		{		
+			Node<E> cur = head;
+			Node<E> prev = null;
+			int counter = 0;
+			
+			while(counter != i && cur.next!=null)
+			{
+				prev = cur;
+				cur = cur.next;
+				counter++;		
+			}
+			
+			prev.next = new Node<E>(e, prev.next);
+			size++;
+			
 		}
-		
-		prev.next = new Node<E>(e, prev.next);
-		size++;
 	}
 
 	@Override
@@ -136,29 +138,30 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 			size--;
 			return temp.getElement();
 		}
-
-		Node<E> cur = head;
-		Node<E> prev = null;
-		int counter = 0;
-		Node<E> temp = head;
-
-		while(counter != i && temp != null)
+		else 
 		{
-			prev = cur;
-			cur = cur.next;
-			counter++;
+			Node<E> cur = head;
+			Node<E> prev = null;
+			int counter = 0;
+			Node<E> temp = head;
+
+			while(counter != i && temp != null)
+			{
+				prev = cur;
+				cur = cur.next;
+				counter++;
+			}
+
+			if (cur == null)
+			{
+				throw new RuntimeException("Cannot delete");
+			}
+
+			temp = cur;
+			prev.next = cur.next;
+			size--;
+			return temp.getElement();			
 		}
-
-		if (cur == null)
-		{
-			throw new RuntimeException("Cannot delete");
-		}
-
-		temp = cur;
-		prev.next = cur.next;
-		size--;
-		return temp.getElement();
-
 	}
 
 	@Override
