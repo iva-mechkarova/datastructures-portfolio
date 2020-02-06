@@ -97,7 +97,7 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 
 	@Override
 	public void add(int i, E e) {
-		if(i == 1)
+		if(i == 0)
 		{
 			addFirst(e);
 		}

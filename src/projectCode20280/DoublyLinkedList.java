@@ -30,6 +30,11 @@ public class DoublyLinkedList<E> implements List<E> {
 			return next;
 		}
 		
+		public E getElement()
+		{
+			return element;
+		}
+		
 		public Node<E> getPrev()
 		{
 			return prev;
@@ -40,6 +45,30 @@ public class DoublyLinkedList<E> implements List<E> {
 			prev = p;
 		}
 		
+	}
+	
+	//Inner class which controls how it traverses the internal elements of the singly linked list
+	private class ListIterator implements Iterator<E>
+	{
+		Node<E> curr;
+		
+		public ListIterator()
+		{
+			curr = header;
+		}
+		
+		public boolean hasNext()
+		{
+			return curr != null;
+		}
+		
+		@Override
+		public E next() 
+		{
+			E res = (E)curr.getElement();
+			curr = curr.getNext();
+			return res;
+		}
 	}
 	
 	public DoublyLinkedList()
@@ -64,13 +93,37 @@ public class DoublyLinkedList<E> implements List<E> {
 
 	@Override
 	public boolean isEmpty() {
-		return header == null && trailer == null;
+		return header == trailer;
 	}
 
 	@Override
 	public E get(int i) {
-		// TODO Auto-generated method stub
-		return null;
+		if (isEmpty())
+		{
+			throw new RuntimeException("Cannot get element as list is empty");
+		}
+		
+		if(i==0)
+		{
+			return header.getNext().element;
+		}
+		
+		i = i+1;
+		Node<E> cur = header;
+		int counter = 0;
+
+		while(counter != i && cur != null)
+		{
+			cur = cur.next;
+			counter++;
+		}
+
+		if (cur == null)
+		{
+			throw new RuntimeException("Cannot get element");
+		}
+
+		return cur.getElement();
 	}
 
 	@Override
@@ -87,8 +140,7 @@ public class DoublyLinkedList<E> implements List<E> {
 
 	@Override
 	public Iterator<E> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ListIterator();
 	}
 
 
@@ -123,6 +175,28 @@ public class DoublyLinkedList<E> implements List<E> {
 		
 	}
 	
+	@Override
+	public String toString()
+	{
+		ListIterator i = new ListIterator();
+		String list = "";
+		
+		while(i.curr!=null)
+		{	
+			if (i.curr.element != null)
+				list = list + i.curr.element;
+			
+			if((i.curr.getNext() != null) && (i.curr.element != null))
+			{
+				list = list + ", ";
+			}
+			i.curr = i.curr.getNext();
+			
+		}
+		
+		return list;
+	}
+	
 	public static void main(String[] args) {
 		   DoublyLinkedList<Integer> ll = new DoublyLinkedList<Integer>();
            ll.addFirst(0);
@@ -130,8 +204,9 @@ public class DoublyLinkedList<E> implements List<E> {
            ll.addFirst(2);
            ll.addLast(-1);
            System.out.println(ll);
+           System.out.println(ll.get(4));
            
-           ll.removeFirst();
+           /*ll.removeFirst();
            System.out.println(ll);
 
            ll.removeLast();
@@ -139,7 +214,7 @@ public class DoublyLinkedList<E> implements List<E> {
            
            for(Integer e: ll) {
                    System.out.println("value: " + e);
-           }
+           }*/
 	}
 
 	
