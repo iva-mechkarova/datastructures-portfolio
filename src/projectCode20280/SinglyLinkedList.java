@@ -5,7 +5,7 @@ import java.util.Iterator;
 public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 
 	private Node<E> head;
-	private int size;
+	private int size = 0;
 
 	private static class Node<E> {
 		private E element; //Reference to the element stored at this node
@@ -79,12 +79,10 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 		}
 		
 		Node<E> cur = head;
-		Node<E> prev = null;
 		int counter = 1;
 
 		while(counter != i && cur != null)
 		{
-			prev = cur;
 			cur = cur.next;
 			counter++;
 		}

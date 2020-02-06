@@ -3,25 +3,49 @@ package projectCode20280;
 import java.util.Iterator;
 
 public class DoublyLinkedList<E> implements List<E> {
+	
+	private Node<E> header;
+	private Node<E> trailer;
+	private int size = 0;
 
 	private class Node<E> {
+		private E element;
+		private Node<E> prev;
+		private Node<E> next;
+		
+		public Node(E e, Node<E> p, Node<E> n)
+		{
+			element = e;
+			prev = p;
+			next = n;
+		}
+		
+		public void setNext(Node<E> n)
+		{
+			next = n;
+		}
 		
 	}
 	
+	public DoublyLinkedList()
+	{
+		header = new Node<>(null, null, null);
+		trailer = new Node<>(null, null, null);
+		header.setNext(trailer);
+	}
+	
 	private void addBetween(E e, Node<E> predecessor, Node<E> successor) {
-		// TODO
+
 	}
 	
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return size;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return header == null && trailer == null;
 	}
 
 	@Override
