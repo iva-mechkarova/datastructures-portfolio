@@ -35,6 +35,11 @@ public class DoublyLinkedList<E> implements List<E> {
 			return prev;
 		}
 		
+		public void setPrev(Node<E> p)
+		{
+			prev = p;
+		}
+		
 	}
 	
 	public DoublyLinkedList()
@@ -45,7 +50,10 @@ public class DoublyLinkedList<E> implements List<E> {
 	}
 	
 	private void addBetween(E e, Node<E> predecessor, Node<E> successor) {
-
+		//Create and link a new node
+		Node<E> newest = new Node<E>(e, predecessor, successor);
+		predecessor.setNext(newest);
+		successor.setPrev(newest);
 	}
 	
 	@Override
