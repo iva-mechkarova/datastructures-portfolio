@@ -224,18 +224,18 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 	@Override
 	public String toString()
 	{
+		ListIterator i = new ListIterator();
 		String list = "";
-		Node<E> cur = head;
 		
-		while(cur!=null)
+		while(i.curr!=null)
 		{	
-			list = list + cur.getElement();
+			list = list + i.curr.element;
 			
-			if(cur.getNext() != null)
+			if(i.curr.getNext() != null)
 			{
 				list = list + ", ";
 			}
-			cur = cur.getNext();
+			i.curr = i.curr.getNext();
 			
 		}
 		
