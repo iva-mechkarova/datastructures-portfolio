@@ -128,7 +128,30 @@ public class DoublyLinkedList<E> implements List<E> {
 
 	@Override
 	public void add(int i, E e) {
-		// TODO Auto-generated method stub
+		if(i == 0)
+		{
+			addFirst(e);
+		}
+		
+		if(i == (size()-1))
+		{
+			addLast(e);
+		}
+		
+		i += 1;
+		Node<E> cur = header;
+		Node<E> prev = null;
+		int counter = 0;
+		
+		while(counter!=i && cur.next !=null)
+		{
+			prev = cur;
+			cur = cur.next;
+			counter++;
+			
+		}
+		
+		addBetween(e, prev, cur);
 		
 	}
 
@@ -204,7 +227,9 @@ public class DoublyLinkedList<E> implements List<E> {
            ll.addFirst(2);
            ll.addLast(-1);
            System.out.println(ll);
-           System.out.println(ll.get(4));
+           ll.add(2, 7);
+           System.out.println(ll);
+           System.out.println(ll.get(3));
            
            /*ll.removeFirst();
            System.out.println(ll);

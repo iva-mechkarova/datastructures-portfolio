@@ -110,16 +110,14 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 		Node<E> cur = head;
 		Node<E> prev = null;
 		int counter = 0;
-		Node<E> temp = head;
 		
-		while(counter != i && temp != null)
+		while(counter != i && cur.next!=null)
 		{
 			prev = cur;
 			cur = cur.next;
 			counter++;		
 		}
 		
-		temp = cur;
 		prev.next = new Node<E>(e, prev.next);
 		size++;
 	}
