@@ -54,6 +54,7 @@ public class DoublyLinkedList<E> implements List<E> {
 		Node<E> newest = new Node<E>(e, predecessor, successor);
 		predecessor.setNext(newest);
 		successor.setPrev(newest);
+		size++;
 	}
 	
 	@Override
@@ -94,8 +95,14 @@ public class DoublyLinkedList<E> implements List<E> {
 
 	@Override
 	public E removeFirst() {
-		// TODO Auto-generated method stub
-		return null;
+		if(isEmpty())
+		{
+			return null;
+		}
+		else
+		{
+			return remove(0);
+		}
 	}
 
 	@Override

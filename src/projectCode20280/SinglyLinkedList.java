@@ -73,13 +73,13 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 			throw new RuntimeException("Cannot get element as list is empty");
 		}
 		
-		if(i==1)
+		if(i==0)
 		{
 			return head.getElement();
 		}
 		
 		Node<E> cur = head;
-		int counter = 1;
+		int counter = 0;
 
 		while(counter != i && cur != null)
 		{
@@ -109,7 +109,7 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 		
 		Node<E> cur = head;
 		Node<E> prev = null;
-		int counter = 1;
+		int counter = 0;
 		Node<E> temp = head;
 		
 		while(counter != i && temp != null)
@@ -131,7 +131,7 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 			throw new RuntimeException("Cannot delete as list is empty");
 		}
 
-		if(i == 1)
+		if(i == 0)
 		{
 			Node<E> temp = head;
 			head = head.next;
@@ -141,7 +141,7 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 
 		Node<E> cur = head;
 		Node<E> prev = null;
-		int counter = 1;
+		int counter = 0;
 		Node<E> temp = head;
 
 		while(counter != i && temp != null)
@@ -181,7 +181,7 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 			return null;
 		}
 
-		return remove(1);
+		return remove(0);
 	}
 
 	@Override
@@ -191,7 +191,7 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 			return null;
 		}
 
-		return remove(size());
+		return remove((size()-1));
 	}
 
 	@Override
@@ -276,6 +276,7 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 		ll.addFirst(3);
 		ll.addFirst(4);
 		ll.addFirst(5);
+		System.out.println(ll);
 		ll.add(3, 2);
 		System.out.println(ll);
 		
@@ -297,6 +298,7 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 		ll.addFirst(7777);
 		
 		System.out.println(ll);
+		System.out.println(ll.get(0));
 		System.out.println(ll.get(1));
 		System.out.println(ll.get(2));
 		System.out.println(ll.get(3));
