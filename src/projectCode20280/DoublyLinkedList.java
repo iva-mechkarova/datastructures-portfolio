@@ -2,6 +2,7 @@ package projectCode20280;
 
 import java.util.Iterator;
 
+
 public class DoublyLinkedList<E> implements List<E> {
 	
 	private Node<E> header;
@@ -162,7 +163,29 @@ public class DoublyLinkedList<E> implements List<E> {
 		{
 			throw new RuntimeException("Cannot delete as list is empty");
 		}
-		return null;
+		i += 1;
+		int counter = 0;
+		Node<E> cur = header;
+		Node<E> prev = null;
+		Node<E> temp = header;
+		
+		while(counter!= i && temp!=null)
+		{
+			prev = cur;
+			cur = cur.next;
+			counter++;
+		}
+		
+		if (cur == null)
+		{
+			throw new RuntimeException("Cannot delete");
+		}
+		
+		temp = cur;
+		prev.next = cur.next;
+		size--;
+		return temp.getElement();	
+		
 	}
 
 	@Override
@@ -174,20 +197,22 @@ public class DoublyLinkedList<E> implements List<E> {
 
 	@Override
 	public E removeFirst() {
-		if(isEmpty())
+		if (isEmpty())
 		{
-			return null;
+			throw new RuntimeException("Cannot delete as list is empty");
 		}
-		else
-		{
-			return remove(0);
-		}
+		
+		return remove(0);
 	}
 
 	@Override
 	public E removeLast() {
-		// TODO Auto-generated method stub
-		return null;
+		if (isEmpty())
+		{
+			throw new RuntimeException("Cannot delete as list is empty");
+		}
+		
+		return remove(size-1);
 	}
 	
 
@@ -229,21 +254,24 @@ public class DoublyLinkedList<E> implements List<E> {
            ll.addFirst(0);
            ll.addFirst(1);
            ll.addFirst(2);
-           //ll.addLast(-1);
+           ll.addLast(-1);
            System.out.println(ll);
            ll.add(0, 7);
            System.out.println(ll);
            System.out.println(ll.get(0));
            
-           /*ll.removeFirst();
+           ll.removeFirst();
            System.out.println(ll);
 
            ll.removeLast();
            System.out.println(ll);
            
+           ll.remove(0);
+           System.out.println(ll);
+           
            for(Integer e: ll) {
                    System.out.println("value: " + e);
-           }*/
+           }
 	}
 
 	
