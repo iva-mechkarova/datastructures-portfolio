@@ -73,6 +73,11 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 			throw new RuntimeException("Cannot get element as list is empty");
 		}
 		
+		if(i<0 || i>=size)
+		{
+			return null;
+		}
+		
 		if(i==0)
 		{
 			return head.getElement();
@@ -97,6 +102,11 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 
 	@Override
 	public void add(int i, E e) {
+		if(i<0)
+		{
+			System.out.println("Cannot add element at index less than 0");
+		}
+		
 		if(i == 0)
 		{
 			addFirst(e);
@@ -129,6 +139,11 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 		if (isEmpty())
 		{
 			throw new RuntimeException("Cannot delete as list is empty");
+		}
+		
+		if(i<0 || i>=size)
+		{
+			return null;
 		}
 
 		if(i == 0)

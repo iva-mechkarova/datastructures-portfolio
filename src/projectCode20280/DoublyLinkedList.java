@@ -101,7 +101,12 @@ public class DoublyLinkedList<E> implements List<E> {
 	public E get(int i) {
 		if (isEmpty())
 		{
-			throw new RuntimeException("Cannot get element as list is empty");
+			return null;
+		}
+		
+		if(i<0 || i>=size)
+		{
+			return null;
 		}
 		
 		if(i==0)
@@ -121,7 +126,7 @@ public class DoublyLinkedList<E> implements List<E> {
 
 		if (cur == null)
 		{
-			throw new RuntimeException("Cannot get element");
+			return null;
 		}
 
 		return cur.getElement();
@@ -129,6 +134,11 @@ public class DoublyLinkedList<E> implements List<E> {
 
 	@Override
 	public void add(int i, E e) {
+		if(i<0)
+		{
+			System.out.println("Cannot add element at index less than 0");
+		}
+		
 		if(i == 0)
 		{
 			addFirst(e);
@@ -159,9 +169,14 @@ public class DoublyLinkedList<E> implements List<E> {
 
 	@Override
 	public E remove(int i) {
+		if(i<0 || i>=size)
+		{
+			return null;
+		}
+		
 		if (isEmpty())
 		{
-			throw new RuntimeException("Cannot delete as list is empty");
+			return null;
 		}
 		i += 1;
 		int counter = 0;
@@ -178,7 +193,7 @@ public class DoublyLinkedList<E> implements List<E> {
 		
 		if (cur == null)
 		{
-			throw new RuntimeException("Cannot delete");
+			return null;
 		}
 		
 		temp = cur;
@@ -199,7 +214,7 @@ public class DoublyLinkedList<E> implements List<E> {
 	public E removeFirst() {
 		if (isEmpty())
 		{
-			throw new RuntimeException("Cannot delete as list is empty");
+			return null;
 		}
 		
 		return remove(0);
@@ -209,7 +224,7 @@ public class DoublyLinkedList<E> implements List<E> {
 	public E removeLast() {
 		if (isEmpty())
 		{
-			throw new RuntimeException("Cannot delete as list is empty");
+			return null;
 		}
 		
 		return remove(size-1);
