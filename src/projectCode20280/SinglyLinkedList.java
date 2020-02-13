@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 
-	private Node<E> head;
+	private Node<E> head = null;
 	private int size = 0;
 
 	private static class Node<E> {
@@ -226,7 +226,7 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 	public String toString()
 	{
 		ListIterator i = new ListIterator();
-		String list = "";
+		String list = "[";
 		
 		while(i.curr!=null)
 		{	
@@ -239,6 +239,8 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 			i.curr = i.curr.getNext();
 			
 		}
+		
+		list = list + "]";
 		
 		return list;
 	}

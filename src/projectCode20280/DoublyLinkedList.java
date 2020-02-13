@@ -5,8 +5,8 @@ import java.util.Iterator;
 
 public class DoublyLinkedList<E> implements List<E> {
 	
-	private Node<E> header;
-	private Node<E> trailer;
+	private Node<E> header = null;
+	private Node<E> trailer = null;
 	private int size = 0;
 
 	private class Node<E> {
@@ -231,7 +231,7 @@ public class DoublyLinkedList<E> implements List<E> {
 	public String toString()
 	{
 		ListIterator i = new ListIterator();
-		String list = "";
+		String list = "[";
 		
 		while(i.curr!=null)
 		{	
@@ -242,9 +242,9 @@ public class DoublyLinkedList<E> implements List<E> {
 			{
 				list = list + ", ";
 			}
-			i.curr = i.curr.getNext();
-			
+			i.curr = i.curr.getNext();		
 		}
+		list = list + "]";
 		
 		return list;
 	}
@@ -256,9 +256,9 @@ public class DoublyLinkedList<E> implements List<E> {
            ll.addFirst(2);
            ll.addLast(-1);
            System.out.println(ll);
-           ll.add(0, 7);
+           ll.add(2, 7);
            System.out.println(ll);
-           System.out.println(ll.get(0));
+           System.out.println(ll.get(4));
            
            ll.removeFirst();
            System.out.println(ll);
