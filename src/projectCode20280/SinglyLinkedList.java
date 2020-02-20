@@ -259,6 +259,21 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 		
 		return list;
 	}
+	
+	//Recursion Practical Q5b
+    public void printInReverse(Node<E> n) { 
+    	if(n.getNext()==null)
+    	{
+    		System.out.print(n.element + " ");
+    	}
+    	else
+    	{
+    		printInReverse(n.getNext());
+    		System.out.print(n.element + " ");
+    	}
+    	
+
+    }
 
 	
 	public static void main(String[] args) {
@@ -322,6 +337,8 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 		System.out.println(ll.get(3));
 		System.out.println(ll);
 		System.out.println(ll.size());
+		
+		ll.printInReverse(ll.head);
 		
 	}
 
