@@ -355,14 +355,31 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
   }
   
   public static void main(String [] args) {
+	  
 	  LinkedBinaryTree<Integer> bt = new LinkedBinaryTree<Integer>();
+ 
+	  bt.addRoot(5);
+	  bt.addLeft(bt.root, 9);
+	  bt.addRight(bt.root, 3);
+	  System.out.println("bt: " + bt.size() + " " + bt );
+	  bt.remove(bt.root.right);
+	  System.out.println("bt: " + bt.size() + " " + bt );
 	  
 	  int [] arr = {12, 25, 31, 58, 36, 42, 90, 62, 75};
 	  for(int i : arr) {
 		  bt.insert(i);
 	  }
-	  System.out.println("bt: " + bt.size() + " " + bt );
 	  
+	  System.out.println("bt: " + bt.size() + " " + bt );  
+	  
+	  LinkedBinaryTree<Integer> bt1 = new LinkedBinaryTree<Integer>();
+	  
+	  int [] arr1 = {-12, -5, -31, -58, -36, 42, -90, 62, 75};
+	  for(int i : arr1) {
+		  bt1.insert(i);
+	  }
+	  
+	  System.out.println("bt1: " + bt1.size() + " " + bt1 );  
   }
 } 
 
