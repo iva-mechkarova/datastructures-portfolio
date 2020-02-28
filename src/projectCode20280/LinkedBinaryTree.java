@@ -8,7 +8,30 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
 
   /** Nested static class for a binary tree node. */
   protected static class Node<E> implements Position<E> {
-	  // TODO
+	  private E element;
+	  private Node<E> parent;
+	  private Node<E> left;
+	  private Node<E> right;
+	  
+	  public Node(E e, Node<E> parent, Node<E> leftChild, Node<E> rightChild)
+	  {
+		  element = e;
+		  this.parent = parent;
+		  left = leftChild;
+		  right = rightChild;
+	  }
+
+	//Accessor methods
+	public E getElement() { return element; }
+	public Node<E> getParent() { return parent; }
+	public Node<E> getLeft() { return left; }
+	public Node<E> getRight() { return right; }
+	
+	public void setElement(E e) { element = e; }
+	public void setParent(Node<E> e) { parent = e; }
+	public void setLeft(Node<E> e) { left = e; }
+	public void setRight(Node<E> e) { right = e; }
+	  
   } 
 
   /** Factory function to create a new node storing element e. */
