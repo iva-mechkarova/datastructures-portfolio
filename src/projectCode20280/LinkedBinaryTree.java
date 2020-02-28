@@ -65,8 +65,6 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
   protected Node<E> validate(Position<E> p) throws IllegalArgumentException {
     if (!(p instanceof Node))
       throw new IllegalArgumentException("Not valid position type");
-    if(!(p instanceof LinkedBinaryTree))
-    	throw new IllegalArgumentException("p is not an instance of this list");
     Node<E> node = (Node<E>) p;       // safe cast
     if (node.getParent() == node)     // our convention for defunct node
       throw new IllegalArgumentException("p is no longer in the tree");
@@ -103,11 +101,6 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
   public Position<E> parent(Position<E> p) throws IllegalArgumentException {
 	  Node<E> x = validate(p);
 	  
-	  if(isEmpty())
-	  {
-		  throw new IllegalArgumentException("Cannot get parent as tree is empty");
-	  }
-	  
 	  return x.parent; //Will return null if x is root as parent will be set to null
   }
 
@@ -122,11 +115,6 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
   public Position<E> left(Position<E> p) throws IllegalArgumentException {
 	  Node<E> x = validate(p);
 	  
-	  if(isEmpty())
-	  {
-		  throw new IllegalArgumentException("Cannot get left child as list is empty");
-	  }
-	  
 	  return x.left; //Will return null if left child doesn't exist as it will be set to null
   }
 
@@ -140,11 +128,6 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
   @Override
   public Position<E> right(Position<E> p) throws IllegalArgumentException {
 	  Node<E> x = validate(p);
-	  
-	  if(isEmpty())
-	  {
-		  throw new IllegalArgumentException("Cannot get right child as list is empty");
-	  }
 	  
 	  return x.right; //Will return null if right child doesn't exist as it will be set to null
   }
@@ -265,7 +248,11 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
    * @throws IllegalArgumentException if p is not a valid Position for this tree.
    */
   public E set(Position<E> p, E e) throws IllegalArgumentException {
-	  //TODO
+	  Node<E> old = validate(p);
+	  
+	  E replacedElement = old.element;
+	  old.setElement(e);
+	  return replacedElement;
   }
 
   /**
@@ -280,7 +267,30 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
    */
   public void attach(Position<E> p, LinkedBinaryTree<E> t1,
                     LinkedBinaryTree<E> t2) throws IllegalArgumentException {
-	//TODO
+	Node<E> x = validate(p);
+	if(isInternal(x))
+	{
+		throw new IllegalArgumentException("p must be a leaf of the tree");
+	}
+	
+	size += t1.size + t2.size; 
+	
+	if(!t1.isEmpty())
+	{
+		t1.root.setParent(x);
+		x.setLeft(t1.root);
+		t1.root = null;
+		t1.size = 0;
+	}
+	
+	if(!t2.isEmpty())
+	{
+		t2.root.setParent(x);
+		x.setRight(t2.root);
+		t2.root = null;
+		t2.size = 0;
+	}
+	
   }
 
   /**
@@ -292,7 +302,45 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
    * @throws IllegalArgumentException if p has two children.
    */
   public E remove(Position<E> p) throws IllegalArgumentException {
-	//TODO
+	  Node<E> toRemove = validate(p);
+	  
+	  if(numChildren(p) == 2)
+	  {
+		  throw new IllegalArgumentException("p has two childern");
+	  }
+	  
+	  Node<E> child = (toRemove.getLeft()==null ? toRemove.right : toRemove.left);
+	 
+	  if(child!=null)
+	  {
+		  child.parent = toRemove.parent;
+	  }
+	  
+	  if(toRemove == root)
+	  {
+		  root = child;
+	  }
+	  else
+	  {
+		  Node<E> parent = toRemove.parent;
+		  if(toRemove == parent.left)
+		  {
+			  parent.setLeft(child);
+		  }
+		  else if(toRemove == parent.right)
+		  {
+			  parent.setRight(child);
+		  }
+	  }
+	  
+	  size--;
+	  E removed = toRemove.getElement();
+	  toRemove.setElement(null);
+	  toRemove.setLeft(null);
+	  toRemove.setRight(null);
+	  toRemove.setParent(toRemove);
+	 
+	  return removed;
   }
   
   public String toString() {
