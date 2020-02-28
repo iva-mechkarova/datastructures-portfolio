@@ -4,20 +4,46 @@ import java.util.Iterator;
 
 public class CircularlyLinkedList<E> implements List<E> {
 
-	private class Node<E> {
+	private static class Node<E> {
+		private E element; //Reference to the element stored at this node
+		private Node<E> next; //Reference to the next node in the list
 
+		//Constructor
+		public Node(E element, Node<E> node)
+		{
+			this.element = element;
+			this.next = node;
+		}
+
+		//Accessors
+		public E getElement()
+		{
+			return element;
+		}
+
+		public Node<E> getNext()
+		{
+			return next;
+		}
+
+		//Mutator Method
+		public void setNext(Node<E> next)
+		{
+			this.next = next;
+		}
 	}
+	
+	private Node<E> tail = null; 
+	private int size = 0;
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return size;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return size==0;
 	}
 
 	@Override
@@ -58,8 +84,16 @@ public class CircularlyLinkedList<E> implements List<E> {
 
 	@Override
 	public void addFirst(E e) {
-		// TODO Auto-generated method stub
-
+		Node<E> newest = new Node<E>(e, null);
+		
+		if(tail==null)
+		{
+			tail = newest;
+		}
+		else
+		{
+			tail.next = newest;
+		}
 	}
 
 	@Override
