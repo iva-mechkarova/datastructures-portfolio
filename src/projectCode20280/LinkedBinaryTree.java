@@ -65,6 +65,8 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
   protected Node<E> validate(Position<E> p) throws IllegalArgumentException {
     if (!(p instanceof Node))
       throw new IllegalArgumentException("Not valid position type");
+    if(!(p instanceof LinkedBinaryTree))
+    	throw new IllegalArgumentException("p is not an instance of this list");
     Node<E> node = (Node<E>) p;       // safe cast
     if (node.getParent() == node)     // our convention for defunct node
       throw new IllegalArgumentException("p is no longer in the tree");
@@ -99,7 +101,14 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
    */
   @Override
   public Position<E> parent(Position<E> p) throws IllegalArgumentException {
-	//TODO
+	  Node<E> x = validate(p);
+	  
+	  if(isEmpty())
+	  {
+		  throw new IllegalArgumentException("Cannot get parent as tree is empty");
+	  }
+	  
+	  return x.parent; //Will return null if x is root as parent will be set to null
   }
 
   /**
@@ -111,7 +120,14 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
    */
   @Override
   public Position<E> left(Position<E> p) throws IllegalArgumentException {
-	//TODO
+	  Node<E> x = validate(p);
+	  
+	  if(isEmpty())
+	  {
+		  throw new IllegalArgumentException("Cannot get left child as list is empty");
+	  }
+	  
+	  return x.left; //Will return null if left child doesn't exist as it will be set to null
   }
 
   /**
@@ -123,7 +139,14 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
    */
   @Override
   public Position<E> right(Position<E> p) throws IllegalArgumentException {
-	//TODO
+	  Node<E> x = validate(p);
+	  
+	  if(isEmpty())
+	  {
+		  throw new IllegalArgumentException("Cannot get right child as list is empty");
+	  }
+	  
+	  return x.right; //Will return null if right child doesn't exist as it will be set to null
   }
 
   // update methods supported by this class
@@ -135,7 +158,14 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
    * @throws IllegalStateException if the tree is not empty
    */
   public Position<E> addRoot(E e) throws IllegalStateException {
-	//TODO
+	  if(!isEmpty())
+	  {
+		  throw new IllegalStateException("Tree is not empty");
+	  }
+	  
+	  root = createNode(e, null, null, null);
+	  size = 1;
+	  return root;
   }
 
   public void insert(E e){
@@ -146,7 +176,36 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
   
   //recursively add Nodes to binary tree in proper position
   private Node<E> addRecursive(Node<E> p, E e){
-	//TODO
+	if(isEmpty())
+	{
+		root = createNode(e, null, null, null);
+		return root;
+	}
+	
+	if(e.compareTo(p.element)==-1)
+	{
+		if(p.left!=null)
+		{
+			addRecursive(p.left, e);
+		}
+		else
+		{
+			p.left = createNode(e, p, null, null);
+		}
+	}
+	else
+	{
+		if(p.right!=null)
+		{
+			addRecursive(p.right, e);
+		}
+		else
+		{
+			p.right = createNode(e, p, null, null);
+		}
+	}
+	
+	return p;
   }
 
   
@@ -161,7 +220,16 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
    */
   public Position<E> addLeft(Position<E> p, E e)
                           throws IllegalArgumentException {
-	//TODO
+	Node<E> parent = validate(p);
+	if(parent.getLeft()!=null)
+	{
+		throw new IllegalArgumentException("This node already has a left child");
+	}
+	
+	Node<E> child = createNode(e, parent, null, null);
+	parent.setLeft(child);
+	size++;
+	return child;
   }
 
   /**
@@ -175,7 +243,17 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
    */
   public Position<E> addRight(Position<E> p, E e)
                           throws IllegalArgumentException {
-	//TODO
+	Node<E> parent = validate(p);
+	
+	if(parent.getRight()!=null)
+	{
+		throw new IllegalArgumentException("This node already has a right child");
+	}
+	
+	Node<E> child = createNode(e, parent, null, null);
+	parent.setRight(child);
+	size++;
+	return child;
   }
 
   /**
