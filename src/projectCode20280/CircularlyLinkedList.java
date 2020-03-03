@@ -36,6 +36,11 @@ public class CircularlyLinkedList<E> implements List<E> {
 	private Node<E> tail = null; 
 	private int size = 0;
 
+	public CircularlyLinkedList()
+	{
+		
+	}
+	
 	@Override
 	public int size() {
 		return size;
@@ -106,6 +111,31 @@ public class CircularlyLinkedList<E> implements List<E> {
 				
 	}
 	
+	//Method to return the first element of the circularly linked list
+	public E first()
+	{
+		if(isEmpty())
+		{
+			return null;
+		}
+		else
+		{
+			return tail.getNext().getElement(); //The first element is the one after the tail
+		}
+	}
+	
+	//Method to return the last element of the circularly linked list
+	public E last()
+	{
+		if(isEmpty())
+		{
+			return null;
+		}
+		else
+		{
+			return tail.getElement(); //The last element is the tail
+		}
+	}
 	
 	public static void main(String[] args) {
 		CircularlyLinkedList<Integer> ll = new CircularlyLinkedList<Integer>();
