@@ -71,8 +71,24 @@ public class CircularlyLinkedList<E> implements List<E> {
 
 	@Override
 	public E removeFirst() {
-		// TODO Auto-generated method stub
-		return null;
+		if(isEmpty())
+		{
+			return null;
+		}
+		
+		Node<E> head = tail.next;
+		
+		if(head==tail) //Only one element in the list
+		{
+			tail = null;
+		}
+		else
+		{
+			tail.next = head.next; //Make the tail point to the element after head i.e. removing head 
+		}
+		
+		size--;
+		return head.getElement();
 	}
 
 	@Override
@@ -89,26 +105,29 @@ public class CircularlyLinkedList<E> implements List<E> {
 
 	@Override
 	public void addFirst(E e) {
-		Node<E> newest = new Node<E>(e, null);
+		if(size==0)
+		{
+			tail = new Node<E>(e, null); //Make the tail the new element
+			tail.setNext(tail); //Make the tail point to itself as it needs to circulate
+		}
 		
-		if(tail==null)
-		{
-			tail = newest;
-		}
-		else
-		{
-			tail.next = newest;
-		}
+		Node<E> newest = new Node<E>(e, tail.getNext());
+		
+		tail.next = newest; //Add the first element to the start of the list i.e. after the tail
+		size++; //Increment the size
 	}
 
 	@Override
 	public void addLast(E e) {
-		// TODO Auto-generated method stub
-
+		addFirst(e); //Adds element e to the start of the list
+		tail = tail.getNext(); //New element becomes the tail
 	}
 
 	public void rotate() {
-				
+		if(tail!=null)
+		{
+			tail = tail.getNext(); //Make the first element the tail of the list
+		}		
 	}
 	
 	//Method to return the first element of the circularly linked list
