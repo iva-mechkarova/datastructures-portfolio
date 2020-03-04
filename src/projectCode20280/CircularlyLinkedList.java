@@ -37,15 +37,17 @@ public class CircularlyLinkedList<E> implements List<E> {
 	private class ListIterator implements Iterator<E>
 	{
 		Node<E> curr;
+		 private int nextNode; //This keeps track of how many nodes we have iterated through
 		
 		public ListIterator()
 		{
 			curr = tail.next; //This is the first element
+			nextNode = 0; 
 		}
 		
 		public boolean hasNext()
 		{
-			return curr != tail;
+			return nextNode < size;
 		}
 		
 		@Override
@@ -53,6 +55,7 @@ public class CircularlyLinkedList<E> implements List<E> {
 		{
 			E res = (E)curr.getElement();
 			curr = curr.getNext();
+			nextNode++;
 			return res;
 		}
 	}
@@ -216,8 +219,7 @@ public class CircularlyLinkedList<E> implements List<E> {
 		{	
 			list = list + i.curr.element + ", ";
 			
-			i.curr = i.curr.getNext();
-			
+			i.next();
 		}
 		
 		list = list + tail.element + "]";
