@@ -33,6 +33,30 @@ public class CircularlyLinkedList<E> implements List<E> {
 		}
 	}
 	
+	//Inner class which controls how it traverses the internal elements of the singly linked list
+	private class ListIterator implements Iterator<E>
+	{
+		Node<E> curr;
+		
+		public ListIterator()
+		{
+			curr = tail.next; //This is the first element
+		}
+		
+		public boolean hasNext()
+		{
+			return curr != tail;
+		}
+		
+		@Override
+		public E next() 
+		{
+			E res = (E)curr.getElement();
+			curr = curr.getNext();
+			return res;
+		}
+	}
+	
 	private Node<E> tail = null; 
 	private int size = 0;
 
@@ -53,8 +77,37 @@ public class CircularlyLinkedList<E> implements List<E> {
 
 	@Override
 	public E get(int i) {
-		// TODO Auto-generated method stub
-		return null;
+		if (isEmpty())
+		{
+			throw new RuntimeException("Cannot get element as list is empty");
+		}
+		
+		if(i<0 || i>=size)
+		{
+			return null;
+		}
+		
+		if(i==0)
+		{
+			return tail.next.getElement();
+		}
+		
+		Node<E> cur = tail.next;
+		int counter = 0;
+		
+		while(counter != i && cur != null)
+		{
+			cur = cur.next;
+			counter++;
+		}
+		
+		if (cur == null)
+		{
+			throw new RuntimeException("Cannot get element");
+		}
+
+		return cur.getElement();
+		
 	}
 
 	@Override
@@ -99,8 +152,7 @@ public class CircularlyLinkedList<E> implements List<E> {
 
 	@Override
 	public Iterator<E> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ListIterator();
 	}
 
 	@Override
@@ -156,33 +208,55 @@ public class CircularlyLinkedList<E> implements List<E> {
 		}
 	}
 	
+	@Override
+	public String toString()
+	{
+		ListIterator i = new ListIterator();
+		String list = "[";
+		
+		while(i.hasNext())
+		{	
+			list = list + i.curr.element + ", ";
+			
+			i.curr = i.curr.getNext();
+			
+		}
+		
+		list = list + "]";
+		
+		return list;
+	}
+	
 	public static void main(String[] args) {
 		CircularlyLinkedList<Integer> ll = new CircularlyLinkedList<Integer>();
-		for(int i = 10; i < 20; ++i) {
+		/*for(int i = 10; i < 20; ++i) {
 			ll.addLast(i);
-		}
-
+		}*/
+		
+		ll.addFirst(10);
 		System.out.println(ll);
 
-		ll.removeFirst();
-		System.out.println(ll);
-
-		ll.removeLast();
-
-		ll.rotate();
-		System.out.println(ll);
-
-		ll.removeFirst();
-		ll.rotate();
+		/*ll.removeFirst();
 		System.out.println(ll);
 
 		ll.removeLast();
+
 		ll.rotate();
 		System.out.println(ll);
 
-		for (Integer e : ll) {
+		ll.removeFirst();
+		ll.rotate();
+		System.out.println(ll);
+
+		ll.removeLast();
+		ll.rotate();
+		System.out.println(ll);*/
+
+		/*for (Integer e : ll) {
 			System.out.println("value: " + e);
 		}
+		
+		System.out.println(ll.get(0));*/
 
 	}
 }
