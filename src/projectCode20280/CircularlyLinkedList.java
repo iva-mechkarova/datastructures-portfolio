@@ -60,6 +60,7 @@ public class CircularlyLinkedList<E> implements List<E> {
 	private Node<E> tail = null; 
 	private int size = 0;
 
+	//Constructor
 	public CircularlyLinkedList()
 	{
 		
@@ -95,15 +96,10 @@ public class CircularlyLinkedList<E> implements List<E> {
 		Node<E> cur = tail.next;
 		int counter = 0;
 		
-		while(counter != i && cur != null)
+		while(counter != i)
 		{
 			cur = cur.next;
 			counter++;
-		}
-		
-		if (cur == null)
-		{
-			throw new RuntimeException("Cannot get element");
 		}
 
 		return cur.getElement();
@@ -162,10 +158,12 @@ public class CircularlyLinkedList<E> implements List<E> {
 			tail = new Node<E>(e, null); //Make the tail the new element
 			tail.setNext(tail); //Make the tail point to itself as it needs to circulate
 		}
-		
-		Node<E> newest = new Node<E>(e, tail.getNext());
-		
-		tail.next = newest; //Add the first element to the start of the list i.e. after the tail
+		else
+		{
+			Node<E> newest = new Node<E>(e, tail.getNext());		
+			tail.next = newest; //Add the first element to the start of the list i.e. after the tail	
+		}
+
 		size++; //Increment the size
 	}
 
@@ -222,18 +220,18 @@ public class CircularlyLinkedList<E> implements List<E> {
 			
 		}
 		
-		list = list + "]";
+		list = list + tail.element + "]";
 		
 		return list;
 	}
 	
 	public static void main(String[] args) {
 		CircularlyLinkedList<Integer> ll = new CircularlyLinkedList<Integer>();
-		/*for(int i = 10; i < 20; ++i) {
+		for(int i = 10; i < 20; ++i) {
 			ll.addLast(i);
-		}*/
+		}
 		
-		ll.addFirst(10);
+		//ll.addFirst(10);
 		System.out.println(ll);
 
 		/*ll.removeFirst();
@@ -252,11 +250,15 @@ public class CircularlyLinkedList<E> implements List<E> {
 		ll.rotate();
 		System.out.println(ll);*/
 
-		/*for (Integer e : ll) {
+		for (Integer e : ll) {
 			System.out.println("value: " + e);
 		}
 		
-		System.out.println(ll.get(0));*/
+		System.out.println("size: " + ll.size());
+		System.out.println(ll.get(0));
+		System.out.println(ll.get(1));
+		System.out.println(ll.get(3));
+		System.out.println(ll.get(9));
 
 	}
 }
