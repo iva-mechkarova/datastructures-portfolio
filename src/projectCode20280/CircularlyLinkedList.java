@@ -111,14 +111,78 @@ public class CircularlyLinkedList<E> implements List<E> {
 
 	@Override
 	public void add(int i, E e) {
-		// TODO Auto-generated method stub
+		if(i<0)
+		{
+			System.out.println("Cannot add element at index less than 0");
+		}
+		
+		if(i == 0)
+		{
+			addFirst(e);
+		}		
+		else if(i == (size()-1))
+		{
+			addLast(e);
+		}
+		else
+		{		
+			Node<E> cur = tail.next;
+			Node<E> prev = tail;
+			int counter = 0;
+			
+			while(counter != i)
+			{
+				prev = cur;
+				cur = cur.next;
+				counter++;		
+			}
+			
+			prev.next = new Node<E>(e, prev.next);
+			size++;
+			
+		}
 
 	}
 
 	@Override
 	public E remove(int i) {
-		// TODO Auto-generated method stub
-		return null;
+		if(isEmpty())
+		{
+			throw new RuntimeException("Cannot delete as list is empty");
+		}
+		
+		if(i<0 || i>=size)
+		{
+			return null;
+		}
+
+		if(i == 0)
+		{
+			return removeFirst();
+		}		
+		else if(i==size-1)
+		{
+			return removeLast();
+		}	
+		else 
+		{
+			Node<E> cur = tail.next;
+			Node<E> prev = tail;
+			int counter = 0;
+			Node<E> temp = tail.next;
+
+			while(counter != i)
+			{
+				prev = cur;
+				cur = cur.next;
+				counter++;
+			}
+
+			temp = cur;
+			prev.next = cur.next;
+			size--;
+			return temp.getElement();
+		}
 	}
 
 	@Override
@@ -271,7 +335,10 @@ public class CircularlyLinkedList<E> implements List<E> {
 		System.out.println(ll);
 		System.out.println(ll.removeLast());
 		
-		/*ll.rotate();
+		System.out.println("Remove element @ index 2: " + ll.remove(2));
+		System.out.println(ll);
+		
+		ll.add(4, 3);
 		System.out.println(ll);
 
 		ll.removeFirst();
@@ -280,7 +347,7 @@ public class CircularlyLinkedList<E> implements List<E> {
 
 		ll.removeLast();
 		ll.rotate();
-		System.out.println(ll);*/
+		System.out.println(ll);
 
 		for (Integer e : ll) {
 			System.out.println("value: " + e);
