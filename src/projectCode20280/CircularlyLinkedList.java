@@ -145,8 +145,32 @@ public class CircularlyLinkedList<E> implements List<E> {
 
 	@Override
 	public E removeLast() {
-		// TODO Auto-generated method stub
-		return null;
+		if(isEmpty())
+		{
+			return null;
+		}
+		
+		Node<E> head = tail.next;
+		Node<E> cur = tail.next;
+		
+		if(cur==tail) //Only one element in the list
+		{
+			tail = null;
+		}
+		else
+		{
+			while(cur.getNext()!=tail)
+			{	
+				
+				cur = cur.next;
+			}
+			tail = cur;
+			cur.next = head;
+			
+		}
+		
+		size--;
+		return tail.getElement();
 	}
 
 	@Override
@@ -217,12 +241,11 @@ public class CircularlyLinkedList<E> implements List<E> {
 		
 		while(i.hasNext())
 		{	
-			list = list + i.curr.element + ", ";
-			
+			list = list + i.curr.element + ", ";	
 			i.next();
 		}
 		
-		list = list + tail.element + "]";
+		list = list + "]";
 		
 		return list;
 	}
@@ -232,16 +255,23 @@ public class CircularlyLinkedList<E> implements List<E> {
 		for(int i = 10; i < 20; ++i) {
 			ll.addLast(i);
 		}
+		System.out.println(ll);
 		
-		//ll.addFirst(10);
+		ll.addFirst(10);
 		System.out.println(ll);
 
-		/*ll.removeFirst();
-		System.out.println(ll);
+		ll.removeFirst();
+		System.out.println("Remove first " + ll);
 
 		ll.removeLast();
-
-		ll.rotate();
+		System.out.println("Remove last " + ll);
+		System.out.println("tail: " + ll.tail.getElement());
+		
+		ll.removeLast();
+		System.out.println(ll);
+		System.out.println(ll.removeLast());
+		
+		/*ll.rotate();
 		System.out.println(ll);
 
 		ll.removeFirst();
@@ -260,7 +290,7 @@ public class CircularlyLinkedList<E> implements List<E> {
 		System.out.println(ll.get(0));
 		System.out.println(ll.get(1));
 		System.out.println(ll.get(3));
-		System.out.println(ll.get(9));
+		System.out.println(ll.get(ll.size-1));
 
 	}
 }
