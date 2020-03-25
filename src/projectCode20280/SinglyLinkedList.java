@@ -1,6 +1,7 @@
 package projectCode20280;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 
 public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 
@@ -274,6 +275,27 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
     	
 
     }
+    
+    /*Method which removes the min element of a SinglyLinkedList - needed for Assignment 1 PQSort*/
+	public static Integer removeMin(SinglyLinkedList<Integer> ll)
+	{
+		int min_idx = 0;
+		Integer min_value = ll.get(min_idx);
+		
+		for(int i=1; i<ll.size(); ++i)
+		{
+			Integer cur = ll.get(i);
+			
+			if(cur<min_value)
+			{
+				min_value = cur;
+				min_idx = i;
+			}
+		}
+		
+		ll.remove(min_idx);
+		return min_value;
+	}
 
 	
 	public static void main(String[] args) {
