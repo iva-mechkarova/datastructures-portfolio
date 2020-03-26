@@ -43,6 +43,12 @@ public class HeapPriorityQueue<K,V> extends AbstractPriorityQueue<K,V> {
 	public HeapPriorityQueue(K[] keys, V[] values) 
 	{
 		super();
+		
+		for(int j=0; j<keys.length; ++j)
+		{
+			heap.add(new PQEntry<K,V>(keys[j], values[j]));
+		}
+		heapify(); //Construct bottom-up heap
 	}
 
 	// protected utilities
@@ -74,7 +80,9 @@ public class HeapPriorityQueue<K,V> extends AbstractPriorityQueue<K,V> {
 	/** Exchanges the entries at indices i and j of the array list. */
 	protected void swap(int i, int j)
 	{
-		//TODO
+		Entry<K,V> temp = heap.get(i);
+		heap.set(i, heap.get(j));
+		heap.set(j, temp);
 	}
 
 	/**
@@ -83,7 +91,15 @@ public class HeapPriorityQueue<K,V> extends AbstractPriorityQueue<K,V> {
 	 */
 	protected void upheap(int j)
 	{
-		//TODO
+		//Loop until children of root is reached - no need to check root as it has no parent
+		while(j>0)
+		{
+			int par = parent(j); //Find parent of the element we are upheaping
+			if(compare(heap.get(j), heap.get(par))>=0)
+				break; //Heap property verified
+			swap(j,par);
+			j=par; //Continue from parent's location
+		}
 	}
 
 	/**
@@ -91,13 +107,34 @@ public class HeapPriorityQueue<K,V> extends AbstractPriorityQueue<K,V> {
 	 */
 	protected void downheap(int j)
 	{
-		//TODO
+		//Loop to bottom of heap or break statement
+		while(hasLeft(j))
+		{
+			int leftIndex = left(j);
+			int smallChildIndex = leftIndex; //Initialize to left - we will check if right is smaller
+			
+			if(hasRight(j))
+			{
+				int rightIndex = right(j);
+				if(compare(heap.get(leftIndex), heap.get(rightIndex))>0)
+					smallChildIndex = rightIndex; //Small index is right child as it is smaller
+			}
+			
+			if(compare(heap.get(smallChildIndex), heap.get(j)) >=0)
+				break; //Heap property restored
+			swap(j, smallChildIndex);
+			j=smallChildIndex; //Continue from child's position
+		}
 	}
 
 	/** Performs a bottom-up construction of the heap in linear time. */
 	protected void heapify()
 	{
-		//TODO
+		int start = parent(size()-1); //Start at parent of last entry
+		
+		//Loop until we reach the root
+		for(int j = start; j>=0; j--)
+			downheap(j);
 	}
 
 	// public methods
@@ -169,6 +206,11 @@ public class HeapPriorityQueue<K,V> extends AbstractPriorityQueue<K,V> {
 			if (right < heap.size() && compare(heap.get(right), heap.get(j)) < 0)
 				System.out.println("Invalid right child relationship");
 		}
+	}
+	
+	public static void main(String[] args)
+	{
+		HeapPriorityQueue hpq = new HeapPriorityQueue();
 	}
 }
 
