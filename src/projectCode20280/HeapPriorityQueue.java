@@ -5,6 +5,9 @@ package projectCode20280;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * An implementation of a priority queue using an array-based heap.
@@ -42,12 +45,12 @@ public class HeapPriorityQueue<K,V> extends AbstractPriorityQueue<K,V> {
 	 */
 	public HeapPriorityQueue(K[] keys, V[] values) 
 	{
-		super();
-		
-		for(int j=0; j<keys.length; ++j)
+		super();	
+		for(int j=0; j<Math.min(keys.length, values.length); j++)
 		{
 			heap.add(new PQEntry<K,V>(keys[j], values[j]));
 		}
+			
 		heapify(); //Construct bottom-up heap
 	}
 
@@ -133,8 +136,10 @@ public class HeapPriorityQueue<K,V> extends AbstractPriorityQueue<K,V> {
 		int start = parent(size()-1); //Start at parent of last entry
 		
 		//Loop until we reach the root
-		for(int j = start; j>=0; j--)
-			downheap(j);
+		for(int i = start; i>=0; i--)
+		{
+			downheap(i);
+		}	
 	}
 
 	// public methods
@@ -188,10 +193,10 @@ public class HeapPriorityQueue<K,V> extends AbstractPriorityQueue<K,V> {
 	public Entry<K, V> removeMin()
 	{
 		if(heap.isEmpty())
-			return null;
-		
+			return null;		
 		Entry<K,V> answer = heap.get(0);
 		swap(0, heap.size()-1);
+		heap.remove(heap.size()-1);
 		downheap(0);
 		return answer;
 	}
@@ -210,7 +215,10 @@ public class HeapPriorityQueue<K,V> extends AbstractPriorityQueue<K,V> {
 	
 	public static void main(String[] args)
 	{
-		HeapPriorityQueue hpq = new HeapPriorityQueue();
+		LinkedList<Integer> arr = (LinkedList<Integer>) new Random().ints(0, 1000).distinct().limit(10).boxed().collect(Collectors.toCollection(LinkedList::new));
+		Integer[] arr1 = arr.toArray(Integer[]::new); 
+		HeapPriorityQueue<Integer, Integer> pq = new HeapPriorityQueue<Integer, Integer>(arr1, arr1);
+		pq.sanityCheck();
 	}
 }
 

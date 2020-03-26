@@ -75,19 +75,25 @@ public class PQSort
 			LinkedList<Integer> arr = (LinkedList<Integer>) new Random().ints(0, 1000).distinct().limit(n).boxed().collect(Collectors.toCollection(LinkedList::new));
 			
 			long startTime = System.nanoTime(); //Set start time to current system time - this will help us calculate the time it takes for each sort
-			PriorityQueue<Integer> pq = new PriorityQueue<Integer>(); //Use priority queue class
+			HeapPriorityQueue<Integer, Integer> pq = new HeapPriorityQueue<Integer, Integer>(); //Use custom heap priority queue class to construct a heap with Integer keys and values
 			
 			/*While there are elements left in the unsorted list remove them and add them to the heap - they will automatically be sorted*/
 			while(!arr.isEmpty())
 			{
-				pq.add(arr.removeFirst());
+				Integer val = arr.removeFirst();
+				pq.insert(val, val);
 			}
+			
+			/*More efficient way to construct heap than using insert*/
+			//Integer[] arr1 = arr.toArray(Integer[]::new); //Change arr into an array of Integer
+			
+			//<Integer, Integer> pq = new HeapPriorityQueue<Integer, Integer>(arr1, arr1);
 			
 			/*While there are elements in the pq remove them and add them to the end of the list that we are sorting.
 			 This will sort elements in a descending order.*/
 			while(!pq.isEmpty())
 			{
-				arr.addLast(pq.remove());
+				arr.addLast(pq.removeMin().getKey()); //Can add key OR value as they are the same
 			}
 			
 			long endTime = System.nanoTime(); //Set end time to current system time - this will help us calculate the time it took to sort
