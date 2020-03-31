@@ -5,12 +5,13 @@ public class ArrayStack<E> implements Stack<E> {
 	public static final int CAPACITY = 1000; //Default array capacity
 	private E[] data; //Generic array used to store data
 	private int t = -1; //Index of top element of stack
+	private int maxSize; //Used to make stack bounded
 
 	/**
-	 * Testing all elements of ArrayStack
+	 * Testing all methods of ArrayStack
 	 * */
 	public static void main(String[] args) {
-	    ArrayStack<Integer> A = new ArrayStack<Integer>();
+	    ArrayStack<Integer> A = new ArrayStack<Integer>(15);
 	    
     	for(int i=0; i<20; i++)
     	{
@@ -28,25 +29,28 @@ public class ArrayStack<E> implements Stack<E> {
     	System.out.println("Top: " + A.top());
     	System.out.println("is empty: " + A.isEmpty());
     	
-    	for(int i=0; i<16; i++)
+    	while(!A.isEmpty())
     	{
     		A.pop();
     	}
     	
+    	System.out.println(A);
     	System.out.println("is empty: " + A.isEmpty());
 
 	}
 	
 	/**Constructor to construct stack with default capacity*/
 	public ArrayStack()
-	{
+	{	
 		this(CAPACITY);
+		maxSize=CAPACITY;
 	}
 	
 	/**Constructor to construct stack with given capacity*/
 	@SuppressWarnings({"unchecked"})
 	public ArrayStack(int capacity)
 	{
+		maxSize=capacity;
 		data = (E[]) new Object[capacity];
 	}
 
@@ -74,7 +78,7 @@ public class ArrayStack<E> implements Stack<E> {
 	 * */
 	@Override
 	public void push(E e) {
-		if(size()==CAPACITY)
+		if(size()==maxSize)
 		{
 			System.out.println("stack is full.");
 			return;
