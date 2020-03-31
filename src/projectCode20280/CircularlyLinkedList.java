@@ -1,55 +1,69 @@
 package projectCode20280;
 
 import java.util.Iterator;
-
+/**This class implements the Circularly Linked List ADT.
+ * It implements it by implementing the List interface and has a rotate method.
+ * It is similar to the Singly Linked List but we need to remember that the head will only be null
+ * when the list is empty.*/
 public class CircularlyLinkedList<E> implements List<E> {
 
+	/**This inner class defines a node object.
+	 * Each node object has an element and another node object (the node it points to).*/
 	private static class Node<E> {
 		private E element; //Reference to the element stored at this node
 		private Node<E> next; //Reference to the next node in the list
 
-		//Constructor
+		/**Constructor to construct Node object*/
 		public Node(E element, Node<E> node)
 		{
 			this.element = element;
 			this.next = node;
 		}
 
-		//Accessors
+		/**Accessor method
+		 * @return element*/
 		public E getElement()
 		{
 			return element;
 		}
 
+		/**Accessor method
+		 * @return next i.e. the node that the current one points to*/
 		public Node<E> getNext()
 		{
 			return next;
 		}
 
-		//Mutator Method
+		/**Mutator method to set what the Node points to
+		 * @param next i.e. the node that the current one points to*/
 		public void setNext(Node<E> next)
 		{
 			this.next = next;
 		}
 	}
 	
-	//Inner class which controls how it traverses the internal elements of the singly linked list
+	/**Inner class which controls how it traverses the internal elements of the singly linked list*/
 	private class ListIterator implements Iterator<E>
 	{
 		Node<E> curr;
 		 private int nextNode; //This keeps track of how many nodes we have iterated through
 		
+		 /**Constructor to construct ListIterator object which will allow is to iterate through a list*/
 		public ListIterator()
 		{
 			curr = tail.next; //This is the first element
 			nextNode = 0; 
 		}
 		
+		/**Method which checks if the node has a next
+		 * @return boolean if nextNode is less than size*/
 		public boolean hasNext()
 		{
 			return nextNode < size;
 		}
 		
+		/**Method which gets node's element and changes curr to the next
+		 * @return next node's element*/
 		@Override
 		public E next() 
 		{
@@ -60,25 +74,32 @@ public class CircularlyLinkedList<E> implements List<E> {
 		}
 	}
 	
-	private Node<E> tail = null; 
-	private int size = 0;
+	private Node<E> tail = null; //Initialize tail to null
+	private int size = 0; //Initialize size of circularly linked list to 0
 
-	//Constructor
+	/**Constructor to construct Circularly Linked List object*/
 	public CircularlyLinkedList()
 	{
 		
 	}
 	
+	/**Method to get the size of the Circularly Linked List
+	 * @return size of list*/
 	@Override
 	public int size() {
 		return size;
 	}
 
+	/**Method to check if list is empty
+	 *  @return boolean*/
 	@Override
 	public boolean isEmpty() {
 		return size==0;
 	}
 
+	/**Method to get the element at a certain index
+	 * @param i index of element
+	 * @return E the element at that index*/
 	@Override
 	public E get(int i) {
 		if (isEmpty())
@@ -99,6 +120,9 @@ public class CircularlyLinkedList<E> implements List<E> {
 		Node<E> cur = tail.next;
 		int counter = 0;
 		
+		/*Iterate through list until the index i is reached.
+		 * Each time increment counter and set cur to cur.next.
+		 * When counter reaches i then cur will be at the right element.*/
 		while(counter != i)
 		{
 			cur = cur.next;
@@ -109,6 +133,8 @@ public class CircularlyLinkedList<E> implements List<E> {
 		
 	}
 
+	/**Method to add an element to the list at a certain position
+	 * @param i the index, e the element*/
 	@Override
 	public void add(int i, E e) {
 		if(i<0)
@@ -127,23 +153,28 @@ public class CircularlyLinkedList<E> implements List<E> {
 		else
 		{		
 			Node<E> cur = tail.next;
-			Node<E> prev = tail;
 			int counter = 0;
 			
+			/*Iterate through list until the index i is reached.
+			 * Each time increment counter and set cur to cur.next.
+			 * When counter reaches i then cur will be at the right element.*/
 			while(counter != i)
 			{
-				prev = cur;
 				cur = cur.next;
 				counter++;		
 			}
 			
-			prev.next = new Node<E>(e, prev.next);
-			size++;
+			//Set cur as the new node and have it point to cur in order to keep the old cur in the list
+			cur = new Node<E>(e, cur); 
+			size++; 
 			
 		}
 
 	}
 
+	/**Method to remove a node from the list at a certain position
+	 * @param i the index
+	 * @return the element that was removed*/
 	@Override
 	public E remove(int i) {
 		if(isEmpty())
@@ -166,10 +197,10 @@ public class CircularlyLinkedList<E> implements List<E> {
 		}	
 		else 
 		{
-			Node<E> cur = tail.next;
-			Node<E> prev = tail;
+			Node<E> cur = tail.next; //tail.next is the first element
+			Node<E> prev = tail; //prev is tail as tail and first element are connected
 			int counter = 0;
-			Node<E> temp = tail.next;
+			Node<E> temp; 
 
 			while(counter != i)
 			{
@@ -178,13 +209,15 @@ public class CircularlyLinkedList<E> implements List<E> {
 				counter++;
 			}
 
-			temp = cur;
-			prev.next = cur.next;
+			temp = cur; //Set temp to be cur so that we can return it
+			prev.next = cur.next; //Set prev to point to cur.next in order to remove cur
 			size--;
 			return temp.getElement();
 		}
 	}
 
+	/**Method to remove a node from the start of list
+	 * @return the element that was removed*/
 	@Override
 	public E removeFirst() {
 		if(isEmpty())
@@ -207,6 +240,8 @@ public class CircularlyLinkedList<E> implements List<E> {
 		return head.getElement();
 	}
 
+	/**Method to remove a node from the end of list
+	 * @return the element that was removed*/
 	@Override
 	public E removeLast() {
 		if(isEmpty())
@@ -236,12 +271,16 @@ public class CircularlyLinkedList<E> implements List<E> {
 		size--;
 		return tail.getElement();
 	}
-
+	
+	/**Method to iterate through list
+	 * @return iterator object*/
 	@Override
 	public Iterator<E> iterator() {
 		return new ListIterator();
 	}
 
+	/**Method to add an element to the start of list
+	 * @param e element to add*/
 	@Override
 	public void addFirst(E e) {
 		if(size==0)
@@ -258,12 +297,15 @@ public class CircularlyLinkedList<E> implements List<E> {
 		size++; //Increment the size
 	}
 
+	/**Method to add an element to the end of list
+	 * @param e element to add*/
 	@Override
 	public void addLast(E e) {
 		addFirst(e); //Adds element e to the start of the list
 		tail = tail.getNext(); //New element becomes the tail
 	}
 
+	/**Method to rotate tail of list i.e set tail to node after it*/
 	public void rotate() {
 		if(tail!=null)
 		{
@@ -271,7 +313,8 @@ public class CircularlyLinkedList<E> implements List<E> {
 		}		
 	}
 	
-	//Method to return the first element of the circularly linked list
+	/**Method to return the first element of the circularly linked list
+	 * @return E first element*/
 	public E first()
 	{
 		if(isEmpty())
@@ -284,7 +327,8 @@ public class CircularlyLinkedList<E> implements List<E> {
 		}
 	}
 	
-	//Method to return the last element of the circularly linked list
+	/**Method to return the last element of the circularly linked list
+	 * @return E last element*/
 	public E last()
 	{
 		if(isEmpty())
@@ -297,6 +341,8 @@ public class CircularlyLinkedList<E> implements List<E> {
 		}
 	}
 	
+	/**toString method for Circularly Linked List
+	 * @return string*/
 	@Override
 	public String toString()
 	{

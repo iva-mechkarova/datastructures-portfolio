@@ -109,8 +109,8 @@ public class PQSort
 	
 	public static void main(String[] args)
 	{
-		//PQSort_unsortedLinkedList();
-		PQSort_heap();
+		PQSort_unsortedLinkedList();
+		//PQSort_heap();
 	}
 
 }

@@ -3,55 +3,69 @@ package projectCode20280;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+/**This class implements the Singly Linked List ADT.
+ * It implements it by implementing the List interface and creating each method that the ADT would have
+ * e.g. add, remove, get. I have also implemented an inner node class.*/
 public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 
 	private Node<E> head = null;
 	private int size = 0;
 
+	/**This inner class defines a node object.
+	 * Each node object has an element and another node object (the node it points to).*/
 	private static class Node<E> {
 		private E element; //Reference to the element stored at this node
 		private Node<E> next; //Reference to the next node in the list
 
-		//Constructor
+		/**Constructor to construct Node object*/
 		public Node(E element, Node<E> node)
 		{
 			this.element = element;
 			this.next = node;
 		}
 
-		//Accessors
+		/**Accessor method
+		 * @return element*/
 		public E getElement()
 		{
 			return element;
 		}
 
+		/**Accessor method
+		 * @return next i.e. the node that the current one points to*/
 		public Node<E> getNext()
 		{
 			return next;
 		}
 
-		//Mutator Method
+		/**Mutator method to set what the Node points to
+		 * @param next i.e. the node that the current one points to*/
 		public void setNext(Node<E> next)
 		{
 			this.next = next;
 		}
 	}
 	
-	//Inner class which controls how it traverses the internal elements of the singly linked list
+	/**Inner class which controls how it traverses the internal elements of the singly linked list*/
 	private class ListIterator implements Iterator<E>
 	{
 		Node<E> curr;
 		
+		/**Constructor to construct ListIterator object which will allow is to iterate through a list*/
 		public ListIterator()
 		{
 			curr = head;
 		}
 		
+		/**Method which checks if the node has a next
+		 * @return boolean if curr doesn't equal null*/
 		public boolean hasNext()
 		{
 			return curr != null;
 		}
 		
+		/**Method which gets node's element and changes curr to the next
+		 * @return next node's element*/
 		@Override
 		public E next() 
 		{
@@ -61,12 +75,17 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 		}
 	}
 	
+	/**Method to check if list is empty
+	 *  @return boolean*/
 	@Override
 	public boolean isEmpty() {
 		//Check if the head is null and if it is then the list is empty
 		return head == null;
 	}
 
+	/**Method to get the element at a certain index
+	 * @param i index of element
+	 * @return E the element at that index*/
 	@Override
 	public E get(int i) {
 		if (isEmpty())
@@ -87,6 +106,9 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 		Node<E> cur = head;
 		int counter = 0;
 
+		/*Iterate through list until the index i is reached or cur is null.
+		 * Each time increment counter and set cur to cur.next.
+		 * When counter reaches i then cur will be at the right element.*/
 		while(counter != i && cur != null)
 		{
 			cur = cur.next;
@@ -101,6 +123,8 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 		return cur.getElement();
 	}
 
+	/**Method to add an element to the list at a certain position
+	 * @param i the index, e the element*/
 	@Override
 	public void add(int i, E e) {
 		if(i<0)
@@ -119,22 +143,27 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 		else
 		{		
 			Node<E> cur = head;
-			Node<E> prev = null;
 			int counter = 0;
 			
+			/*Iterate through list until the index i is reached or cur.next is null.
+			 * Each time increment counter and set cur to cur.next.
+			 * When counter reaches i then cur will be at the right element.*/
 			while(counter != i && cur.next!=null)
 			{
-				prev = cur;
 				cur = cur.next;
 				counter++;		
 			}
 			
-			prev.next = new Node<E>(e, prev.next);
+			//Set cur as the new node and have it point to cur in order to keep the old cur in the list
+			cur = new Node<E>(e, cur); 
 			size++;
 			
 		}
 	}
 
+	/**Method to remove a node from the list at a certain position
+	 * @param i the index
+	 * @return the element that was removed*/
 	@Override
 	public E remove(int i) {
 		if (isEmpty())
@@ -173,24 +202,30 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 				throw new RuntimeException("Cannot delete");
 			}
 
-			temp = cur;
-			prev.next = cur.next;
+			temp = cur; //Set temp to be cur so that we can return it
+			prev.next = cur.next; //Set prev to point to cur.next in order to remove cur
 			size--;
 			return temp.getElement();			
 		}
 	}
 
+	/**Method to iterate through list
+	 * @return iterator object*/
 	@Override
 	public Iterator<E> iterator() {
 		return new ListIterator();
 	}
 
+	/**Method to get the size of the Singly Linked List
+	 * @return size of list*/
 	@Override
 	public int size() {
 		return size; //Size is incremented/decremented when elements are added/removed so we just need to return it
 	}	
 	
 
+	/**Method to remove a node from the start of list
+	 * @return the element that was removed*/
 	@Override
 	public E removeFirst() {
 		if(isEmpty())
@@ -201,6 +236,8 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 		return remove(0);
 	}
 
+	/**Method to remove a node from the end of list
+	 * @return the element that was removed*/
 	@Override
 	public E removeLast() {
 		if(isEmpty())
@@ -211,12 +248,16 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 		return remove((size()-1));
 	}
 
+	/**Method to add an element to the start of list
+	 * @param e element to add*/
 	@Override
 	public void addFirst(E e) {
 		head = new Node<E>(e, head); //Set the head to the element we wish to add
 		size++; //Increment size by 1 as we added an element
 	}
 
+	/**Method to add an element to the end of list
+	 * @param e element to add*/
 	@Override
 	public void addLast(E e) {
 		Node<E> newest = new Node<E>(e, null); //Stores element to be added
@@ -238,6 +279,8 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 		size++; //Increment the size by 1 as we have added an element
 	}
 
+	/**toString method for Singly Linked List
+	 * @return string*/
 	@Override
 	public String toString()
 	{
@@ -272,11 +315,9 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
     		reverse(n.getNext());
     		System.out.print(n.element + " ");
     	}
-    	
-
     }
     
-    /*Method which removes the min element of a SinglyLinkedList - needed for Assignment 1 PQSort*/
+    /**Method which removes the min element of a SinglyLinkedList - needed for Assignment 1 PQSort*/
 	public static Integer removeMin(SinglyLinkedList<Integer> ll)
 	{
 		int min_idx = 0;

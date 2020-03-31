@@ -343,6 +343,7 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
 	  return removed;
   }
   
+  @Override
   public String toString() {
 	  StringBuilder sb = new StringBuilder();
 	  sb.append("[");

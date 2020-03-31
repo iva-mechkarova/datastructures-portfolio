@@ -212,13 +212,5 @@ public class HeapPriorityQueue<K,V> extends AbstractPriorityQueue<K,V> {
 				System.out.println("Invalid right child relationship");
 		}
 	}
-	
-	public static void main(String[] args)
-	{
-		LinkedList<Integer> arr = (LinkedList<Integer>) new Random().ints(0, 1000).distinct().limit(10).boxed().collect(Collectors.toCollection(LinkedList::new));
-		Integer[] arr1 = arr.toArray(Integer[]::new); 
-		HeapPriorityQueue<Integer, Integer> pq = new HeapPriorityQueue<Integer, Integer>(arr1, arr1);
-		pq.sanityCheck();
-	}
 }
 
