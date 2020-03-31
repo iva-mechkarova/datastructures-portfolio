@@ -122,7 +122,7 @@ public class DoublyLinkedList<E> implements List<E> {
 	 *  @return boolean*/
 	@Override
 	public boolean isEmpty() {
-		return header == trailer;
+		return size==0;
 	}
 
 	/**Method to get the element at a certain index
@@ -320,8 +320,25 @@ public class DoublyLinkedList<E> implements List<E> {
 		return list;
 	}
 	
+	/**Method to return first element of list.
+	 * This is needed for LinkedDeque.
+	 * @return first element of list*/
+	public E first()
+	{
+		return header.getNext().getElement();
+	}
+	
+	/**Method to return last element of list.
+	 * This is needed for LinkedDeque.
+	 * @return last element of list*/
+	public E last()
+	{
+		return trailer.getPrev().getElement();
+	}
+	
 	public static void main(String[] args) {
 		   DoublyLinkedList<Integer> ll = new DoublyLinkedList<Integer>();
+		   System.out.println(ll.isEmpty());
            ll.addFirst(0);
            ll.addFirst(1);
            ll.addFirst(2);

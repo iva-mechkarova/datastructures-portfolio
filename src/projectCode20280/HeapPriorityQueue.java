@@ -162,8 +162,12 @@ public class HeapPriorityQueue<K,V> extends AbstractPriorityQueue<K,V> {
 	@Override
 	public Entry<K, V> min()
 	{
-		//TODO
-		return null;
+		if(heap.isEmpty())
+		{
+			return null;
+		}
+		
+		return heap.get(0); //Entry at index 0 should always be min due to heapifying
 	}
 
 	/**

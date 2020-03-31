@@ -76,11 +76,28 @@ public class CircularlyLinkedList<E> implements List<E> {
 	
 	private Node<E> tail = null; //Initialize tail to null
 	private int size = 0; //Initialize size of circularly linked list to 0
+	
+	/**Variable used for LinkedCircularQueue*/
+	private int cursor = 0; 
 
 	/**Constructor to construct Circularly Linked List object*/
 	public CircularlyLinkedList()
 	{
 		
+	}
+	
+	/**Method used for LinkedCircularQueue to advance cursor*/
+	public void advance()
+	{
+		if(size()>1)
+		{
+			cursor++;
+		}
+	}
+	
+	public int getCursor()
+	{
+		return cursor;
 	}
 	
 	/**Method to get the size of the Circularly Linked List
