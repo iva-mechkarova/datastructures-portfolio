@@ -11,6 +11,7 @@ public class ArrayStack<E> implements Stack<E> {
 	 * */
 	public static void main(String[] args) {
 	    ArrayStack<Integer> A = new ArrayStack<Integer>();
+	    System.out.println("ArrayStack");
 	    
     	for(int i=0; i<20; i++)
     	{

@@ -3,13 +3,14 @@ package projectCode20280;
 /**This class implements the stack ADT. It implements it by using my custom singly linked list.*/
 public class LinkedStack<E> implements Stack<E> {
 
-	private SinglyLinkedList<E> list = new SinglyLinkedList<>();
+	private SinglyLinkedList<E> list = new SinglyLinkedList<>(); //An empty list which will act as a stack
 	
 	/**
 	 * Testing all methods of LinkedStack
 	 * */
 	public static void main(String[] args) {
 	    LinkedStack<Integer> A = new LinkedStack<Integer>();
+	    System.out.println("LinkedStack");
 	    
     	for(int i=0; i<20; i++)
     	{
@@ -89,7 +90,7 @@ public class LinkedStack<E> implements Stack<E> {
 		return list.removeFirst();
 	}
 	
-	/**toString method for ArrayStack
+	/**toString method for LinkedStack
 	 * @return string*/
 	@Override
 	public String toString() 
