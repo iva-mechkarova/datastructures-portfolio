@@ -190,7 +190,7 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 			int counter = 0;
 			Node<E> temp = head;
 
-			while(counter != i && temp != null)
+			while(counter != i && cur.next != null)
 			{
 				prev = cur;
 				cur = cur.next;
@@ -305,16 +305,35 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 	}
 	
 	//Recursion Practical Q5b
-    public void reverse(Node<E> n) { 
+    public void reverseRecursive(Node<E> n) { 
     	if(n.getNext()==null)
     	{
     		System.out.print(n.element + " ");
     	}
     	else
     	{
-    		reverse(n.getNext());
+    		reverseRecursive(n.getNext());
     		System.out.print(n.element + " ");
     	}
+    }
+    
+    /**
+     * Method to reverse SinglyLinkedList using ArrayStack
+     * */
+    public void reverse()
+    {
+    	ArrayStack<E> as = new ArrayStack<E>();
+    	
+    	for(int i=0; i<size()-1; i++)
+    	{
+    		as.push(removeLast());
+    	}
+    	
+    	while(!as.isEmpty())
+    	{
+    		addFirst(as.pop());
+    	}
+    	
     }
     
     /**Method which removes the min element of a SinglyLinkedList - needed for Assignment 1 PQSort*/
@@ -394,6 +413,9 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 		ll.addFirst(7777);
 		
 		System.out.println(ll);
+		
+		ll.reverse();
+		System.out.println("Reversed: " + ll);
 		System.out.println(ll.get(0));
 		System.out.println(ll.get(1));
 		System.out.println(ll.get(2));
@@ -401,7 +423,8 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 		System.out.println(ll);
 		System.out.println(ll.size());
 		
-		ll.reverse(ll.head);
+		System.out.println("Print in reverse: ");
+		ll.reverseRecursive(ll.head);
 		
 	}
 
