@@ -336,6 +336,14 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
     	
     }
     
+    /**
+     * Method to return the head. This is used for the LinkedStack.
+     * */
+    public E first()
+    {
+    	return head.getElement();
+    }
+    
     /**Method which removes the min element of a SinglyLinkedList - needed for Assignment 1 PQSort*/
 	public static Integer removeMin(SinglyLinkedList<Integer> ll)
 	{
