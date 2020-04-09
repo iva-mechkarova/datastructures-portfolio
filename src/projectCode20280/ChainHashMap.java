@@ -1,7 +1,6 @@
 package projectCode20280;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /*
  * Map implementation using hash table with separate chaining.
@@ -30,7 +29,7 @@ public class ChainHashMap<K, V> extends AbstractHashMap<K, V> {
 	@Override
 	@SuppressWarnings({ "unchecked" })
 	protected void createTable() {
-
+		table = (UnsortedTableMap<K, V>[])new UnsortedTableMap[capacity];
 	}
 
 	/**
@@ -43,7 +42,9 @@ public class ChainHashMap<K, V> extends AbstractHashMap<K, V> {
 	 */
 	@Override
 	protected V bucketGet(int h, K k) {
-		return null;
+		UnsortedTableMap<K, V> bucket = table[h];
+		
+		return bucket == null ? null : bucket.get(k);
 	}
 
 	/**
@@ -57,7 +58,18 @@ public class ChainHashMap<K, V> extends AbstractHashMap<K, V> {
 	 */
 	@Override
 	protected V bucketPut(int h, K k, V v) {
-		return null;
+		UnsortedTableMap<K, V> bucket = table[h];
+		
+		if(bucket==null)
+		{
+			bucket = new UnsortedTableMap<K, V>();
+			table[h] = bucket;
+		}
+		
+		int prev_size = bucket.size();
+		V old = bucket.put(k, v);
+		n += (bucket.size()-prev_size);
+		return old;
 	}
 
 	/**
@@ -70,7 +82,14 @@ public class ChainHashMap<K, V> extends AbstractHashMap<K, V> {
 	 */
 	@Override
 	protected V bucketRemove(int h, K k) {
-		return null;
+		UnsortedTableMap<K, V> bucket = table[h];	
+		if(bucket==null)
+			return null;
+		
+		int prev_size = bucket.size();
+		V old = bucket.remove(k);
+		n -= (prev_size-bucket.size());
+		return old;
 	}
 
 	/**
@@ -80,20 +99,42 @@ public class ChainHashMap<K, V> extends AbstractHashMap<K, V> {
 	 */
 	@Override
 	public Iterable<Entry<K, V>> entrySet() {
-		return null;
+		ArrayList<Entry<K, V>> res = new ArrayList<Entry<K,V>>();
+		
+		for(int i=0; i<capacity; i++)
+		{
+			UnsortedTableMap<K,V> bucket = table[i];
+			if(bucket!=null)
+			{
+				for(Entry<K,V> entry : bucket.entrySet())
+				{
+					res.add(entry);
+				}
+			}
+		}
+		
+		return res;
+	}
+	
+	@Override 
+	public String toString()
+	{
+		return entrySet().toString();
 	}
 	
 	public static void main(String[] args) {
 		//HashMap<Integer, String> m = new HashMap<Integer, String>();
 		ChainHashMap<Integer, String> m = new ChainHashMap<Integer, String>();
+		System.out.println("Size before: " + m.size());
 		m.put(1, "One");
 		m.put(10, "Ten");
 		m.put(11, "Eleven");
 		m.put(20, "Twenty");
 		
-		System.out.println("m: " + m);
+		System.out.println("m: " + m + " size: " + m.size());
 		
 		m.remove(11);
-		System.out.println("m: " + m);
+		
+		System.out.println("m: " + m + " size: " + m.size());
 	}
 }

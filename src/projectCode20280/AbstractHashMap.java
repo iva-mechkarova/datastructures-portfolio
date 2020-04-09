@@ -107,16 +107,26 @@ public abstract class AbstractHashMap<K, V> extends AbstractMap<K, V> {
     /**
      * Hash function applying MAD method to default hash code.
      */
-    private int hashValue(K key) {
-        // TODO
-    	return 0;
+    private int hashValue(K key) {     
+    	return (int)((Math.abs(key.hashCode()*scale + shift) % prime) % capacity);
     }
 
     /**
      * Updates the size of the hash table and rehashes all entries.
      */
     private void resize(int newCap) {
-    	// TODO
+    	ArrayList<Entry<K,V>> res = new ArrayList<>(n);
+    	for(Entry<K,V> entry : entrySet())
+    	{
+    		res.add(entry);
+    	}
+    	
+    	capacity = newCap;
+    	createTable(); //Create table with new capacity
+    	n = 0; //Initialize n to 0 - it will change when inserting elements
+    	
+    	for(Entry<K,V> entry : res)
+    		put(entry.getKey(), entry.getValue());
     }
 
     // protected abstract methods to be implemented by subclasses
