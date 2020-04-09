@@ -31,6 +31,13 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
 	public void setParent(Node<E> e) { parent = e; }
 	public void setLeft(Node<E> e) { left = e; }
 	public void setRight(Node<E> e) { right = e; }
+	
+	  @Override
+	  public String toString() {
+		  StringBuilder sb = new StringBuilder();
+		  sb.append(element);
+		  return sb.toString();
+	  }
 	  
   } 
 
@@ -343,6 +350,35 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
 	  return removed;
   }
   
+  /**
+   * Method to construct tree from an array
+   * @param the array
+   * */
+  public void createLevelOrder(E[] arr)
+  {
+	  root = createLevelOrderHelper(arr, root, 0);
+  }
+  
+  /**
+   * Helper method used in createLevelOrder to construct tree from array
+   * @param the array, the parent node, position of this node
+   * @return if the position is less than the length of the array return the node that is added,
+   * otherwise return the parent node
+   * */
+  private Node<E> createLevelOrderHelper(E[] arr, Node<E> p, int i)
+  {
+	  if(i<arr.length)
+	  {
+		  Node<E> n = createNode(arr[i], p, null, null);
+		  n.left = createLevelOrderHelper(arr, n.left, 2*i + 1);
+		  n.right = createLevelOrderHelper(arr, n.right, 2*i + 2);
+		  size++;
+		  return n; 
+	  }
+	  
+	  return p;
+  }
+  
   @Override
   public String toString() {
 	  StringBuilder sb = new StringBuilder();
@@ -357,30 +393,44 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
   
   public static void main(String [] args) {
 	  
+	  
 	  LinkedBinaryTree<Integer> bt = new LinkedBinaryTree<Integer>();
  
-	  bt.addRoot(5);
-	  bt.addLeft(bt.root, 9);
-	  bt.addRight(bt.root, 3);
-	  System.out.println("bt: " + bt.size() + " " + bt );
-	  bt.remove(bt.root.right);
-	  System.out.println("bt: " + bt.size() + " " + bt );
+	  /*Direct Construction of tree
+	  Position<Integer> root = bt.addRoot(12);
+	  Position<Integer> p1 = bt.addLeft(root, 25);
+	  Position<Integer> p2 = bt.addRight(root, 31);
 	  
-	  int [] arr = {12, 25, 31, 58, 36, 42, 90, 62, 75};
-	  for(int i : arr) {
-		  bt.insert(i);
-	  }
+	  Position<Integer> p3 = bt.addLeft(p1, 58);
+	  bt.addRight(p1, 36);
 	  
-	  System.out.println("bt: " + bt.size() + " " + bt );  
+	  Position<Integer> p5 = bt.addLeft(p2, 42);
+	  bt.addRight(p2, 90);
 	  
-	  LinkedBinaryTree<Integer> bt1 = new LinkedBinaryTree<Integer>();
+	  Position<Integer> p4 = bt.addLeft(p3, 62);
+	  bt.addRight(p3, 75);
 	  
-	  int [] arr1 = {-12, -5, -31, -58, -36, 42, -90, 62, 75};
-	  for(int i : arr1) {
-		  bt1.insert(i);
-	  }
+	  System.out.println("bt inorder: " + bt.size() + " " + bt.inorder());
+	  System.out.println("bt preorder: " + bt.size() + " " + bt.preorder());
 	  
-	  System.out.println("bt1: " + bt1.size() + " " + bt1 );  
+	  System.out.println("bt height: " + bt.height(bt.root()));
+	  System.out.println("bt depth: " + bt.depth(bt.root()));
+	  System.out.println("bt depth: " + bt.depth(p4));
+	  System.out.println("bt depth: " + bt.depth(p5));*/
+	  
+	  //Level Order Construction of tree
+	  Integer[] arr = {12, 25, 31, 58, 36, 42, 90, 62, 75};
+	  bt.createLevelOrder(arr);
+	  
+	  System.out.println("bt: " + bt.size() + " " + bt);  
+	  
+	  System.out.println("bt inorder: " + bt.size() + " " + bt.inorder());
+	  System.out.println("bt preorder: " + bt.size() + " " + bt.preorder());
+	  
+	  System.out.println("bt height: " + bt.height(bt.root()));
+	  System.out.println("bt depth: " + bt.depth(bt.root()));
+	  
+	  System.out.println("bt: " + bt.size() + " " + bt); 
   }
 } 
 
