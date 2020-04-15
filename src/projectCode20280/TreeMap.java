@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
  * An implementation of a sorted map using a binary search tree.
  */
 
-public class TreeMap<K extends Comparable<K>, V> extends AbstractSortedMap<K, V> {
+public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 
 	// We reuse the LinkedBinaryTree class. A limitation here is that we only use the key.
 	protected LinkedBinaryTree<Entry<K, V>> tree = new LinkedBinaryTree<Entry<K,V>>();
@@ -34,48 +34,42 @@ public class TreeMap<K extends Comparable<K>, V> extends AbstractSortedMap<K, V>
 
 	/** Utility used when inserting a new entry at a leaf of the tree */
 	private void expandExternal(Position<Entry<K, V>> p, Entry<K, V> entry) {
-		// TODO
+		tree.set(p, entry);
+		tree.addLeft(p, null);
+		tree.addRight(p, null);
 	}
 
 	// Some notational shorthands for brevity (yet not efficiency)
 	protected Position<Entry<K, V>> root() {
-		// TODO
-		return null;
+		return tree.root();
 	}
 
 	protected Position<Entry<K, V>> parent(Position<Entry<K, V>> p) {
-		// TODO
-		return null;
+		return tree.parent(p);
 	}
 
 	protected Position<Entry<K, V>> left(Position<Entry<K, V>> p) {
-		// TODO
-		return null;
+		return tree.left(p);
 	}
 
 	protected Position<Entry<K, V>> right(Position<Entry<K, V>> p) {
-		// TODO
-		return null;
+		return tree.right(p);
 	}
 
 	protected Position<Entry<K, V>> sibling(Position<Entry<K, V>> p) {
-		// TODO
-		return null;
+		return tree.sibling(p);
 	}
 
 	protected boolean isRoot(Position<Entry<K, V>> p) {
-		// TODO
-		return true;
+		return tree.isRoot(p);
 	}
 
 	protected boolean isExternal(Position<Entry<K, V>> p) {
-		// TODO
-		return true;
+		return tree.isExternal(p);
 	}
 
 	protected boolean isInternal(Position<Entry<K, V>> p) {
-		// TODO
-		return true;
+		return tree.isInternal(p);
 	}
 
 	protected void set(Position<Entry<K, V>> p, Entry<K, V> e) {
@@ -95,8 +89,25 @@ public class TreeMap<K extends Comparable<K>, V> extends AbstractSortedMap<K, V>
 	 * @return Position holding key, or last node reached during search
 	 */
 	private Position<Entry<K, V>> treeSearch(Position<Entry<K, V>> p, K key) {
-		// TODO
-		return null;
+		if(isExternal(p))
+		{
+			return p; //Key is not found
+		}
+		
+		int c = compare(key, p.getElement());
+		
+		if(c==0)
+		{
+			return p; //Key is found
+		}
+		else if(c<0)
+		{
+			return treeSearch(left(p),key); //Recurse on left subtree
+		}
+		else
+		{
+			return treeSearch(right(p),key); //Recurse on right subtree
+		}
 	}
 
 	/**
@@ -106,8 +117,14 @@ public class TreeMap<K extends Comparable<K>, V> extends AbstractSortedMap<K, V>
 	 * @return Position with minimal key in subtree
 	 */
 	protected Position<Entry<K, V>> treeMin(Position<Entry<K, V>> p) {
-		// TODO
-		return null;
+		Position<Entry<K,V>> curr = p;
+		
+		while(isInternal(curr))
+		{
+			curr = left(curr);
+		}
+		
+		return parent(curr);
 	}
 
 	/**
@@ -117,8 +134,14 @@ public class TreeMap<K extends Comparable<K>, V> extends AbstractSortedMap<K, V>
 	 * @return Position with maximum key in subtree
 	 */
 	protected Position<Entry<K, V>> treeMax(Position<Entry<K, V>> p) {
-		// TODO
-		return null;
+		Position<Entry<K,V>> curr = p;
+		
+		while(isInternal(curr))
+		{
+			curr = right(curr);
+		}
+		
+		return parent(curr);
 	}
 
 	/**
@@ -130,8 +153,11 @@ public class TreeMap<K extends Comparable<K>, V> extends AbstractSortedMap<K, V>
 	 */
 	@Override
 	public V get(K key) throws IllegalArgumentException {
-		// TODO
-		return null;
+		if(isEmpty())
+			return null;
+		
+		Position<Entry<K,V>> pos = treeSearch(root(), key);
+		return pos.getElement().getValue();
 	}
 
 	/**
@@ -146,8 +172,20 @@ public class TreeMap<K extends Comparable<K>, V> extends AbstractSortedMap<K, V>
 	 */
 	@Override
 	public V put(K key, V value) throws IllegalArgumentException {
-		// TODO
-		return null;
+		Entry<K,V> entry = new MapEntry<>(key, value);
+		Position<Entry<K,V>> p = treeSearch(root(), key);
+		
+		if(isExternal(p))
+		{
+			expandExternal(p, entry);
+			return null;
+		}
+		else
+		{
+			V old = p.getElement().getValue();
+			set(p, entry);
+			return old;
+		}
 	}
 
 	/**
@@ -160,8 +198,27 @@ public class TreeMap<K extends Comparable<K>, V> extends AbstractSortedMap<K, V>
 	 */
 	@Override
 	public V remove(K key) throws IllegalArgumentException {
-		// TODO
-		return null;
+		Position<Entry<K,V>> p = treeSearch(root(), key);
+		
+		if(isExternal(p))
+		{
+			return null;
+		}
+		else
+		{
+			V old = p.getElement().getValue();
+			if(isInternal(left(p)) && isInternal(right(p)))
+			{
+				Position<Entry<K,V>> r = treeMax(left(p));
+				set(p, r.getElement());
+				p = r;
+			}
+			
+			Position<Entry<K,V>> leaf = isExternal(left(p)) ? left(p) : right(p);
+			remove(leaf);
+			remove(p);
+			return old;
+		}
 	}
 
 	// additional behaviors of the SortedMap interface
@@ -184,8 +241,9 @@ public class TreeMap<K extends Comparable<K>, V> extends AbstractSortedMap<K, V>
 	 */
 	@Override
 	public Entry<K, V> lastEntry() {
-		// TODO
-		return null;
+		if (isEmpty())
+			return null;
+		return treeMax(root()).getElement();
 	}
 
 	/**
@@ -252,8 +310,17 @@ public class TreeMap<K extends Comparable<K>, V> extends AbstractSortedMap<K, V>
 	 */
 	@Override
 	public Iterable<Entry<K, V>> entrySet() {
-		// TODO
-		return null;
+		ArrayList<Entry<K,V>> buffer = new ArrayList<>(size());
+		
+		for(Position<Entry<K,V>> p : tree.inorder())
+		{
+			if(isInternal(p))
+			{
+				buffer.add(p.getElement());
+			}		
+		}
+		
+		return buffer;
 	}
 
 	/**
@@ -288,12 +355,26 @@ public class TreeMap<K extends Comparable<K>, V> extends AbstractSortedMap<K, V>
 			dumpRecurse(right(p), depth + 1);
 		}
 	}
+	
+	@Override
+	public String toString()
+	{
+		return tree.toString();
+	}
 
 	public static void main(String[] args) {
-		TreeMap<Integer, Integer> treeMap = new TreeMap<Integer, Integer>();
+		/*TreeMap<Integer, Integer> treeMap = new TreeMap<Integer, Integer>();
+		
+		treeMap.put(0, 0);
+		treeMap.put(-1, 0);
+		treeMap.put(1, 0);
+		System.out.println(treeMap);
+		
+		BinaryTreePrinter<Entry<Integer, Integer>> btp = new BinaryTreePrinter<>(treeMap.tree);
+		System.out.println(btp.print());
 		
 		Random rnd = new Random();
-		int n = 16;
+		int n = 5;
 		java.util.List<Integer> rands = rnd.ints(1, 1000).limit(n).distinct().boxed().collect(Collectors.toList());
 
 		for(Integer i : rands) {
@@ -304,6 +385,85 @@ public class TreeMap<K extends Comparable<K>, V> extends AbstractSortedMap<K, V>
 		
 		treeMap.remove(rands.get(1));
 
-		System.out.println("tree entries after removal: " + treeMap.entrySet());
+		System.out.println("tree entries after removal: " + treeMap.entrySet());*/
+		
+        TreeMap<Integer, Integer> treeMap = new TreeMap<>();
+        BinaryTreePrinter<Entry<Integer, Integer>> btp1 = new BinaryTreePrinter<>( treeMap.tree );
+        Integer[] arr = {44, 17, 88, 8, 32, 65, 97, 28, 54, 82, 93, 21, 29, 76, 80};
+        for ( Integer i : arr )
+        {
+            treeMap.put( i, i );
+        }
+        System.out.println( "Size should now be 15. Actual: " + treeMap.size() );
+        System.out.println( "Map entries: " + treeMap );
+        System.out.println( btp1.print() );
+
+        System.out.println( "The first entry of the map should be <8, 8>. Actual: <" + treeMap.firstEntry().getKey() + ", " + treeMap.firstEntry().getValue() + ">." );
+        System.out.println( "The last entry of the map should be <97, 97>. Actual: <" + treeMap.lastEntry().getKey() + ", " + treeMap.lastEntry().getValue() + ">." );
+
+        System.out.println();
+        System.out.println( "Attempting to remove element 8 from the tree map." );
+        treeMap.remove( 8 );
+        System.out.println( "Size should now be 14. Actual: " + treeMap.size() );
+        System.out.println( "First entry should now be <17, 17>. Actual: <" + treeMap.firstEntry().getKey() + ", " + treeMap.firstEntry().getValue() + ">." );
+        System.out.println( "Map entries: " + treeMap );
+        System.out.println( btp1.print() );
+
+        System.out.println();
+        System.out.println( "Attempting to remove <21, 21>, <88, 88>, and <97, 97> from the map." );
+        treeMap.remove( 21 );
+        treeMap.remove( 88 );
+        treeMap.remove( 97 );
+        System.out.println( "Size should now be 11. Actual: " + treeMap.size() );
+        System.out.println( "Last entry should now be <93, 93>. Actual: <" + treeMap.lastEntry().getKey() + ", " + treeMap.lastEntry().getValue() + ">." );
+        System.out.println( "Map entries: " + treeMap );
+        System.out.println( "82 should now be the right child of 44, and 76 should be the right child of 65." );
+        System.out.println( "93 should be the right child of 82." );
+        System.out.println( btp1.print() );
+
+        System.out.println( "Attempting to put entry <37, 37> in the map." );
+        treeMap.put( 37, 37 );
+        System.out.println( "Size should now be 12. Actual: " + treeMap.size() );
+        System.out.println( "37 should now be the right child of 32." );
+        System.out.println( btp1.print() );
+
+        System.out.println( "Putting <15, 15>, <22, 22>, and <70, 70> in the map." );
+        treeMap.put( 15, 15 );
+        treeMap.put( 22, 22 );
+        treeMap.put( 70, 70 );
+        System.out.println( "Size should now be 15. Actual: " + treeMap.size() );
+        System.out.println( "15 should be the left child of 17." );
+        System.out.println( "22 should be the left child of 28." );
+        System.out.println( "70 should be the left child of 76" );
+        System.out.println( btp1.print() );
+
+        System.out.println( "Attempting to change the value of entry <32, 32> to 33." );
+        treeMap.put( 32, 33 );
+        System.out.println( "Value of key 32 should now be 33. Actual: " + treeMap.get( 32 ) );
+        System.out.println( "Size should remain 15. Actual: " + treeMap.size() );
+        System.out.println();
+        System.out.println("Attempting to change value of <44, 44> to 0.");
+        treeMap.put( 44, 0 );
+        System.out.println( "Value of key 44 should now be 0. Actual: " + treeMap.get( 44 ) );
+        System.out.println( "Size should remain 15. Actual: " + treeMap.size() );
+        System.out.println("Map entries: " + treeMap);
+        System.out.println(btp1.print());
+
+        /*System.out.println("The ceiling entry of 18 should be 22. Actual: " + treeMap.ceilingEntry( 18 ));
+        System.out.println("The ceiling entry of 93 should be 93. Actual: " + treeMap.ceilingEntry( 93 ));
+        System.out.println("The ceiling entry of 43 should be 44. Actual: " + treeMap.ceilingEntry( 43 ));
+        System.out.println("The floor entry of 18 should be 17. Actual: " + treeMap.floorEntry( 18 ));
+        System.out.println("The floor entry of 65 should be 65. Actual: " + treeMap.floorEntry( 65 ));
+        System.out.println("The floor entry of 45 should be 44. Actual: " + treeMap.floorEntry( 45 ));
+        System.out.println();
+
+        System.out.println("The higher entry of 81 should be 82. Actual: " + treeMap.higherEntry( 81 ));
+        System.out.println("The higher entry of 93 should be null. Actual: " + treeMap.higherEntry( 93 ));
+        System.out.println("The higher entry of 32 should be 44. Actual: " + treeMap.higherEntry( 32 ));
+
+        System.out.println("The lower entry of 15 should be null. Actual: " + treeMap.lowerEntry( 15 ));
+        System.out.println("The lower entry of 22 should be 17. Actual: " + treeMap.lowerEntry( 22 ));
+        System.out.println("The lower entry of 55 should be 54. Actual: " + treeMap.lowerEntry( 55 ));*/
+		
 	}
 }

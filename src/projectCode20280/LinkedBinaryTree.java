@@ -3,7 +3,7 @@ package projectCode20280;
 /**
  * Concrete implementation of a binary tree using a node-based, linked structure.
  */
-public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTree<E> {
+public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
 
 
   /** Nested static class for a binary tree node. */
@@ -53,6 +53,18 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
 
   /** The number of nodes in the binary tree */
   private int size = 0;              // number of nodes in the tree
+  
+  /**Comparator for generic elements*/
+  private final DefaultComparator<E> comparator = new DefaultComparator<E>(); 
+  
+  /**Method to compare generic elements
+   * @param first element, second element
+   * @return 1 if first > second, -1 if first < second, 0 if equal
+   * */
+  protected int compareTo(E first, E second)
+  {
+	  return comparator.compare(first, second);
+  }
 
   // constructor
   /** Construts an empty binary tree. */
@@ -172,7 +184,7 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
 		return root;
 	}
 	
-	if(e.compareTo(p.element)==-1)
+	if(compareTo(e, p.element)==-1)
 	{
 		if(p.left!=null)
 		{
@@ -429,6 +441,10 @@ public class LinkedBinaryTree<E extends Comparable<E>> extends AbstractBinaryTre
 	  
 	  System.out.println("bt height: " + bt.height(bt.root()));
 	  System.out.println("bt depth: " + bt.depth(bt.root()));
+	  
+	  System.out.println("bt: " + bt.size() + " " + bt); 
+	  
+	  bt.insert(32);
 	  
 	  System.out.println("bt: " + bt.size() + " " + bt); 
   }

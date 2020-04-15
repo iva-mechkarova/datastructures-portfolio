@@ -12,6 +12,7 @@ import java.util.List;
    @author: Aonghus Lawlor aonghus.lawlor@ucd.ie
  */
 
+//N should be Entry
 public class BinaryTreePrinter< N > {
 
 	private boolean squareBranches = false;
