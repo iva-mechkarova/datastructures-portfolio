@@ -9,32 +9,34 @@ public class LinkedStack<E> implements Stack<E> {
 	 * Testing all methods of LinkedStack
 	 * */
 	public static void main(String[] args) {
-	    LinkedStack<Integer> A = new LinkedStack<Integer>();
+	    LinkedStack<Integer> ls = new LinkedStack<Integer>();
 	    System.out.println("LinkedStack");
 	    
     	for(int i=0; i<20; i++)
     	{
-    		A.push(i);
+    		ls.push(i);
     	}
-    	System.out.println(A + " size: " + A.size());
+    	System.out.println("Expected elements: ints 19-0 inclusive. Actual: " + ls);
+    	System.out.println("Expected size: 20. Actual size: " + ls.size());
     	
     	for(int i=0; i<5; i++)
     	{
-    		A.pop();
+    		ls.pop();
     	}
     	
     	System.out.println("After popping 5 elements:");
-    	System.out.println(A + " size: " + A.size());
-    	System.out.println("Top: " + A.top());
-    	System.out.println("is empty: " + A.isEmpty());
+    	System.out.println(ls);
+    	System.out.println("Expected size: 15. Actual size: " + ls.size());
+    	System.out.println("Top element should now be 14. Actual first: " + ls.top());
+    	System.out.println("is empty: " + ls.isEmpty());
     	
-    	while(!A.isEmpty())
+    	while(!ls.isEmpty())
     	{
-    		A.pop();
+    		ls.pop();
     	}
     	
-    	System.out.println(A);
-    	System.out.println("is empty: " + A.isEmpty());
+    	System.out.println("After while loop to remove all elements, stack should now be empty. Actual stack: " + ls);
+    	System.out.println("is empty: " + ls.isEmpty());
 	}
 	
 	/**Constructor for LinkedStack. Relies on initially empty list*/

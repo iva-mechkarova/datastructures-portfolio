@@ -337,29 +337,55 @@ public class DoublyLinkedList<E> implements List<E> {
 	}
 	
 	public static void main(String[] args) {
-		   DoublyLinkedList<Integer> ll = new DoublyLinkedList<Integer>();
-		   System.out.println(ll.isEmpty());
-           ll.addFirst(0);
-           ll.addFirst(1);
-           ll.addFirst(2);
-           ll.addLast(-1);
-           System.out.println(ll);
-           ll.add(2, 7);
-           System.out.println(ll);
-           System.out.println(ll.get(4));
-           
-           ll.removeFirst();
-           System.out.println(ll);
+		DoublyLinkedList<Integer> ll = new DoublyLinkedList<Integer>();
+		Integer[] arr = { 24, 13, 5, 31, 66, 99, 27, 52, 79, 91 };
+	        
+		for (Integer i : arr) {
+			ll.addFirst(i);
+		}
 
-           ll.removeLast();
-           System.out.println(ll);
-           
-           ll.remove(2);
-           System.out.println(ll);
-           
-           for(Integer e: ll) {
-                   System.out.println("value: " + e);
-           }
+		System.out.println("Testing addFirst method. Expected: [91, 79, 52, 27, 99, 66, 31, 5, 13, 24]. Actual: " + ll);
+
+		System.out.println("Adding element 2 at position 3.");
+		ll.add(3, 2);
+		System.out.println("2 should now be between 52 and 27. Actual: " + ll);
+
+		ll.removeFirst();
+		System.out.println("Removing first element.");
+		System.out.println("Expected: [79, 52, 2, 27, 99, 66, 31, 5, 13, 24]. Actual: " + ll);
+		ll.removeLast();
+		System.out.println("Removing last element.");
+		System.out.println("Expected: [79, 52, 2, 27, 99, 66, 31, 5, 13]. Actual: " + ll);
+
+		ll.remove(4);
+		System.out.println("Removing fourth element.");
+		System.out.println("Expected: [79, 52, 2, 27, 66, 31, 5, 13]. Actual: " + ll);
+
+		ll.remove(2);
+		System.out.println("Removing second element.");
+		System.out.println("Expected: [79, 52, 27, 66, 31, 5, 13]. Actual: " + ll);
+
+		ll.removeLast();
+		System.out.println("Removing last element.");
+		System.out.println("Expected: [79, 52, 27, 66, 31, 5]. Actual: " + ll);
+
+		System.out.println("Adding 9999, 8888, 7777 to start of list.");
+		ll.addFirst(9999);
+		ll.addFirst(8888);
+		ll.addFirst(7777);
+
+		System.out.println("Expected: [7777, 8888, 9999, 79, 52, 27, 66, 31, 5]. Actual: " + ll);
+
+		System.out.println("Get element at index 0. Expected: 7777. Actual: " + ll.get(0));
+		System.out.println("Get element at index 1. Expected: 8888. Actual: " + ll.get(1));
+		System.out.println("Get element at index 2. Expected: 9999. Actual: " + ll.get(2));
+		System.out.println("Get element at index 3. Expected: 79. Actual: " + ll.get(3));
+		System.out.println("Expected size: 9. Actual: " + ll.size());
+
+		System.out.println("Iterate through list, printing each value:");
+		for (Integer e : ll) {
+			System.out.println("value: " + e);
+		}
 	}
 
 	

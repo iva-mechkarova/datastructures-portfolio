@@ -143,19 +143,21 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 		else
 		{		
 			Node<E> cur = head;
+			Node<E> prev = null;
 			int counter = 0;
 			
 			/*Iterate through list until the index i is reached or cur.next is null.
 			 * Each time increment counter and set cur to cur.next.
 			 * When counter reaches i then cur will be at the right element.*/
 			while(counter != i && cur.next!=null)
-			{
+			{				
+				prev = cur;
 				cur = cur.next;
 				counter++;		
 			}
 			
 			//Set cur as the new node and have it point to cur in order to keep the old cur in the list
-			cur = new Node<E>(e, cur); 
+			prev.next = new Node<E>(e, prev.next); 
 			size++;
 			
 		}
@@ -324,7 +326,7 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
     {
     	ArrayStack<E> as = new ArrayStack<E>();
     	
-    	for(int i=0; i<size()-1; i++)
+    	while(!isEmpty())
     	{
     		as.push(removeLast());
     	}
@@ -393,43 +395,59 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 		}*/
 		
 		SinglyLinkedList <Integer> ll =new SinglyLinkedList <Integer >();
-		ll.addFirst(0);
-		ll.addFirst(1);
-		ll.addFirst(2);
-		ll.addFirst(3);
-		ll.addFirst(4);
-		ll.addFirst(5);
-		System.out.println(ll);
+        Integer[] arr = {24, 13, 5, 31, 66, 99, 27, 52, 79, 91};
+        
+        for ( Integer i : arr )
+        {
+            ll.addFirst(i);
+        }
+        
+        System.out.println("Testing addFirst method. Expected: [91, 79, 52, 27, 99, 66, 31, 5, 13, 24]. Actual: " + ll);
+        
+        System.out.println("Adding element 2 at position 3.");
 		ll.add(3, 2);
-		System.out.println(ll);
+		System.out.println("2 should now be between 52 and 27. Actual: " + ll);
 		
 		ll.removeFirst();
+		System.out.println("Removing first element.");
+		System.out.println("Expected: [79, 52, 2, 27, 99, 66, 31, 5, 13, 24]. Actual: " + ll);
 		ll.removeLast();
-		System.out.println(ll);
+		System.out.println("Removing last element.");
+		System.out.println("Expected: [79, 52, 2, 27, 99, 66, 31, 5, 13]. Actual: " + ll);
+		
+		ll.remove(4);
+		System.out.println("Removing fourth element.");
+		System.out.println("Expected: [79, 52, 2, 27, 66, 31, 5, 13]. Actual: " + ll);
 		
 		ll.remove(2);
-		System.out.println(ll);
-		
-		ll.removeFirst();
-		System.out.println(ll);
+		System.out.println("Removing second element.");
+		System.out.println("Expected: [79, 52, 27, 66, 31, 5, 13]. Actual: " + ll);
 		
 		ll.removeLast();
-		System.out.println(ll);
+		System.out.println("Removing last element.");
+		System.out.println("Expected: [79, 52, 27, 66, 31, 5]. Actual: " + ll);
 		
+		System.out.println("Adding 9999, 8888, 7777 to start of list.");
 		ll.addFirst(9999);
 		ll.addFirst(8888);
 		ll.addFirst(7777);
 		
-		System.out.println(ll);
+		System.out.println("Expected: [7777, 8888, 9999, 79, 52, 27, 66, 31, 5]. Actual: " + ll);
 		
+		System.out.println("Get element at index 0. Expected: 7777. Actual: " + ll.get(0));
+		System.out.println("Get element at index 1. Expected: 8888. Actual: " + ll.get(1));
+		System.out.println("Get element at index 2. Expected: 9999. Actual: " + ll.get(2));
+		System.out.println("Get element at index 3. Expected: 79. Actual: " + ll.get(3));
+		System.out.println("Expected size: 9. Actual: " + ll.size());
+		
+		System.out.println("Iterate through list, printing each value:");
+		for (Integer e : ll) {
+			System.out.println("value: " + e);
+		}
+		
+		System.out.println("Reversing list.");
 		ll.reverse();
-		System.out.println("Reversed: " + ll);
-		System.out.println(ll.get(0));
-		System.out.println(ll.get(1));
-		System.out.println(ll.get(2));
-		System.out.println(ll.get(3));
-		System.out.println(ll);
-		System.out.println(ll.size());
+		System.out.println("Expected: [5, 31, 66, 27, 52, 79, 9999, 8888, 7777]. Actual: " + ll);
 		
 		System.out.println("Print in reverse: ");
 		ll.reverseRecursive(ll.head);

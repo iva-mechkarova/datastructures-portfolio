@@ -23,7 +23,8 @@ public class LinkedCircularQueue<E> implements Queue<E> {
     	{
     		cq.enqueue(i);
     	}
-    	System.out.println(cq + " size: " + cq.size());
+    	System.out.println("Expected elements: ints 0-19 inclusive. Actual: " + cq);
+    	System.out.println("Expected size: 20. Actual size: " + cq.size());
     	
     	for(int i=0; i<5; i++)
     	{
@@ -31,8 +32,9 @@ public class LinkedCircularQueue<E> implements Queue<E> {
     	}
     	
     	System.out.println("After dequeuing 5 elements:");
-    	System.out.println(cq + " size: " + cq.size());
-    	System.out.println("First: " + cq.first());
+    	System.out.println(cq);
+    	System.out.println("Expected size: 15. Actual size: " + cq.size());
+    	System.out.println("First element should now be 5. Actual first: " + cq.first());
     	System.out.println("is empty: " + cq.isEmpty());
     	
     	while(!cq.isEmpty())
@@ -40,9 +42,8 @@ public class LinkedCircularQueue<E> implements Queue<E> {
     		cq.dequeue();
     	}
     	
-    	System.out.println(cq);
+    	System.out.println("After while loop to remove all elements, queue should now be empty. Actual queue: " + cq);
     	System.out.println("is empty: " + cq.isEmpty());
-
 	}
 
 	/**Constructor for LinkedCircularQueue. Relies on initially empty list*/
@@ -91,8 +92,9 @@ public class LinkedCircularQueue<E> implements Queue<E> {
 	 * */
 	@Override
 	public E dequeue() {
-		list.advance();
-		return list.remove((list.getCursor()+1)%size()); //Modular arithmetic as it is circular
+		int currCursor = list.getCursor();
+		list.decrementCursor();
+		return list.remove((currCursor+1)%size()); //Modular arithmetic as it is circular
 	}
 	
 	/**toString method for LinkedCircularQueue

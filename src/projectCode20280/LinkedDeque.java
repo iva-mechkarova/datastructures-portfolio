@@ -13,13 +13,15 @@ public class LinkedDeque<E> implements Deque<E> {
 	 * */
 	public static void main(String[] args) {
 	    LinkedDeque<Integer> dq = new LinkedDeque<Integer>();
-	    System.out.println("LinkedCircularQueue");
+	    System.out.println("LinkedDeque");
 	    
+	    System.out.println("Adding elements to start of deque.");
     	for(int i=0; i<20; i++)
     	{
     		dq.addFirst(i);
     	}
-    	System.out.println(dq + " size: " + dq.size());
+    	System.out.println("Expected elements: ints 19-0 inclusive. Actual: " + dq);
+    	System.out.println("Expected size: 20. Actual size: " + dq.size());
     	
     	for(int i=0; i<5; i++)
     	{
@@ -27,23 +29,26 @@ public class LinkedDeque<E> implements Deque<E> {
     	}
     	
     	System.out.println("After dequeuing 5 elements:");
-    	System.out.println(dq + " size: " + dq.size());
-    	System.out.println("First: " + dq.first());
-    	System.out.println("Last: " + dq.last());
+    	System.out.println(dq);
+    	System.out.println("Expected size: 15. Actual size: " + dq.size());
+    	System.out.println("First element should now be 14. Actual first: " + dq.first());
+    	System.out.println("Last element should now be 0. Actual first: " + dq.last());
     	System.out.println("is empty: " + dq.isEmpty());
     	
+    	System.out.println("Adding 5 elements to end of deque.");
     	for(int i=20; i<25; i++)
     	{
     		dq.addLast(i);
     	}
-    	System.out.println(dq + " size: " + dq.size());
+    	System.out.println("Expected elements: old stack with 20-24 inclusive at the end. Actual: " + dq);
+    	System.out.println("Expected size: 20. Actual size: " + dq.size());
     	
     	while(!dq.isEmpty())
     	{
     		dq.removeLast();
     	}
     	
-    	System.out.println(dq);
+    	System.out.println("After while loop to remove all elements, deque should now be empty. Actual stack: " + dq);
     	System.out.println("is empty: " + dq.isEmpty());
 
 	}

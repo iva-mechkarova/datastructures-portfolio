@@ -9,32 +9,34 @@ public class LinkedQueue<E> implements Queue<E> {
 	 * Testing all methods of LinkedQueue
 	 * */
 	public static void main(String[] args) {
-	    LinkedQueue<Integer> A = new LinkedQueue<Integer>();
+	    LinkedQueue<Integer> lq = new LinkedQueue<Integer>();
 	    System.out.println("LinkedQueue");
 	    
     	for(int i=0; i<20; i++)
     	{
-    		A.enqueue(i);
+    		lq.enqueue(i);
     	}
-    	System.out.println(A + " size: " + A.size());
+    	System.out.println("Expected elements: ints 0-19 inclusive. Actual: " + lq);
+    	System.out.println("Expected size: 20. Actual size: " + lq.size());
     	
     	for(int i=0; i<5; i++)
     	{
-    		A.dequeue();
+    		lq.dequeue();
     	}
     	
     	System.out.println("After dequeuing 5 elements:");
-    	System.out.println(A + " size: " + A.size());
-    	System.out.println("First: " + A.first());
-    	System.out.println("is empty: " + A.isEmpty());
+    	System.out.println(lq);
+    	System.out.println("Expected size: 15. Actual size: " + lq.size());
+    	System.out.println("First element should now be 5. Actual first: " + lq.first());
+    	System.out.println("is empty: " + lq.isEmpty());
     	
-    	while(!A.isEmpty())
+    	while(!lq.isEmpty())
     	{
-    		A.dequeue();
+    		lq.dequeue();
     	}
     	
-    	System.out.println(A);
-    	System.out.println("is empty: " + A.isEmpty());
+    	System.out.println("After while loop to remove all elements, queue should now be empty. Actual queue: " + lq);
+    	System.out.println("is empty: " + lq.isEmpty());
 
 	}
 

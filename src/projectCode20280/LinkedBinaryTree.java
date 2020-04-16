@@ -37,8 +37,7 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
 		  StringBuilder sb = new StringBuilder();
 		  sb.append(element);
 		  return sb.toString();
-	  }
-	  
+	  }  
   } 
 
   /** Factory function to create a new node storing element e. */
@@ -404,9 +403,8 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
   }
   
   public static void main(String [] args) {
-	  
-	  
 	  LinkedBinaryTree<Integer> bt = new LinkedBinaryTree<Integer>();
+	  BinaryTreePrinter<Integer> btp = new BinaryTreePrinter<>(bt);
  
 	  /*Direct Construction of tree
 	  Position<Integer> root = bt.addRoot(12);
@@ -431,20 +429,15 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
 	  System.out.println("bt depth: " + bt.depth(p5));*/
 	  
 	  //Level Order Construction of tree
-	  Integer[] arr = {12, 25, 31, 58, 36, 42, 90, 62, 75};
+	  Integer[] arr = {12, 25, 31, 58, 36, 42, 90, 62, 75, 13, 24, 77};
 	  bt.createLevelOrder(arr);
 	  
-	  System.out.println("bt: " + bt.size() + " " + bt);  
+	  System.out.println("Expected inorder: [62, 58, 75, 25, 13, 36, 24, 12, 77, 42, 31, 90]. Actual: " + bt.inorder());  
+	  System.out.println(btp.print());
+	  System.out.println("Expected preorder: [12, 25, 58, 62, 75, 36, 13, 24, 31, 42, 77, 90]. Actual: " + bt.preorder());
 	  
-	  System.out.println("bt inorder: " + bt.size() + " " + bt.inorder());
-	  System.out.println("bt preorder: " + bt.size() + " " + bt.preorder());
-	  
-	  System.out.println("bt height: " + bt.height(bt.root()));
-	  System.out.println("bt depth: " + bt.depth(bt.root()));
-	  
-	  System.out.println("bt: " + bt.size() + " " + bt); 
-	  
-	  bt.insert(32);
+	  System.out.println("Expected height: 3. Actual height: " + bt.height(bt.root()));
+	  System.out.println("Expected depth of right child of root: 0. Actual depth: " + bt.depth(bt.root()));
 	  
 	  System.out.println("bt: " + bt.size() + " " + bt); 
   }

@@ -40,6 +40,12 @@ public class CircularlyLinkedList<E> implements List<E> {
 		{
 			this.next = next;
 		}
+		
+		@Override
+		public String toString()
+		{
+			return "" + element;
+		}
 	}
 	
 	/**Inner class which controls how it traverses the internal elements of the singly linked list*/
@@ -93,6 +99,16 @@ public class CircularlyLinkedList<E> implements List<E> {
 		{
 			cursor++;
 		}
+	}
+	
+	/**Method used for LinkedCircularQueue to decrement cursor*/
+	public void decrementCursor()
+	{
+		if(size()>1)
+		{
+			cursor--;
+		}
+		
 	}
 	
 	public int getCursor()
@@ -170,6 +186,7 @@ public class CircularlyLinkedList<E> implements List<E> {
 		else
 		{		
 			Node<E> cur = tail.next;
+			Node<E> prev = tail;
 			int counter = 0;
 			
 			/*Iterate through list until the index i is reached.
@@ -177,12 +194,13 @@ public class CircularlyLinkedList<E> implements List<E> {
 			 * When counter reaches i then cur will be at the right element.*/
 			while(counter != i)
 			{
+				prev = cur;
 				cur = cur.next;
 				counter++;		
 			}
 			
 			//Set cur as the new node and have it point to cur in order to keep the old cur in the list
-			cur = new Node<E>(e, cur); 
+			prev.next = new Node<E>(e, prev.next); 
 			size++; 
 			
 		}
@@ -379,48 +397,62 @@ public class CircularlyLinkedList<E> implements List<E> {
 	
 	public static void main(String[] args) {
 		CircularlyLinkedList<Integer> ll = new CircularlyLinkedList<Integer>();
-		for(int i = 10; i < 20; ++i) {
-			ll.addLast(i);
+		Integer[] arr = { 24, 13, 5, 31, 66, 99, 27, 52, 79, 91 };
+
+		for (Integer i : arr) {
+			ll.addFirst(i);
 		}
-		System.out.println(ll);
-		
-		ll.addFirst(10);
-		System.out.println(ll);
 
+		System.out.println("Testing addFirst method. Expected: [91, 79, 52, 27, 99, 66, 31, 5, 13, 24]. Actual: " + ll);
+		
+		System.out.println("Expected size: 8. Actual: " + ll.size());
+		
 		ll.removeFirst();
-		System.out.println("Remove first " + ll);
-
-		ll.removeLast();
-		System.out.println("Remove last " + ll);
-		System.out.println("tail: " + ll.tail.getElement());
+		System.out.println("Removing first element.");
+		System.out.println("Expected: [79, 52, 27, 99, 66, 31, 5, 13, 24]. Actual: " + ll);
 		
 		ll.removeLast();
-		System.out.println(ll);
-		System.out.println(ll.removeLast());
+		System.out.println("Removing last element.");
+		System.out.println("Expected: [79, 52, 27, 99, 66, 31, 5, 13]. Actual: " + ll);
 		
-		System.out.println("Remove element @ index 2: " + ll.remove(2));
-		System.out.println(ll);
+		System.out.println("Expected size: 8. Actual: " + ll.size());
 		
-		ll.add(4, 3);
-		System.out.println(ll);
+		ll.remove(4);
+		System.out.println("Removing fourth element.");
+		System.out.println("Expected: [79, 52, 27, 66, 31, 5, 13]. Actual: " + ll);
+		
+		System.out.println("Expected size: 7. Actual: " + ll.size());
+		
+		ll.remove(2);
+		System.out.println("Removing second element.");
+		System.out.println("Expected: [79, 52, 66, 31, 5, 13]. Actual: " + ll);
+		
+		System.out.println("Expected size: 6. Actual: " + ll.size());
+		
+		System.out.println("Adding 9999, 8888, 7777 to start of list.");
+		ll.addFirst(9999);
+		ll.addFirst(8888);
+		ll.addFirst(7777);
 
-		ll.removeFirst();
-		ll.rotate();
-		System.out.println(ll);
+		System.out.println("Expected: [7777, 8888, 9999, 79, 52, 66, 31, 5, 13]. Actual: " + ll);
+		
+		System.out.println("Expected size: 9. Actual: " + ll.size());
+		
+		System.out.println("Adding element 2 at position 3.");
+		ll.add(3, 2);
+		System.out.println("2 should now be between 9999 and 79. Actual: " + ll);
 
-		ll.removeLast();
-		ll.rotate();
-		System.out.println(ll);
 
+		System.out.println("Get element at index 0. Expected: 7777. Actual: " + ll.get(0));
+		System.out.println("Get element at index 1. Expected: 8888. Actual: " + ll.get(1));
+		System.out.println("Get element at index 2. Expected: 9999. Actual: " + ll.get(2));
+		System.out.println("Get element at index 3. Expected: 2. Actual: " + ll.get(3));
+		System.out.println("Expected size: 10. Actual: " + ll.size());
+
+		System.out.println("Iterate through list, printing each value:");
 		for (Integer e : ll) {
 			System.out.println("value: " + e);
 		}
-		
-		System.out.println("size: " + ll.size());
-		System.out.println(ll.get(0));
-		System.out.println(ll.get(1));
-		System.out.println(ll.get(3));
-		System.out.println(ll.get(ll.size-1));
-
 	}
+		
 }

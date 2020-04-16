@@ -12,32 +12,40 @@ public class BoundedStack<E> implements Stack<E> {
 	 * Testing all methods of BoundedStack
 	 * */
 	public static void main(String[] args) {
-	    BoundedStack<Integer> A = new BoundedStack<Integer>(15);
+	    BoundedStack<Integer> bs = new BoundedStack<Integer>(15);
 	    
-    	for(int i=0; i<20; i++)
+    	for(int i=0; i<15; i++)
     	{
-    		A.push(i);
+    		bs.push(i);
     	}
-    	System.out.println(A + " size: " + A.size());
+    	System.out.println("Expected elements: ints 0-15 inclusive. Actual: " + bs);
+    	System.out.println("Expected size: 15. Actual size: " + bs.size());
     	
     	for(int i=0; i<5; i++)
     	{
-    		A.pop();
+    		bs.pop();
     	}
     	
     	System.out.println("After popping 5 elements:");
-    	System.out.println(A + " size: " + A.size());
-    	System.out.println("Top: " + A.top());
-    	System.out.println("is empty: " + A.isEmpty());
+    	System.out.println(bs);
+    	System.out.println("Expected size: 10. Actual size: " + bs.size());
+    	System.out.println("Top element should now be 9. Actual first: " + bs.top());
+    	System.out.println("is empty: " + bs.isEmpty());
     	
-    	while(!A.isEmpty())
+    	while(!bs.isEmpty())
     	{
-    		A.pop();
+    		bs.pop();
     	}
     	
-    	System.out.println(A);
-    	System.out.println("is empty: " + A.isEmpty());
-
+    	System.out.println("After while loop to remove all elements, stack should now be empty. Actual queue: " + bs);
+    	System.out.println("is empty: " + bs.isEmpty());
+    	
+    	System.out.println("Attempting to push 16 elements to stack, expected to throw exception.");
+    	for(int i=0; i<16; i++)
+    	{
+    		bs.push(i);
+    	}
+    	
 	}
 	
 	/**Constructor to construct stack with default capacity*/

@@ -10,32 +10,34 @@ public class ArrayQueue<E> implements Queue<E> {
 	private int size = 0; //Size of queue
 	
 	public static void main(String[] args) {
-	    ArrayQueue<Integer> A = new ArrayQueue<Integer>();
+	    ArrayQueue<Integer> aq = new ArrayQueue<Integer>();
 	    System.out.println("ArrayQueue");
 	    
     	for(int i=0; i<20; i++)
     	{
-    		A.enqueue(i);
+    		aq.enqueue(i);
     	}
-    	System.out.println(A + " size: " + A.size());
+    	System.out.println("Expected elements: ints 0-19 inclusive. Actual: " + aq);
+    	System.out.println("Expected size: 20. Actual size: " + aq.size());
     	
     	for(int i=0; i<5; i++)
     	{
-    		A.dequeue();
+    		aq.dequeue();
     	}
     	
     	System.out.println("After dequeuing 5 elements:");
-    	System.out.println(A + " size: " + A.size());
-    	System.out.println("First: " + A.first());
-    	System.out.println("is empty: " + A.isEmpty());
+    	System.out.println(aq);
+    	System.out.println("Expected size: 15. Actual size: " + aq.size());
+    	System.out.println("First element should now be 5. Actual first: " + aq.first());
+    	System.out.println("is empty: " + aq.isEmpty());
     	
-    	while(!A.isEmpty())
+    	while(!aq.isEmpty())
     	{
-    		A.dequeue();
+    		aq.dequeue();
     	}
     	
-    	System.out.println(A);
-    	System.out.println("is empty: " + A.isEmpty());
+    	System.out.println("After while loop to remove all elements, queue should now be empty. Actual queue: " + aq);
+    	System.out.println("is empty: " + aq.isEmpty());
 
 	}
 	

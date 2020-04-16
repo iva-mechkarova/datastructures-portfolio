@@ -10,32 +10,34 @@ public class ArrayStack<E> implements Stack<E> {
 	 * Testing all methods of ArrayStack
 	 * */
 	public static void main(String[] args) {
-	    ArrayStack<Integer> A = new ArrayStack<Integer>();
+	    ArrayStack<Integer> as = new ArrayStack<Integer>();
 	    System.out.println("ArrayStack");
 	    
     	for(int i=0; i<20; i++)
     	{
-    		A.push(i);
+    		as.push(i);
     	}
-    	System.out.println(A + " size: " + A.size());
+    	System.out.println("Expected elements: ints 19-0 inclusive. Actual: " + as);
+    	System.out.println("Expected size: 20. Actual size: " + as.size());
     	
     	for(int i=0; i<5; i++)
     	{
-    		A.pop();
+    		as.pop();
     	}
     	
     	System.out.println("After popping 5 elements:");
-    	System.out.println(A + " size: " + A.size());
-    	System.out.println("Top: " + A.top());
-    	System.out.println("is empty: " + A.isEmpty());
+    	System.out.println(as);
+    	System.out.println("Expected size: 15. Actual size: " + as.size());
+    	System.out.println("Top element should now be 14. Actual first: " + as.top());
+    	System.out.println("is empty: " + as.isEmpty());
     	
-    	while(!A.isEmpty())
+    	while(!as.isEmpty())
     	{
-    		A.pop();
+    		as.pop();
     	}
     	
-    	System.out.println(A);
-    	System.out.println("is empty: " + A.isEmpty());
+    	System.out.println("After while loop to remove all elements, stack should now be empty. Actual stack: " + as);
+    	System.out.println("is empty: " + as.isEmpty());
 
 	}
 	
