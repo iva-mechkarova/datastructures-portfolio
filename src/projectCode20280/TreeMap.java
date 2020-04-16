@@ -21,6 +21,18 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 		super(); // the AbstractSortedMap constructor
 		tree.addRoot(null); // create a sentinel leaf as root
 	}
+	
+	  /**Comparator for generic elements*/
+	  private final DefaultComparator<K> comparator = new DefaultComparator<K>(); 
+	  
+	  /**Method to compare generic elements
+	   * @param first element, second element
+	   * @return 1 if first > second, -1 if first < second, 0 if equal
+	   * */
+	  protected int compareTo(K first, K second)
+	  {
+		  return comparator.compare(first, second);
+	  }
 
 	/**
 	 * Returns the number of entries in the map.
@@ -256,8 +268,28 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 	 */
 	@Override
 	public Entry<K, V> ceilingEntry(K key) throws IllegalArgumentException {
-		// TODO
-		return null;
+		Entry<K,V> ceiling = treeMax(root()).getElement();
+		
+		if(isEmpty())
+			return null;
+		
+		for(Position<Entry<K,V>> pos : tree.positions())
+		{
+			if(isInternal(pos) && compare(pos.getElement().getKey(), key)==0)
+			{
+				ceiling = pos.getElement();
+				break;
+			}
+			else if(isInternal(pos)&&compare(pos.getElement().getKey(), key)>0&&compare(pos.getElement().getKey(), ceiling)<0)
+			{
+				ceiling=pos.getElement();
+			}
+		}
+		
+		if(compare(ceiling,key)<0)
+			return null;
+		
+		return ceiling;
 	}
 
 	/**
@@ -270,8 +302,28 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 	 */
 	@Override
 	public Entry<K, V> floorEntry(K key) throws IllegalArgumentException {
-		// TODO
-		return null;
+		Entry<K,V> floor = treeMin(root()).getElement();
+		
+		if(isEmpty())
+			return null;
+		
+		for(Position<Entry<K,V>> pos : tree.positions())
+		{
+			if(isInternal(pos) && compare(pos.getElement().getKey(), key)==0)
+			{
+				floor = pos.getElement();
+				break;
+			}
+			else if(isInternal(pos)&&compare(pos.getElement().getKey(), key)<0&&compare(pos.getElement().getKey(), floor)>0)
+			{
+				floor=pos.getElement();
+			}
+		}
+		
+		if(compare(floor,key)>0)
+			return null;
+		
+		return floor;
 	}
 
 	/**
@@ -284,8 +336,23 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 	 */
 	@Override
 	public Entry<K, V> lowerEntry(K key) throws IllegalArgumentException {
-		// TODO
-		return null;
+		Entry<K,V> lowerEntry = treeMin(root()).getElement();
+		
+		if(isEmpty())
+			return null;
+		
+		for(Position<Entry<K,V>> pos : tree.positions())
+		{
+			if(isInternal(pos)&&compare(pos.getElement().getKey(), key)<0&&compare(pos.getElement().getKey(), lowerEntry)>0)
+			{
+				lowerEntry=pos.getElement();
+			}
+		}
+		
+		if(compare(lowerEntry,key)>=0)
+			return null;
+		
+		return lowerEntry;
 	}
 
 	/**
@@ -298,8 +365,23 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 	 */
 	@Override
 	public Entry<K, V> higherEntry(K key) throws IllegalArgumentException {
-		// TODO
-		return null;
+		Entry<K,V> higherEntry = treeMax(root()).getElement();
+		
+		if(isEmpty())
+			return null;
+		
+		for(Position<Entry<K,V>> pos : tree.positions())
+		{
+			if(isInternal(pos)&&compare(pos.getElement().getKey(), key)>0&&compare(pos.getElement().getKey(), higherEntry)<0)
+			{
+				higherEntry=pos.getElement();
+			}
+		}
+		
+		if(compare(higherEntry,key)<=0)
+			return null;
+		
+		return higherEntry;
 	}
 
 	// Support for iteration
@@ -334,8 +416,17 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 	 */
 	@Override
 	public Iterable<Entry<K, V>> subMap(K fromKey, K toKey) throws IllegalArgumentException {
-		// TODO
-		return null;
+		ArrayList<Entry<K,V>> buffer = new ArrayList<>(size());
+		
+		for(Position<Entry<K,V>> p : tree.inorder())
+		{
+			if(isInternal(p) && compare(p.getElement().getKey(), fromKey)>=0 && compare(p.getElement().getKey(), toKey)<=0)
+			{
+				buffer.add(p.getElement());
+			}		
+		}
+		
+		return buffer;
 	}
 
 	// remainder of class is for debug purposes only
@@ -389,7 +480,7 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 		
         TreeMap<Integer, Integer> treeMap = new TreeMap<>();
         BinaryTreePrinter<Entry<Integer, Integer>> btp1 = new BinaryTreePrinter<>( treeMap.tree );
-        Integer[] arr = {44, 17, 88, 8, 32, 65, 97, 28, 54, 82, 93, 21, 29, 76, 80};
+        Integer[] arr = {24, 13, 5, 31, 66, 99, 27, 52, 79, 91, 23, 28, 74, 82, 63};
         for ( Integer i : arr )
         {
             treeMap.put( i, i );
@@ -398,33 +489,33 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
         System.out.println( "Map entries: " + treeMap );
         System.out.println( btp1.print() );
 
-        System.out.println( "The first entry of the map should be <8, 8>. Actual: <" + treeMap.firstEntry().getKey() + ", " + treeMap.firstEntry().getValue() + ">." );
-        System.out.println( "The last entry of the map should be <97, 97>. Actual: <" + treeMap.lastEntry().getKey() + ", " + treeMap.lastEntry().getValue() + ">." );
+        System.out.println( "The first entry of the map should be <5, 5>. Actual: <" + treeMap.firstEntry().getKey() + ", " + treeMap.firstEntry().getValue() + ">." );
+        System.out.println( "The last entry of the map should be <99, 99>. Actual: <" + treeMap.lastEntry().getKey() + ", " + treeMap.lastEntry().getValue() + ">." );
 
         System.out.println();
-        System.out.println( "Attempting to remove element 8 from the tree map." );
-        treeMap.remove( 8 );
+        System.out.println( "Attempting to remove element 5 from the tree map." );
+        treeMap.remove( 5 );
         System.out.println( "Size should now be 14. Actual: " + treeMap.size() );
-        System.out.println( "First entry should now be <17, 17>. Actual: <" + treeMap.firstEntry().getKey() + ", " + treeMap.firstEntry().getValue() + ">." );
+        System.out.println( "First entry should now be <13, 13>. Actual: <" + treeMap.firstEntry().getKey() + ", " + treeMap.firstEntry().getValue() + ">." );
         System.out.println( "Map entries: " + treeMap );
         System.out.println( btp1.print() );
 
         System.out.println();
-        System.out.println( "Attempting to remove <21, 21>, <88, 88>, and <97, 97> from the map." );
-        treeMap.remove( 21 );
-        treeMap.remove( 88 );
-        treeMap.remove( 97 );
+        System.out.println( "Attempting to remove <27, 27>, <99, 99>, and <66, 66> from the map." );
+        treeMap.remove( 27 );
+        treeMap.remove( 99 );
+        treeMap.remove( 66 );
         System.out.println( "Size should now be 11. Actual: " + treeMap.size() );
-        System.out.println( "Last entry should now be <93, 93>. Actual: <" + treeMap.lastEntry().getKey() + ", " + treeMap.lastEntry().getValue() + ">." );
+        System.out.println( "Last entry should now be <91, 91>. Actual: <" + treeMap.lastEntry().getKey() + ", " + treeMap.lastEntry().getValue() + ">." );
         System.out.println( "Map entries: " + treeMap );
-        System.out.println( "82 should now be the right child of 44, and 76 should be the right child of 65." );
-        System.out.println( "93 should be the right child of 82." );
+        System.out.println( "63 should now be the right child of 31, and 52 should be the left child of 63." );
+        System.out.println( "74 should be the left child of 79." );
         System.out.println( btp1.print() );
 
         System.out.println( "Attempting to put entry <37, 37> in the map." );
         treeMap.put( 37, 37 );
         System.out.println( "Size should now be 12. Actual: " + treeMap.size() );
-        System.out.println( "37 should now be the right child of 32." );
+        System.out.println( "37 should now be the left child of 52." );
         System.out.println( btp1.print() );
 
         System.out.println( "Putting <15, 15>, <22, 22>, and <70, 70> in the map." );
@@ -432,38 +523,38 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
         treeMap.put( 22, 22 );
         treeMap.put( 70, 70 );
         System.out.println( "Size should now be 15. Actual: " + treeMap.size() );
-        System.out.println( "15 should be the left child of 17." );
-        System.out.println( "22 should be the left child of 28." );
-        System.out.println( "70 should be the left child of 76" );
+        System.out.println( "15 should be the left child of 23." );
+        System.out.println( "22 should be the right child of 15." );
+        System.out.println( "70 should be the left child of 74." );
         System.out.println( btp1.print() );
 
-        System.out.println( "Attempting to change the value of entry <32, 32> to 33." );
-        treeMap.put( 32, 33 );
-        System.out.println( "Value of key 32 should now be 33. Actual: " + treeMap.get( 32 ) );
+        System.out.println( "Attempting to change the value of entry <37, 37> to 38." );
+        treeMap.put( 37, 38 );
+        System.out.println( "Value of key 37 should now be 38. Actual: " + treeMap.get( 37 ) );
         System.out.println( "Size should remain 15. Actual: " + treeMap.size() );
         System.out.println();
-        System.out.println("Attempting to change value of <44, 44> to 0.");
-        treeMap.put( 44, 0 );
-        System.out.println( "Value of key 44 should now be 0. Actual: " + treeMap.get( 44 ) );
+        System.out.println("Attempting to change value of <31, 31> to 0.");
+        treeMap.put( 31, 0 );
+        System.out.println( "Value of key 31 should now be 0. Actual: " + treeMap.get( 31 ) );
         System.out.println( "Size should remain 15. Actual: " + treeMap.size() );
         System.out.println("Map entries: " + treeMap);
         System.out.println(btp1.print());
 
-        /*System.out.println("The ceiling entry of 18 should be 22. Actual: " + treeMap.ceilingEntry( 18 ));
-        System.out.println("The ceiling entry of 93 should be 93. Actual: " + treeMap.ceilingEntry( 93 ));
-        System.out.println("The ceiling entry of 43 should be 44. Actual: " + treeMap.ceilingEntry( 43 ));
-        System.out.println("The floor entry of 18 should be 17. Actual: " + treeMap.floorEntry( 18 ));
-        System.out.println("The floor entry of 65 should be 65. Actual: " + treeMap.floorEntry( 65 ));
-        System.out.println("The floor entry of 45 should be 44. Actual: " + treeMap.floorEntry( 45 ));
+        System.out.println("The ceiling entry of 18 should be 22. Actual: " + treeMap.ceilingEntry( 18 ));
+        System.out.println("The ceiling entry of 93 should be null. Actual: " + treeMap.ceilingEntry( 93 ));
+        System.out.println("The ceiling entry of 44 should be 52. Actual: " + treeMap.ceilingEntry( 44 ));
+        System.out.println("The floor entry of 18 should be 15. Actual: " + treeMap.floorEntry( 18 ));
+        System.out.println("The floor entry of 65 should be 63. Actual: " + treeMap.floorEntry( 65 ));
+        System.out.println("The floor entry of 30 should be 28. Actual: " + treeMap.floorEntry( 30 ));
         System.out.println();
 
         System.out.println("The higher entry of 81 should be 82. Actual: " + treeMap.higherEntry( 81 ));
-        System.out.println("The higher entry of 93 should be null. Actual: " + treeMap.higherEntry( 93 ));
-        System.out.println("The higher entry of 32 should be 44. Actual: " + treeMap.higherEntry( 32 ));
+        System.out.println("The higher entry of 95 should be null. Actual: " + treeMap.higherEntry( 95 ));
+        System.out.println("The higher entry of 12 should be 13. Actual: " + treeMap.higherEntry( 12 ));
 
-        System.out.println("The lower entry of 15 should be null. Actual: " + treeMap.lowerEntry( 15 ));
-        System.out.println("The lower entry of 22 should be 17. Actual: " + treeMap.lowerEntry( 22 ));
-        System.out.println("The lower entry of 55 should be 54. Actual: " + treeMap.lowerEntry( 55 ));*/
+        System.out.println("The lower entry of 12 should be null. Actual: " + treeMap.lowerEntry( 12 ));
+        System.out.println("The lower entry of 22 should be 15. Actual: " + treeMap.lowerEntry( 22 ));
+        System.out.println("The lower entry of 94 should be 91. Actual: " + treeMap.lowerEntry( 94 ));
 		
 	}
 }
