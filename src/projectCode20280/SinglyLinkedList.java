@@ -343,7 +343,32 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
      * */
     public E first()
     {
+    	if(isEmpty())
+    	{
+    		return null;
+    	}
     	return head.getElement();
+    }
+    
+    /**
+     * Method to return the last element.
+     * */
+    public E last()
+    {
+    	if(isEmpty())
+    	{
+    		return null;
+    	}
+    	Node<E> curr = head;
+    	Node<E> last = null;
+    	
+    	while(curr!=null)
+    	{
+    		last = curr;
+    		curr = curr.next;
+    	}
+    	
+    	return last.getElement();
     }
     
     /**Method which removes the min element of a SinglyLinkedList - needed for Assignment 1 PQSort*/
@@ -433,6 +458,8 @@ public class SinglyLinkedList<E> implements List<E>, Iterable<E> {
 		ll.addFirst(7777);
 		
 		System.out.println("Expected: [7777, 8888, 9999, 79, 52, 27, 66, 31, 5]. Actual: " + ll);
+		System.out.println("Get first element. Expected: 7777. Actual: " + ll.first());
+		System.out.println("Get last element. Expected: 5. Actual: " + ll.last());
 		
 		System.out.println("Get element at index 0. Expected: 7777. Actual: " + ll.get(0));
 		System.out.println("Get element at index 1. Expected: 8888. Actual: " + ll.get(1));

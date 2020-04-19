@@ -175,6 +175,9 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 			return null;
 		
 		Position<Entry<K,V>> pos = treeSearch(root(), key);
+		if(isExternal(pos))
+			return null;
+		
 		return pos.getElement().getValue();
 	}
 
@@ -217,7 +220,7 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 	@Override
 	public V remove(K key) throws IllegalArgumentException {
 		Position<Entry<K,V>> p = treeSearch(root(), key);
-		
+
 		if(isExternal(p))
 		{
 			return null;
@@ -231,10 +234,10 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 				set(p, r.getElement());
 				p = r;
 			}
-			
+
 			Position<Entry<K,V>> leaf = isExternal(left(p)) ? left(p) : right(p);
-			remove(leaf);
-			remove(p);
+			tree.remove(leaf);
+			tree.remove(p);
 			return old;
 		}
 	}

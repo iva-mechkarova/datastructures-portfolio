@@ -320,7 +320,7 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
    * @throws IllegalArgumentException if p has two children.
    */
   public E remove(Position<E> p) throws IllegalArgumentException {
-	  Node<E> toRemove = validate(p);
+	  Node<E> toRemove = (Node<E>)validate(p);
 	  
 	  if(numChildren(p) == 2)
 	  {
@@ -398,7 +398,7 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
 		  sb.append(p.getElement());
 		  sb.append(", ");
 	  }
-	  sb.append("]");
+	  sb.replace(sb.lastIndexOf(","), sb.length(), "]");
 	  return sb.toString();
   }
   

@@ -204,6 +204,20 @@ public class HeapPriorityQueue<K,V> extends AbstractPriorityQueue<K,V> {
 		downheap(0);
 		return answer;
 	}
+	
+	@Override
+	public String toString()
+	{
+		StringBuilder sb = new StringBuilder("[");
+		for(Entry<K,V> e : heap)
+		{
+			sb.append(e.getKey() + ", ");
+		}
+		
+		sb.replace(sb.lastIndexOf(","), sb.length(), "]");
+		
+		return sb.toString();
+	}
 
 	/** Used for debugging purposes only */
 	private void sanityCheck() {
@@ -215,6 +229,15 @@ public class HeapPriorityQueue<K,V> extends AbstractPriorityQueue<K,V> {
 			if (right < heap.size() && compare(heap.get(right), heap.get(j)) < 0)
 				System.out.println("Invalid right child relationship");
 		}
+	}
+	
+	public static void main(String[] args)
+	{
+		HeapPriorityQueue<Integer, Integer> hpq = new HeapPriorityQueue<Integer, Integer>();
+		
+		hpq.insert(0, 0);
+		hpq.insert(1, 1);
+		System.out.println(hpq);
 	}
 }
 

@@ -102,7 +102,8 @@ class DoublyLinkedListTest {
 		
 		ArrayList<Integer> buf = new ArrayList<>();
 		for(Integer i : ll) {
-			buf.add(i);
+			if(i!=null)
+				buf.add(i);
 		}
 		assertEquals("[0, 1, 2, 3, 4]", buf.toString());
 	}
