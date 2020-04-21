@@ -5,6 +5,8 @@ import java.util.PriorityQueue;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+/**Assignment 1. Implementation of PQ Sort with unsorted linked list VS with heap using my custom
+ * SinglyLinkedList and HeapPriorityQueue.*/
 public class PQSort 
 {
 	public PQSort()

@@ -127,8 +127,15 @@ class AVLTreeMapTest {
 	}
 
 	@Test
-	void testEntrySet() {
-		fail("Not yet implemented");
+	void testEntrySet() {	
+		AVLTreeMap<Integer, String> map = new AVLTreeMap<>();
+		Integer[] arr = new Integer[] {35,26,15,24,33,4,12,1,23,21,2,5};
+
+		for(Integer i : arr) {
+			map.put(i, Integer.toString(i));
+		}
+		
+		assertEquals("[<1, 1>, <2, 2>, <4, 4>, <5, 5>, <12, 12>, <15, 15>, <21, 21>, <23, 23>, <24, 24>, <26, 26>, <33, 33>, <35, 35>]", map.entrySet().toString());
 	}
 
 	@Test
@@ -140,7 +147,7 @@ class AVLTreeMapTest {
 		for(Integer i : arr) {
 			map.put(i, Integer.toString(i));
 		}
-		assertEquals("", map.toString());
+		assertEquals("[null, <1, 1>, null, <2, 2>, null, <4, 4>, null, <5, 5>, null, <12, 12>, null, <15, 15>, null, <21, 21>, null, <23, 23>, null, <24, 24>, null, <26, 26>, null, <33, 33>, null, <35, 35>, null]", map.toString());
 	}
 
 	@Test
@@ -153,7 +160,6 @@ class AVLTreeMapTest {
 			map.put(i, Integer.toString(i));
 		}
 				
-		//assertEquals("[12, 15, 21, 23, 24, 26, 33]", map.subMap(12, 34).keySet().toString());	
 		assertEquals("[<12, 12>, <15, 15>, <21, 21>, <23, 23>, <24, 24>, <26, 26>, <33, 33>]", map.subMap(12, 34).toString());	
 	}
 

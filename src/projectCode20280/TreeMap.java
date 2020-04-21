@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 
 	// We reuse the LinkedBinaryTree class. A limitation here is that we only use the key.
-	protected LinkedBinaryTree<Entry<K, V>> tree = new LinkedBinaryTree<Entry<K,V>>();
+	protected BalanceableBinaryTree<K,V> tree = new BalanceableBinaryTree<K,V>();
 
 	/** Constructs an empty map using the natural ordering of keys. */
 	public TreeMap() {
@@ -174,11 +174,14 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 		if(isEmpty())
 			return null;
 		
+		checkKey(key); //Determines if key is valid
+		
 		Position<Entry<K,V>> pos = treeSearch(root(), key);
-		if(isExternal(pos))
+		rebalanceAccess(pos); //Needed for balanced tree subclasses
+		if(isExternal(pos)) //No match was found
 			return null;
 		
-		return pos.getElement().getValue();
+		return pos.getElement().getValue(); //Return the match that was found
 	}
 
 	/**
@@ -193,8 +196,10 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 	 */
 	@Override
 	public V put(K key, V value) throws IllegalArgumentException {
+		checkKey(key); //Determines if key is valid 
 		Entry<K,V> entry = new MapEntry<>(key, value);
 		Position<Entry<K,V>> p = treeSearch(root(), key);
+		rebalanceAccess(p); //Needed for balanced tree subclasses
 		
 		if(isExternal(p))
 		{
@@ -219,10 +224,12 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 	 */
 	@Override
 	public V remove(K key) throws IllegalArgumentException {
+		checkKey(key); //Determines if key is valid
 		Position<Entry<K,V>> p = treeSearch(root(), key);
 
 		if(isExternal(p))
 		{
+			rebalanceAccess(p); //Needed for balanced tree subclasses
 			return null;
 		}
 		else
@@ -236,8 +243,11 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 			}
 
 			Position<Entry<K,V>> leaf = isExternal(left(p)) ? left(p) : right(p);
+			Position<Entry<K,V>> sib = sibling(leaf); //Sib is promoted in p's place
 			tree.remove(leaf);
 			tree.remove(p);
+			rebalanceDelete(sib); //Needed for balanced tree subclasses
+			
 			return old;
 		}
 	}
@@ -311,6 +321,7 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 	 */
 	@Override
 	public Entry<K, V> floorEntry(K key) throws IllegalArgumentException {
+		checkKey(key); //Determines if key is valid
 		Entry<K,V> floor = treeMin(root()).getElement();
 		
 		if(isEmpty())
@@ -345,6 +356,7 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 	 */
 	@Override
 	public Entry<K, V> lowerEntry(K key) throws IllegalArgumentException {
+		checkKey(key); //Determines if key is valid
 		Entry<K,V> lowerEntry = treeMin(root()).getElement();
 		
 		if(isEmpty())
@@ -374,6 +386,7 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 	 */
 	@Override
 	public Entry<K, V> higherEntry(K key) throws IllegalArgumentException {
+		checkKey(key); //Determines if key is valid
 		Entry<K,V> higherEntry = treeMax(root()).getElement();
 		
 		if(isEmpty())
@@ -567,26 +580,34 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 		
 	}
 
-	/** Overrides the TreeMap rebalancing hook that is called after an insertion. */
+	/** 
+	 * Trivial declaration of rebalanceInsert to serve as hook for rebalancing when inserting. 
+	 * Sub-classes may override to implement a nontrivial action to balance tree. 
+	 * */
 	protected void rebalanceInsert(Position<Entry<K, V>> p) {
-		// TODO Auto-generated method stub
 		
 	}
 
-	/** Overrides the TreeMap rebalancing hook that is called after a deletion. */
+	/** 
+	 * Trivial declaration of rebalanceDelete to serve as hook for rebalancing when deleting. 
+	 * Sub-classes may override to implement a nontrivial action to balance tree. 
+	 * */
 	protected void rebalanceDelete(Position<Entry<K, V>> p) {
-		// TODO Auto-generated method stub
 		
 	}
 
-	/** Overrides the TreeMap rebalancing hook that is called after a node access. */
+	/** 
+	 * Trivial declaration of rebalanceAccess to serve as hook for rebalancing when accessing. 
+	 * Sub-classes may override to implement a nontrivial action to balance tree. 
+	 * */
 	protected void rebalanceAccess(Position<Entry<K, V>> p) {
-		// TODO Auto-generated method stub
-		
 	}
 	
+	/** 
+	 * Trivial declaration of rotate to serve as hook for SplayTree. 
+	 * Sub-classes may override to implement a nontrivial action to rotate tree. 
+	 * */
     protected void rotate(Position<Entry<K, V>> p) {
-        // TODO
     }
     
 }

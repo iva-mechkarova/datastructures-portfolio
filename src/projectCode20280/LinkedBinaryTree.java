@@ -406,7 +406,7 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
 	  LinkedBinaryTree<Integer> bt = new LinkedBinaryTree<Integer>();
 	  BinaryTreePrinter<Integer> btp = new BinaryTreePrinter<>(bt);
  
-	  /*Direct Construction of tree
+	  //Direct Construction of tree
 	  Position<Integer> root = bt.addRoot(12);
 	  Position<Integer> p1 = bt.addLeft(root, 25);
 	  Position<Integer> p2 = bt.addRight(root, 31);
@@ -420,16 +420,28 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
 	  Position<Integer> p4 = bt.addLeft(p3, 62);
 	  bt.addRight(p3, 75);
 	  
-	  System.out.println("bt inorder: " + bt.size() + " " + bt.inorder());
-	  System.out.println("bt preorder: " + bt.size() + " " + bt.preorder());
+	  System.out.println(btp.print());
+	  System.out.println("bt inorder. Expected: [62, 58, 75, 25, 36, 12, 42, 31, 90]. Actual: " + bt.inorder());
+	  System.out.println("Expected size: 9. Actual: " + bt.size());
+	  System.out.println("bt preorder. Expected: [12, 25, 58, 62, 75, 36, 31, 42, 90]. Actual: " + bt.preorder());
 	  
-	  System.out.println("bt height: " + bt.height(bt.root()));
-	  System.out.println("bt depth: " + bt.depth(bt.root()));
-	  System.out.println("bt depth: " + bt.depth(p4));
-	  System.out.println("bt depth: " + bt.depth(p5));*/
+	  System.out.println("Expected height: 3. Actual: " + bt.height(bt.root()));
+	  System.out.println("Expected depth of root: 0. Actual: " + bt.depth(bt.root()));
+	  System.out.println("Expected depth of p4: 3. Actual: " + bt.depth(p4));
+	  System.out.println("Expected depth of p5: 2. Actual: " + bt.depth(p5));
+	  bt.remove(p5);
+	  System.out.println("Removing element 42 (p5).");
+	  System.out.println("Expected size: 8. Actual: " + bt.size());
+	  System.out.println(btp.print());
+	  System.out.println("Setting element 25 (p1) to be 26.");
+	  bt.set(p1, 26);
+	  System.out.println(btp.print());
+	  System.out.println("Left child of 26 (p1) should be 58. Actual: " + bt.left(p1));
+	  System.out.println("Right child of 26 (p1) should be 36. Actual: " + bt.right(p1));
+	  System.out.println("Right child of 75 (p4) should be null. Actual: " + bt.right(p4));
 	  
 	  //Level Order Construction of tree
-	  Integer[] arr = {12, 25, 31, 58, 36, 42, 90, 62, 75, 13, 24, 77};
+	  /*Integer[] arr = {12, 25, 31, 58, 36, 42, 90, 62, 75, 13, 24, 77};
 	  bt.createLevelOrder(arr);
 	  
 	  System.out.println("Expected inorder: [62, 58, 75, 25, 13, 36, 24, 12, 77, 42, 31, 90]. Actual: " + bt.inorder());  
@@ -437,9 +449,9 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
 	  System.out.println("Expected preorder: [12, 25, 58, 62, 75, 36, 13, 24, 31, 42, 77, 90]. Actual: " + bt.preorder());
 	  
 	  System.out.println("Expected height: 3. Actual height: " + bt.height(bt.root()));
-	  System.out.println("Expected depth of right child of root: 0. Actual depth: " + bt.depth(bt.root()));
+	  System.out.println("Expected depth of root: 0. Actual depth: " + bt.depth(bt.root()));
 	  
-	  System.out.println("bt: " + bt.size() + " " + bt); 
+	  System.out.println("bt: " + bt.size() + " " + bt);*/
   }
 } 
 

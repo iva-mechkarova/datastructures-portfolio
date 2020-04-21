@@ -1,5 +1,6 @@
 package projectCode20280;
 
+/**Practical 2 Q6. Algorithm to check if the parentheses in a String are balanced.*/
 public class BracketChecker 
 {
 	/**

@@ -233,11 +233,19 @@ public class HeapPriorityQueue<K,V> extends AbstractPriorityQueue<K,V> {
 	
 	public static void main(String[] args)
 	{
-		HeapPriorityQueue<Integer, Integer> hpq = new HeapPriorityQueue<Integer, Integer>();
+		Integer[] arr = new Integer[] {35,26,15,24,33,4,12,1,23,21,2,5};
+		HeapPriorityQueue<Integer, Integer> hpq = new HeapPriorityQueue<>();
+
+		for(Integer i : arr) hpq.insert(i, i);
 		
-		hpq.insert(0, 0);
-		hpq.insert(1, 1);
 		System.out.println(hpq);
+		System.out.println("Expected size: 12. Actual: " + hpq.size());
+		
+		System.out.println("Removing min.");
+		hpq.removeMin();
+		System.out.println(hpq);
+		System.out.println("Expected size: 11. Actual: " + hpq.size());
+		System.out.println("Expected min key: 2. Actual: " + hpq.min().getKey());
 	}
 }
 

@@ -133,6 +133,7 @@ public class ChainHashMap<K, V> extends AbstractHashMap<K, V> {
 		
 		System.out.println("m: " + m + " size: " + m.size());
 		
+		System.out.println("Removing 11.");
 		m.remove(11);
 		
 		System.out.println("m: " + m + " size: " + m.size());
