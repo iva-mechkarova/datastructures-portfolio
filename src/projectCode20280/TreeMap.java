@@ -90,12 +90,11 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 	}
 
 	protected void set(Position<Entry<K, V>> p, Entry<K, V> e) {
-		// TODO
+		tree.set(p, e);
 	}
 
 	protected Entry<K, V> remove(Position<Entry<K, V>> p) {
-		// TODO
-		return null;
+		return tree.remove(p);
 	}
 
 	/**
@@ -199,6 +198,27 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 		checkKey(key); //Determines if key is valid 
 		Entry<K,V> entry = new MapEntry<>(key, value);
 		Position<Entry<K,V>> p = treeSearch(root(), key);
+		
+		if(isExternal(p))
+		{
+			expandExternal(p, entry);
+			rebalanceInsert(p); //Needed for balanced tree subclasses
+			return null;
+		}
+		else
+		{
+			V old = p.getElement().getValue();
+			set(p, entry);
+			rebalanceAccess(p); //Needed for balanced tree subclasses
+			return old;
+		}
+		
+		
+	}
+	/*public V put(K key, V value) throws IllegalArgumentException {
+		checkKey(key); //Determines if key is valid 
+		Entry<K,V> entry = new MapEntry<>(key, value);
+		Position<Entry<K,V>> p = treeSearch(root(), key);
 		rebalanceAccess(p); //Needed for balanced tree subclasses
 		
 		if(isExternal(p))
@@ -212,7 +232,7 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 			set(p, entry);
 			return old;
 		}
-	}
+	}*/
 
 	/**
 	 * Removes the entry with the specified key, if present, and returns its
@@ -244,8 +264,8 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 
 			Position<Entry<K,V>> leaf = isExternal(left(p)) ? left(p) : right(p);
 			Position<Entry<K,V>> sib = sibling(leaf); //Sib is promoted in p's place
-			tree.remove(leaf);
-			tree.remove(p);
+			remove(leaf);
+			remove(p);
 			rebalanceDelete(sib); //Needed for balanced tree subclasses
 			
 			return old;
@@ -415,13 +435,16 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 	@Override
 	public Iterable<Entry<K, V>> entrySet() {
 		ArrayList<Entry<K,V>> buffer = new ArrayList<>(size());
+		int i = 0;
 		
 		for(Position<Entry<K,V>> p : tree.inorder())
 		{
+			System.out.println(i);
 			if(isInternal(p))
 			{
 				buffer.add(p.getElement());
-			}		
+			}	
+			i++;
 		}
 		
 		return buffer;
@@ -584,8 +607,8 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 	 * Trivial declaration of rebalanceInsert to serve as hook for rebalancing when inserting. 
 	 * Sub-classes may override to implement a nontrivial action to balance tree. 
 	 * */
-	protected void rebalanceInsert(Position<Entry<K, V>> p) {
-		
+	protected void rebalanceInsert(Position<Entry<K, V>> p) {	
+	
 	}
 
 	/** 
@@ -601,6 +624,7 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 	 * Sub-classes may override to implement a nontrivial action to balance tree. 
 	 * */
 	protected void rebalanceAccess(Position<Entry<K, V>> p) {
+	
 	}
 	
 	/** 
@@ -608,6 +632,7 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 	 * Sub-classes may override to implement a nontrivial action to rotate tree. 
 	 * */
     protected void rotate(Position<Entry<K, V>> p) {
+    
     }
     
 }

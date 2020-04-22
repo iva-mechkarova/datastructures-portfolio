@@ -1,5 +1,7 @@
 package projectCode20280;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Comparator;
 
 /**
@@ -58,8 +60,8 @@ public class AVLTreeMap<K, V> extends TreeMap<K, V> {
 		//If children are equal height, return aligned child
 		if(p==left(parent(p)))
 			return left(p);
-		
-		return right(p);	
+		else
+			return right(p);
 	}
 
 	/**
@@ -68,7 +70,7 @@ public class AVLTreeMap<K, V> extends TreeMap<K, V> {
 	 * imbalance is found, continuing until balance is restored.
 	 */
 	protected void rebalance(Position<Entry<K, V>> p) {
-		int oldHeight = 0, newHeight = 0; //Initialise oldHeight and newHeight
+		int oldHeight, newHeight; //Initialise oldHeight and newHeight
 		do
 		{
 			oldHeight = height(p); //Not yet calculated if internal
@@ -122,17 +124,34 @@ public class AVLTreeMap<K, V> extends TreeMap<K, V> {
 	
 	
 	public static void main(String [] args) {
-		AVLTreeMap<Integer, Integer> avl = new AVLTreeMap<>();
+		/*AVLTreeMap<Integer, Integer> avl = new AVLTreeMap<>();
 		Integer[] arr = new Integer[] { 44, 17, 88, 8, 32, 65, 97, 28, 54, 82, 93, 21, 29, 76, 80 };
 		for (Integer i : arr) {
 			avl.put(i, i);
 		}
 
-		System.out.println("avl: " + avl);
+		System.out.println("avl: " + avl.entrySet().toString());
+		System.out.println("avl: " + avl.size());
 		
 		avl.remove(arr[0]);
 
-		System.out.println("avl: " + avl);
+		System.out.println("avl: " + avl.entrySet().toString());
+		System.out.println("avl: " + avl.size());
+		System.out.println("avl: " + avl.get(4));*/
+		
+		AVLTreeMap<Integer, String> map = new AVLTreeMap<>();
+		BinaryTreePrinter<Entry<Integer, String>> btp = new BinaryTreePrinter<>( (LinkedBinaryTree<Entry<Integer, String>>) map.tree);
+		//Integer[] arr = new Integer[] { 44, 17, 88, 8, 32, 65, 97, 28, 54, 82, 93, 21};
+		Integer[] arr = new Integer[] {35,26,15,24,33,4,12,1,23,21,2,5};
+
+		for(Integer i : arr) {
+			map.put(i, Integer.toString(i));
+		}
+		
+		System.out.println(map.entrySet().toString() + map.sanityCheck());
+		System.out.println("size: " + map.size());
+		System.out.println(btp.print());
+		
 	}
 }
 
