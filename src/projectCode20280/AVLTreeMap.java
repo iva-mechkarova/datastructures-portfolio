@@ -1,7 +1,5 @@
 package projectCode20280;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.util.Comparator;
 
 /**
@@ -9,10 +7,6 @@ import java.util.Comparator;
  */
 
 public class AVLTreeMap<K, V> extends TreeMap<K, V> {
-
-
-    protected BalanceableBinaryTree<K, V> tree = new BalanceableBinaryTree<>();
-
     
 	/** Constructs an empty map using the natural ordering of keys. */
 	public AVLTreeMap() {
@@ -124,33 +118,79 @@ public class AVLTreeMap<K, V> extends TreeMap<K, V> {
 	
 	
 	public static void main(String [] args) {
-		/*AVLTreeMap<Integer, Integer> avl = new AVLTreeMap<>();
-		Integer[] arr = new Integer[] { 44, 17, 88, 8, 32, 65, 97, 28, 54, 82, 93, 21, 29, 76, 80 };
-		for (Integer i : arr) {
-			avl.put(i, i);
-		}
+		AVLTreeMap<Integer, Integer> treeMap = new AVLTreeMap<>();
+        BinaryTreePrinter<Entry<Integer, Integer>> btp1 = new BinaryTreePrinter<>( treeMap.tree );
+        Integer[] arr = {24, 13, 5, 31, 66, 99, 27, 52, 79, 91, 23, 28, 74, 82, 63};
+        for ( Integer i : arr )
+        {
+            treeMap.put( i, i );
+        }
+        System.out.println( "Size should now be 15. Actual: " + treeMap.size() );
+        System.out.println( "Map entries: " + treeMap );
+        System.out.println( btp1.print() );
 
-		System.out.println("avl: " + avl.entrySet().toString());
-		System.out.println("avl: " + avl.size());
-		
-		avl.remove(arr[0]);
+        treeMap.sanityCheck();
 
-		System.out.println("avl: " + avl.entrySet().toString());
-		System.out.println("avl: " + avl.size());
-		System.out.println("avl: " + avl.get(4));*/
-		
-		AVLTreeMap<Integer, String> map = new AVLTreeMap<>();
-		BinaryTreePrinter<Entry<Integer, String>> btp = new BinaryTreePrinter<>( (LinkedBinaryTree<Entry<Integer, String>>) map.tree);
-		//Integer[] arr = new Integer[] { 44, 17, 88, 8, 32, 65, 97, 28, 54, 82, 93, 21};
-		Integer[] arr = new Integer[] {35,26,15,24,33,4,12,1,23,21,2,5};
+        System.out.println();
+        System.out.println( "Attempting to remove element 5 from the tree map." );
+        treeMap.remove( 5 );
+        System.out.println( "Size should now be 14. Actual: " + treeMap.size() );
+        treeMap.sanityCheck();
+        System.out.println( "Map entries: " + treeMap );
+        System.out.println( btp1.print() );
 
-		for(Integer i : arr) {
-			map.put(i, Integer.toString(i));
-		}
-		
-		System.out.println(map.entrySet().toString() + map.sanityCheck());
-		System.out.println("size: " + map.size());
-		System.out.println(btp.print());
+        System.out.println();
+        System.out.println( "Attempting to remove <27, 27>, <99, 99>, and <66, 66> from the map." );
+        treeMap.remove( 27 );
+        treeMap.remove( 99 );
+        treeMap.remove( 66 );
+        System.out.println( "Size should now be 11. Actual: " + treeMap.size() );
+        treeMap.sanityCheck();
+        System.out.println( "Map entries: " + treeMap );
+        System.out.println( btp1.print() );
+
+        System.out.println( "Attempting to put entry <37, 37> in the map." );
+        treeMap.put( 37, 37 );
+        System.out.println( "Size should now be 12. Actual: " + treeMap.size() );
+        treeMap.sanityCheck();
+        System.out.println( btp1.print() );
+
+        System.out.println( "Putting <15, 15>, <22, 22>, and <70, 70> in the map." );
+        treeMap.put( 15, 15 );
+        treeMap.put( 22, 22 );
+        treeMap.put( 70, 70 );
+        System.out.println( "Size should now be 15. Actual: " + treeMap.size() );
+        treeMap.sanityCheck();
+        System.out.println( btp1.print() );
+
+        System.out.println( "Attempting to change the value of entry <37, 37> to 38." );
+        treeMap.put( 37, 38 );
+        System.out.println( "Value of key 37 should now be 38. Actual: " + treeMap.get( 37 ) );
+        System.out.println( "Size should remain 15. Actual: " + treeMap.size() );
+        System.out.println();
+        System.out.println("Attempting to change value of <31, 31> to 0.");
+        treeMap.put( 31, 0 );
+        System.out.println( "Value of key 31 should now be 0. Actual: " + treeMap.get( 31 ) );
+        System.out.println( "Size should remain 15. Actual: " + treeMap.size() );
+        treeMap.sanityCheck();
+        System.out.println("Map entries: " + treeMap);
+        System.out.println(btp1.print());
+
+        System.out.println("The ceiling entry of 18 should be 22. Actual: " + treeMap.ceilingEntry( 18 ));
+        System.out.println("The ceiling entry of 93 should be null. Actual: " + treeMap.ceilingEntry( 93 ));
+        System.out.println("The ceiling entry of 44 should be 52. Actual: " + treeMap.ceilingEntry( 44 ));
+        System.out.println("The floor entry of 18 should be 15. Actual: " + treeMap.floorEntry( 18 ));
+        System.out.println("The floor entry of 65 should be 63. Actual: " + treeMap.floorEntry( 65 ));
+        System.out.println("The floor entry of 30 should be 28. Actual: " + treeMap.floorEntry( 30 ));
+        System.out.println();
+
+        System.out.println("The higher entry of 81 should be 82. Actual: " + treeMap.higherEntry( 81 ));
+        System.out.println("The higher entry of 95 should be null. Actual: " + treeMap.higherEntry( 95 ));
+        System.out.println("The higher entry of 12 should be 13. Actual: " + treeMap.higherEntry( 12 ));
+
+        System.out.println("The lower entry of 12 should be null. Actual: " + treeMap.lowerEntry( 12 ));
+        System.out.println("The lower entry of 22 should be 15. Actual: " + treeMap.lowerEntry( 22 ));
+        System.out.println("The lower entry of 94 should be 91. Actual: " + treeMap.lowerEntry( 94 ));
 		
 	}
 }

@@ -5,9 +5,6 @@ package projectCode20280;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.Random;
-import java.util.stream.Collectors;
 
 /**
  * An implementation of a priority queue using an array-based heap.
@@ -240,12 +237,14 @@ public class HeapPriorityQueue<K,V> extends AbstractPriorityQueue<K,V> {
 		
 		System.out.println(hpq);
 		System.out.println("Expected size: 12. Actual: " + hpq.size());
+		hpq.sanityCheck();
 		
 		System.out.println("Removing min.");
 		hpq.removeMin();
 		System.out.println(hpq);
 		System.out.println("Expected size: 11. Actual: " + hpq.size());
 		System.out.println("Expected min key: 2. Actual: " + hpq.min().getKey());
+		hpq.sanityCheck();
 	}
 }
 

@@ -381,18 +381,16 @@ public class CircularlyLinkedList<E> implements List<E> {
 	@Override
 	public String toString()
 	{
-		ListIterator i = new ListIterator();
-		String list = "[";
+		StringBuilder sb = new StringBuilder();
+		sb.append("[");
 		
-		while(i.hasNext())
+		for(E e : this)
 		{	
-			list = list + i.curr.element + ", ";	
-			i.next();
+			sb.append(e);	
+			sb.append(", ");
 		}
-		
-		list = list + "]";
-		
-		return list;
+		sb.replace(sb.lastIndexOf(","), sb.length(), "]");	
+		return sb.toString();
 	}
 	
 	public static void main(String[] args) {

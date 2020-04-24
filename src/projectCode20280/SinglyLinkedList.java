@@ -1,7 +1,6 @@
 package projectCode20280;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 
 /**This class implements the Singly Linked List ADT.
  * It implements it by implementing the List interface and creating each method that the ADT would have

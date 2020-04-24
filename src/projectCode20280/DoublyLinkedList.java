@@ -344,9 +344,7 @@ public class DoublyLinkedList<E> implements List<E> {
 	
 	public static void main(String[] args) {
 		DoublyLinkedList<Integer> ll = new DoublyLinkedList<Integer>();
-		for(int i = 0; i < 5; i++) ll.addLast(i);
-		System.out.println(ll.toString());
-		/*Integer[] arr = { 24, 13, 5, 31, 66, 99, 27, 52, 79, 91 };
+		Integer[] arr = { 24, 13, 5, 31, 66, 99, 27, 52, 79, 91 };
 	        
 		for (Integer i : arr) {
 			ll.addFirst(i);
@@ -393,8 +391,6 @@ public class DoublyLinkedList<E> implements List<E> {
 		System.out.println("Iterate through list, printing each value:");
 		for (Integer e : ll) {
 			System.out.println("value: " + e);
-		}*/
+		}
 	}
-
-	
 }

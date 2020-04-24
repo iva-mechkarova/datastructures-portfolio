@@ -1,6 +1,9 @@
 package projectCode20280;
 
-
+/**
+ * Custom version of LinkedBinaryTree with additional methods to balance a tree.
+ * Used for AVLTreeMap and SplayTreeMap.
+ * */
 public class BalanceableBinaryTree<K, V> extends LinkedBinaryTree<Entry<K, V>> {
 	// -------------- nested BSTNode class --------------
 	// this extends the inherited LinkedBinaryTree.Node class

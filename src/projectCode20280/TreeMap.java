@@ -2,10 +2,6 @@ package projectCode20280;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Random;
-import java.util.stream.Collectors;
 
 /**
  * An implementation of a sorted map using a binary search tree.
@@ -215,24 +211,6 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 		
 		
 	}
-	/*public V put(K key, V value) throws IllegalArgumentException {
-		checkKey(key); //Determines if key is valid 
-		Entry<K,V> entry = new MapEntry<>(key, value);
-		Position<Entry<K,V>> p = treeSearch(root(), key);
-		rebalanceAccess(p); //Needed for balanced tree subclasses
-		
-		if(isExternal(p))
-		{
-			expandExternal(p, entry);
-			return null;
-		}
-		else
-		{
-			V old = p.getElement().getValue();
-			set(p, entry);
-			return old;
-		}
-	}*/
 
 	/**
 	 * Removes the entry with the specified key, if present, and returns its
@@ -435,16 +413,13 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 	@Override
 	public Iterable<Entry<K, V>> entrySet() {
 		ArrayList<Entry<K,V>> buffer = new ArrayList<>(size());
-		int i = 0;
 		
 		for(Position<Entry<K,V>> p : tree.inorder())
 		{
-			System.out.println(i);
 			if(isInternal(p))
 			{
 				buffer.add(p.getElement());
 			}	
-			i++;
 		}
 		
 		return buffer;
@@ -628,11 +603,10 @@ public class TreeMap<K, V> extends AbstractSortedMap<K, V> {
 	}
 	
 	/** 
-	 * Trivial declaration of rotate to serve as hook for SplayTree. 
-	 * Sub-classes may override to implement a nontrivial action to rotate tree. 
+	 * Used for SplayMap. Rotates by calling the rotate method in BalanceableBinaryTree.
 	 * */
     protected void rotate(Position<Entry<K, V>> p) {
-    
+    	tree.rotate(p);
     }
     
 }
