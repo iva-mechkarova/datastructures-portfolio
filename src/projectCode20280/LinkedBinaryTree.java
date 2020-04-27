@@ -391,13 +391,12 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
   }
   
   /**
-   * Method for assignment 2 - tests if a tree has a symmetric structure.
+   * Method for assignment 2 Q1 - tests if a tree has a symmetric structure.
    * @param root 
    * @return true if symmetric, false otherwise
    * */
-  public boolean isSymmetric(Position<E> p)
+  public boolean isSymmetric(Node<E> root)
   {
-	  Node<E> root = (Node<E>)validate(p);
 	  return isSymmetricHelper(root.left, root.right);
   }
   
@@ -415,6 +414,29 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
 	  
 	 //Return true if both subtrees are not empty, if left subtree is symmetric to right subtree and right subtree is symmetric to left subtree
 	  return (leftSide!=null && rightSide!=null) && isSymmetricHelper(leftSide.left, rightSide.right) && isSymmetricHelper(leftSide.right, rightSide.left);
+  }
+  
+  /**
+   * Assignment 2 Q2 - Method to get mirror image of subtree
+   * @param the root of the first subtree – usually root of whole tree
+   * @return the root of the next subtree
+
+   */
+  public Node<E> mirror(Node<E> subtreeRoot)
+  {
+	  //Base case - if the subtree is empty
+	  if(subtreeRoot==null)
+		  return subtreeRoot;
+	  
+	  //Find mirror images of left subtrees and right subtrees
+	  Node<E> left = mirror(subtreeRoot.left);
+	  Node<E> right = mirror(subtreeRoot.right);
+	  
+	  //Swap left and right - i.e. get mirror
+	  subtreeRoot.left = right;
+	  subtreeRoot.right = left;
+	  
+	  return subtreeRoot; //Return the root of the subtree
   }
   
   @Override
@@ -465,13 +487,16 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
 	  System.out.println("Left child of 26 (p1) should be 58. Actual: " + bt.left(p1));
 	  System.out.println("Right child of 26 (p1) should be 36. Actual: " + bt.right(p1));
 	  System.out.println("Right child of 75 (p4) should be null. Actual: " + bt.right(p4));
-	  System.out.println("Symemtric: " + bt.isSymmetric(bt.root()));
+	  System.out.println("Symemtric: " + bt.isSymmetric(bt.root));
 	  System.out.println("Removing 62, 75 and 36.");
 	  bt.remove(p4);
 	  bt.remove(p6);
 	  bt.remove(p7);
 	  System.out.println(btp.print());
-	  System.out.println("Symemtric: " + bt.isSymmetric(bt.root()));
+	  System.out.println("Symemtric: " + bt.isSymmetric(bt.root));
+	  System.out.println("Get mirror image.");
+	  bt.mirror(bt.root);
+	  System.out.println(btp.print());
 	  
 	  //Level Order Construction of tree
 	  /*Integer[] arr = {12, 25, 31, 58, 36, 42, 90, 62, 75, 13, 24, 77};
