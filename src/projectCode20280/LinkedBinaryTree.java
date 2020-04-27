@@ -390,14 +390,40 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
 	  return p;
   }
   
+  /**
+   * Method for assignment 2 - tests if a tree has a symmetric structure.
+   * @param root 
+   * @return true if symmetric, false otherwise
+   * */
+  public boolean isSymmetric(Position<E> p)
+  {
+	  Node<E> root = (Node<E>)validate(p);
+	  return isSymmetricHelper(root.left, root.right);
+  }
+  
+  /**
+   * Method to check if left and right subtrees are symmetric
+   * @param node to the left
+   * @param node to the right
+   * @return true if nodes are symmetric, false otherwise
+   */
+  public boolean isSymmetricHelper(Node<E> leftSide, Node<E> rightSide)
+  {
+	  //Base case – if left subtree and right subtree are empty
+	  if(leftSide==null && rightSide==null)
+		  return true;
+	  
+	 //Return true if both subtrees are not empty, if left subtree is symmetric to right subtree and right subtree is symmetric to left subtree
+	  return (leftSide!=null && rightSide!=null) && isSymmetricHelper(leftSide.left, rightSide.right) && isSymmetricHelper(leftSide.right, rightSide.left);
+  }
+  
   @Override
   public String toString() {
 	  StringBuilder sb = new StringBuilder();
 	  sb.append("[");
 	  for(Position<E> p : positions()) {
 		  sb.append(p.getElement());
-		  sb.append(", ");
-	  }
+		  sb.append(", ");	  }
 	  sb.replace(sb.lastIndexOf(","), sb.length(), "]");
 	  return sb.toString();
   }
@@ -412,13 +438,13 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
 	  Position<Integer> p2 = bt.addRight(root, 31);
 	  
 	  Position<Integer> p3 = bt.addLeft(p1, 58);
-	  bt.addRight(p1, 36);
+	  Position<Integer> p6 = bt.addRight(p1, 36);
 	  
 	  Position<Integer> p5 = bt.addLeft(p2, 42);
 	  bt.addRight(p2, 90);
 	  
 	  Position<Integer> p4 = bt.addLeft(p3, 62);
-	  bt.addRight(p3, 75);
+	  Position<Integer> p7 = bt.addRight(p3, 75);
 	  
 	  System.out.println(btp.print());
 	  System.out.println("bt inorder. Expected: [62, 58, 75, 25, 36, 12, 42, 31, 90]. Actual: " + bt.inorder());
@@ -439,6 +465,13 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
 	  System.out.println("Left child of 26 (p1) should be 58. Actual: " + bt.left(p1));
 	  System.out.println("Right child of 26 (p1) should be 36. Actual: " + bt.right(p1));
 	  System.out.println("Right child of 75 (p4) should be null. Actual: " + bt.right(p4));
+	  System.out.println("Symemtric: " + bt.isSymmetric(bt.root()));
+	  System.out.println("Removing 62, 75 and 36.");
+	  bt.remove(p4);
+	  bt.remove(p6);
+	  bt.remove(p7);
+	  System.out.println(btp.print());
+	  System.out.println("Symemtric: " + bt.isSymmetric(bt.root()));
 	  
 	  //Level Order Construction of tree
 	  /*Integer[] arr = {12, 25, 31, 58, 36, 42, 90, 62, 75, 13, 24, 77};
