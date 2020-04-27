@@ -406,7 +406,7 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
    * @param node to the right
    * @return true if nodes are symmetric, false otherwise
    */
-  public boolean isSymmetricHelper(Node<E> leftSide, Node<E> rightSide)
+  private boolean isSymmetricHelper(Node<E> leftSide, Node<E> rightSide)
   {
 	  //Base case – if left subtree and right subtree are empty
 	  if(leftSide==null && rightSide==null)
@@ -417,26 +417,140 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
   }
   
   /**
-   * Assignment 2 Q2 - Method to get mirror image of subtree
-   * @param the root of the first subtree – usually root of whole tree
-   * @return the root of the next subtree
-
+   * Assignment 2 Q2 - Helper method to get mirror image of subtree
+   * @param the root of the tree
    */
-  public Node<E> mirror(Node<E> subtreeRoot)
+  private void mirrorHelper(Node<E> subtreeRoot)
   {
 	  //Base case - if the subtree is empty
 	  if(subtreeRoot==null)
-		  return subtreeRoot;
+		  return;
 	  
 	  //Find mirror images of left subtrees and right subtrees
-	  Node<E> left = mirror(subtreeRoot.left);
-	  Node<E> right = mirror(subtreeRoot.right);
+	  mirrorHelper(subtreeRoot.left);
+	  mirrorHelper(subtreeRoot.right);
 	  
 	  //Swap left and right - i.e. get mirror
-	  subtreeRoot.left = right;
-	  subtreeRoot.right = left;
-	  
-	  return subtreeRoot; //Return the root of the subtree
+	  Node<E> temp = subtreeRoot.left;
+	  subtreeRoot.left = subtreeRoot.right;
+	  subtreeRoot.right = temp; 
+  }
+  
+  /**
+   * Assignment 2 Q2 - Method to get mirror image of tree
+   */
+  public void mirror()
+  {
+	  mirrorHelper(root);
+  }
+  
+  /*Global variables for Assignment 2 Q3 - Find distance between 2 nodes*/
+  private int d1 = -1; //Depth of n1 initialized to -1
+  private int d2 = -1; //Depth of n2 initialized to -1
+  private int dist = 0; //Distance initalized to 0
+  
+  /**
+   * Assignment 2 Q3 - Method to find LCA whilst also updating the dist global variable
+   * @param root, first node, second node, level of LCA
+   * @return the lowest common ancestor of n1 and n2
+   */
+  public Node<E> findLCA(Node<E> root, E n1, E n2, int depthOfLCA)
+  { 
+      
+      //Base case - when root is null
+      if (root == null) 
+          return null; 
+        
+      /*If n1 equals the element at root, then this is the LCA*/
+      if (root.element == n1)
+      { 
+          d1 = depthOfLCA; 
+          return root; 
+      } 
+      
+      /*If n1 equals the element at root, then this is the LCA*/
+      if (root.element == n2) 
+      { 
+          d2 = depthOfLCA; 
+          return root; 
+      } 
+        
+      /*Look for n1 and n2 in the left and right subtrees 
+       * - add 1 to the depth each time as the depth increases*/
+      Node<E> leftLCA = findLCA(root.left, n1, n2,  depthOfLCA + 1); 
+      Node<E> rightLCA = findLCA(root.right, n1, n2,  depthOfLCA + 1); 
+        
+      /*If both of the calls on the left and right subtrees return non-null, then
+       * one key is in the left subtree and the other is in the right subtree so this node is the LCA*/
+      if (leftLCA != null && rightLCA != null) 
+      { 
+          dist = (d1 + d2) - 2*depthOfLCA; //Dist formula is: depth of n1 + depth of n2 - 2*(depth of LCA)
+          return root; //This is the LCA
+      } 
+        
+      /*Otherwise, check if LCA is in left subtree or right subtree*/
+      return (leftLCA != null)? leftLCA : rightLCA;     
+  } 
+  
+  /**
+   * Helper method for dist
+   * @param root, first node, second node
+   * @return distance between first node and second node
+   */
+  public int distHelper(Node<E> root, E n1, E n2)
+  { 
+      Node<E> lca = findLCA(root, n1, n2, 1); //Find LCA of n1 and n2
+       
+     //If d1 and d2 was found (i.e. n1 and n2 were in tree), then return dist
+     if (d1 != -1 && d2 != -1) 
+         return dist; 
+       
+     //If n1 is ancestor of n2, then n1 is LCA so just pass this in as the root to find the dist 
+     if (d1 != -1) 
+     { 
+         dist = findDepth(lca, n2, 0); 
+         return dist; 
+     } 
+       
+     //If n2 is ancestor of n1, then n2 is LCA so just pass this in as the root to find the dist 
+     if (d2 != -1) 
+     { 
+         dist = findDepth(lca, n1, 0); 
+         return dist; 
+     } 
+       
+     return -1; //If dist cannot be found due to one or both of the nodes not being present, return -1
+ }
+  
+  /**
+   * Method to find depth of an element from any subtree
+   * @param root of subtree, element, depth of root of subtree
+   * @return depth of element in subtree
+   */
+  public int findDepth(Node<E> root, E e, int depth) 
+  { 
+      //Base case - if root is null
+      if (root == null) 
+          return -1; 
+        
+      //If element is at the root then return the depth
+      if (root.element == e) 
+          return depth; 
+      
+      //Check if the element is in the left or right subtree and return the depth
+      int depthLeft = findDepth(root.left, e, depth + 1); 
+      return (depthLeft != -1)? depthLeft : findDepth(root.right, e, depth + 1); 
+  } 
+  
+  
+  /**
+   * Method to find the distance between two elements in a tree
+   * @param node one, node two
+   * @return the distance
+   */
+  public int dist(E n1, E n2)
+  {
+	  return distHelper(root, n1, n2);
   }
   
   @Override
@@ -495,8 +609,10 @@ public class LinkedBinaryTree<E> extends AbstractBinaryTree<E> {
 	  System.out.println(btp.print());
 	  System.out.println("Symemtric: " + bt.isSymmetric(bt.root));
 	  System.out.println("Get mirror image.");
-	  bt.mirror(bt.root);
+	  bt.mirror();
 	  System.out.println(btp.print());
+	  System.out.println(bt.height(bt.root()));
+	  System.out.println("Distance: " + bt.dist(12, 58));
 	  
 	  //Level Order Construction of tree
 	  /*Integer[] arr = {12, 25, 31, 58, 36, 42, 90, 62, 75, 13, 24, 77};
