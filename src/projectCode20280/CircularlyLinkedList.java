@@ -286,7 +286,7 @@ public class CircularlyLinkedList<E> implements List<E> {
 		
 		Node<E> head = tail.next;
 		Node<E> cur = tail.next;
-		
+		Node<E> temp = tail;
 		if(cur==tail) //Only one element in the list
 		{
 			tail = null;
@@ -304,7 +304,7 @@ public class CircularlyLinkedList<E> implements List<E> {
 		}
 		
 		size--;
-		return tail.getElement();
+		return temp.getElement();
 	}
 	
 	/**Method to iterate through list
